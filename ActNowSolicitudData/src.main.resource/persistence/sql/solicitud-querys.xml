@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.auctionnow.data.solicitud">
+
+	<resultMap id="solicitud-mapping" type="com.auctionnow.model.Solicitud" >
+		<result property="cliente.codigoCliente"        column="S_CODCLIENTE" />
+		<result property="codigoSolicitud"              column="S_CODSOLICITUD" />
+		<result property="descripcion"                  column="S_DESCRIPCION" />
+		<result property="direccion.codigoDireccion"    column="S_CODDIRECCION" />
+		<result property="estadoSolicitud"              column="S_ESTADOSOL" />
+		<result property="fechaCreacion"                column="S_FECHACREACION" />
+		<result property="fechaVencimiento"             column="S_FECHAVENCIMIENTO" />
+		<result property="precioEsperado"               column="S_PRECIOESTIMADO" />
+		<result property="prioridad"                    column="S_PRIORIDAD" />
+		<result property="servicio.codigoServicio"      column="S_CODSERVICIO" />
+	</resultMap>
+	
+	<resultMap id="subasta-mapping" type="com.auctionnow.model.Subasta" >
+		<result property="cantidadExtenciones"         column="S_CANTIDADEXTENSIONES" />
+		<result property="codigoSubasta"               column="S_CODIGOSUBASTA" />
+		<result property="descripcion"                 column="S_DESCRIPCION" />
+		<result property="duracion"                    column="S_DURACION" />
+		<result property="extendida"                   column="S_EXTENDIDA" />
+		<result property="fechaInicio"                 column="S_FECHAINICIO" />
+		<result property="fechaTermino"                column="S_FECHATERMINO" />
+		<result property="ofertaGanadora.codigoOferta" column="S_CODIGOOFERTAGANADORA" />
+		<result property="montoMinimo"                 column="S_MONTOMINIMO" />
+		<result property="montoInicial"                column="S_MONINICIAL" />
+		<result property="montoFinal"                  column="S_MONTOFINAL" />
+		<result property="estadoSubasta"               column="S_ESTADO" />
+		<result property="solicitud.codigoSolicitud"   column="S_CODIGOSOLICITUD" />
+		<result property="servicio.codigoServicio"     column="S_CODIGOSERVICIO" />
+	</resultMap>
+	
+	<resultMap id="oferta-mapping" type="com.auctionnow.model.Oferta" >
+		<result property="codigoOferta"              column="O_CODIGOOFERTA" />
+		<result property="montoOferta"               column="O_MONTOOFERTA" />
+		<result property="proveedor.codigoProveedor" column="O_CODIGOPROVEEDOR" />
+		<result property="valorAgregado"             column="O_COMISION" />
+		<result property="fechaOferta"               column="O_FECHAOFERTA" />
+		<result property="codigoSubasta"             column="O_CODIGOSUBASTA" />
+	</resultMap>
+	
+	<select id="getSolicitud" resultMap="solicitud-mapping" parameterType="com.auctionnow.filters.FiltroSolicitud">
+		SELECT 
+			SOL.C_CODSOL      AS S_CODSOLICITUD,
+			SOL.T_DESCRIPCION AS S_DESCRIPCION,
+			SOL.T_ESTSOL      AS S_ESTADOSOL,
+			SOL.D_FECCREA     AS S_FECHACREACION,
+			SOL.D_FECVEN      AS S_FECHAVENCIMIENTO,
+			SOL.N_PRECEST     AS S_PRECIOESTIMADO,
+			SOL.N_PRIOR       AS S_PRIORIDAD,
+			SOL.C_CODCLI      AS S_CODCLIENTE,
+			SOL.C_CODSER      AS S_CODSERVICIO,
+			SOL.C_CODDIR      AS S_CODDIRECCION
+			
+		FROM AN_SOLICITUD SOL
+		
+		WHERE 
+		<if test="codigoCliente != null and codigoCliente != ''">
+			SOL.C_CODCLI = #{codigoCliente}
+		</if>
+		<if test="codigoCliente != null and codigoCliente != '' and codigoSolicitud != null and codigoSolicitud != ''">
+			AND
+		</if>
+		<if test="codigoSolicitud != null and codigoSolicitud != ''">
+			SOL.C_CODSOL = #{codigoSolicitud}
+		</if>
+		
+	</select>
+	
+	<select id="getSubasta" resultMap="subasta-mapping" parameterType="com.auctionnow.filters.FiltroSubasta">
+		SELECT 
+			SUB.C_CODSUB   AS S_CODIGOSUBASTA,
+			SUB.C_ESTADO   AS S_ESTADO,
+			SUB.D_FECINI   AS S_FECHAINICIO,
+			SUB.D_FECTER   AS S_FECHATERMINO,
+			SUB.T_DURACION AS S_DURACION,
+			SUB.N_CANTEXT  AS S_CANTIDADEXTENSIONES,
+			SUB.N_MTOMIN   AS S_MONTOMINIMO,
+			SUB.N_MTOINI   AS S_MONINICIAL,
+			SUB.N_MTOFINAL AS S_MONTOFINAL,
+			SUB.C_EXTEND   AS S_EXTENDIDA,
+			SUB.C_CODOFEG  AS S_CODIGOOFERTAGANADORA,
+			SUB.C_CODSER   AS S_CODIGOSERVICIO,
+			SUB.C_CODSOL   AS S_CODIGOSOLICITUD
+			
+		FROM AN_SUBASTA SUB
+		
+		WHERE 
+		
+		<if test="codigoSubasta != null and codigoSubasta != ''">
+			SUB.C_CODSUB = #{codigoSubasta}
+		</if>
+		<if test="codigoSubasta != null and codigoSubasta != '' and codigoSolicitud != null and codigoSolicitud != ''">
+			AND
+		</if>
+		<if test="codigoSolicitud != null and codigoSolicitud != ''">
+			SUB.C_CODSOL = #{codigoSolicitud}
+		</if>
+	</select>
+	
+	<select id="getOferta" resultMap="oferta-mapping" parameterType="com.auctionnow.filters.FiltroOferta" >
+		SELECT 
+			OFER.C_CODOFER  AS O_CODIGOOFERTA,
+			OFER.D_FECOFER  AS O_FECHAOFERTA,
+			OFER.N_COMISION AS O_COMISION,
+			OFER.N_MTOOFER  AS O_MONTOOFERTA,
+			OFER.C_CODSUB   AS O_CODIGOSUBASTA,
+			OFER.C_CODPROV  AS O_CODIGOPROVEEDOR
+		
+		FROM AN_OFERTA OFER
+		
+		WHERE 
+		
+		<if test="codigoOferta != null and codigoOferta != ''">
+			OFER.C_CODOFER = #{codigoOferta}
+		</if>
+		
+		<if test="codigoOferta == null or codigoOferta == ''">
+			<if test="codigoProveedor != null and codigoProveedor != ''">
+				OFER.C_CODPROV = #{codigoProveedor}
+			</if>
+			
+			<if test="codigoProveedor != null and codigoProveedor != '' and codigoSubasta != null and codigoSubasta != ''">
+				AND
+			</if>
+			
+			<if test="codigoSubasta != null and codigoSubasta != ''">
+				OFER.C_CODSUB = #{codigoSubasta}
+			</if>
+		</if>
+	</select>
+
+	<!-- INSERTs -->
+	<insert id="addSolicitud" parameterType="map">
+		INSERT INTO AN_SOLICITUD (
+			C_CODSOL,
+			T_DESCRIPCION,
+			T_ESTSOL,
+			D_FECCREA,
+			D_FECVEN,
+			N_PRECEST,
+			N_PRIOR,
+			C_CODCLI,
+			C_CODSER,
+			C_CODDIR
+		) VALUES (
+			#{codigoSolicitud},
+			#{descripcion},
+			#{estadoSolicitud},
+			#{fecCreacion},
+			#{fecVencimiento},
+			#{precioEstimado},
+			#{prioridad},
+			#{codigoCliente},
+			#{codigoServicio},
+			#{codigoDireccion}
+		)
+	</insert>
+	
+	<insert id="addSubasta" parameterType="map">
+		INSERT INTO AN_SUBASTA (
+			C_CODSUB,
+			C_ESTADO,
+			D_FECINI,
+			D_FECTER,
+			T_DURACION,
+			N_CANTEXT,
+			N_MTOMIN,
+			N_MTOINI,
+			N_MTOFINAL,
+			C_EXTEND,
+			T_DESCRIPCION,
+			C_CODSER,
+			C_CODSOL
+		) VALUES (
+			#{codigoSubasta},
+			#{estado},
+			#{fecInicio},
+			#{fecTermino},
+			#{duracion},
+			#{cantidadExtnsions},
+			#{montoMinimo},
+			#{montoInicial},
+			#{montoFinal},
+			#{extendida},
+			#{descripcion},
+			#{codigoServicio},
+			#{codigoSolicitud}
+		)
+	</insert>
+	
+	<insert id="addOferta" parameterType="map">
+		INSERT INTO AN_OFERTA (
+			C_CODOFER,
+			D_FECOFER,
+			N_COMISION,
+			N_MTOOFER,
+			C_CODPROV,
+			C_CODSUB
+		) VALUES (
+			#{codigoOferta},
+			#{fechaOferta},
+			#{comision},
+			#{montoOferta},
+			#{codigoProveedor},
+			#{codigoSubasta}
+		)
+	</insert>
+	
+	<insert id="addSubastaProveedor" parameterType="map" >
+		INSERT INTO AN_SUBASTA_PROVEEDOR (
+			C_CODPROV,
+			C_CODSUB,
+			T_ESTADO,
+			D_FECREG
+		) VALUES (
+			#{codigoProveedor},
+			#{codigoSubasta},
+			#{estado},
+			#{fechaRegistro}
+		)	
+	</insert>
+	
+	<!-- UPDATEs -->
+	<update id="updateSolicitud" parameterType="map" >
+		UPDATE AN_SOLICITUD
+		SET T_DESCRIPCION = #{descripcion},
+			T_ESTSOL = #{estadoSolicitud},
+			D_FECCREA = #{fecCreacion},
+			D_FECVEN = #{fecVencimiento},
+			N_PRECEST = #{precioEstimado},
+			N_PRIOR = #{prioridad},
+			C_CODCLI = #{codigoCliente},
+			C_CODSER = #{codigoServicio},
+			C_CODDIR = #{codigoDireccion}
+		WHERE C_CODSOL = #{codigoSolicitud}
+	</update>
+	
+	<update id="updateSubasta" parameterType="map">
+		UPDATE AN_SUBASTA
+		SET C_ESTADO = #{estado},
+			D_FECINI = #{fecInicio},
+			D_FECTER = #{fecTermino},
+			T_DURACION = #{duracion},
+			N_CANTEXT = #{cantidadExtnsions},
+			N_MTOMIN = #{montoMinimo},
+			N_MTOINI = #{montoInicial},
+			N_MTOFINAL = #{montoFinal},
+			C_EXTEND = #{extendida},
+			T_DESCRIPCION = #{descripcion},
+			C_CODOFEG = #{codigoOfertaG},
+			C_CODSER = #{codigoServicio}
+		WHERE C_CODSUB = #{codigoSubasta}
+		<!-- AND C_CODSOL = #{codigoSolicitud}  -->
+	</update>
+	
+	<update id="updateOferta" parameterType="map">
+		UPDATE AN_OFERTA
+		SET D_FECOFER = #{fechaOferta},
+			N_COMISION = #{comision},
+			N_MTOOFER = #{montoOferta},
+			C_CODPROV = #{codigoProveedor}
+		WHERE C_CODOFER = #{codigoOferta}
+		AND C_CODSUB = #{codigoSubasta}
+	</update>
+
+</mapper>

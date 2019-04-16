@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ActNowInterface">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="ActNowSubastaWEB.war" deploy-path="/" handle="module:/resource/ActNowSubastaWEB/ActNowSubastaWEB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ActNowUsuarioClient.jar" deploy-path="/" handle="module:/resource/ActNowUsuarioClient/ActNowUsuarioClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ActNowCommonClient.jar" deploy-path="/" handle="module:/resource/ActNowCommonClient/ActNowCommonClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ActNowTransaccionClient.jar" deploy-path="/" handle="module:/resource/ActNowTransaccionClient/ActNowTransaccionClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ActNowSolicitudClient.jar" deploy-path="/" handle="module:/resource/ActNowSolicitudClient/ActNowSolicitudClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

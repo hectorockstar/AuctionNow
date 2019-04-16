@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.auctionnow.data.transaccion">
+
+	<resultMap id="servicio-mapping" type="com.auctionnow.model.Servicio" >
+		<result property="codigoServicio"           column="S_CODSERVICIO" />
+		<result property="descripcion"              column="S_DESCRIPCION" />
+		<result property="fechaRegistro"            column="S_FECHAREGISTRO" />
+		<result property="nombre"                   column="S_NOMBRE" />
+		<result property="sigla"                    column="S_SIGLA" />
+		<result property="tipoServicio.id"          column="S_TIPOSERVICIOID" />
+		<result property="tipoServicio.descripcion" column="S_TIPOSERVICIODESC" />
+	</resultMap>
+	
+	<resultMap type="com.auctionnow.model.Servicio" id="servicio-by-empresa-mapping" extends="servicio-mapping" >
+		<result property="prioridad"           	   column="ES_PRIORIDAD" />
+		<result property="activo"                  column="ES_ACTIVO" />
+		<result property="operaServicioDesde"      column="ES_FECHAEMPOPERA" />
+		<result property="fechaRegistroWeb"        column="ES_FECHAREGISTRO" />
+		
+		<result property="empresa.codigoEmpresa"   column="E_CODEMPRESA" />
+		<result property="empresa.descripcion"     column="E_DESCRIPCION" />
+		<result property="empresa.fechaOperaDesde" column="E_FECHAFUNDACION" />
+		<result property="empresa.fechaRegistro"   column="E_FECHAREGISTRO" />
+		<result property="empresa.nombreEmpresa"   column="E_NOMBRE" />
+		<result property="empresa.vigente"         column="E_VIGENTE" />
+		<result property="empresa.rut"             column="E_RUT" />
+		<result property="empresa.rutDV"           column="E_RUTDV" />
+	</resultMap>
+	
+	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
+		<result property="codigoCargo" column="C_CODIGOCARGO" />
+		<result property="nombre"      column="C_NOMBRE" />
+		<result property="sigla"       column="C_SIGLA" />
+		<result property="descripcion" column="C_DESCRIPCION" />
+		<result property="vigente"     column="C_VIGENTE" />
+	</resultMap>
+	
+	<resultMap id="transaccion-mapping" type="com.auctionnow.model.Transaccion" >
+		<result property="codigoTransaccion"      column="T_CODIGOTRANSACCION" />
+		<result property="complejidadServicio"    column="T_COMPLEJIDAD" />
+		<result property="descripcion"            column="T_DESCRIPCION" />
+		<result property="estadoTransaccion"      column="T_ESTADO" />
+		<result property="fechaCreacion"          column="T_FECHACREACION" />
+		<result property="fechaTermino"           column="T_FECHATERMINO" />
+		<result property="medioPago.codigoPago"   column="T_CODIGOMEDIOPAGO" />
+		<result property="montoTotal"             column="T_NOMTOTOTAL" />
+		<result property="tipoMoneda.id"          column="T_TIPOMONEDAID" />
+		<result property="tipoMoneda.descripcion" column="T_TIPOMONEDADESC" />
+		<result property="subasta.codigoSubasta"  column="T_CODIGOSUBASTA" />
+	</resultMap>
+	
+	<resultMap id="transacciones-mapping" type="com.auctionnow.model.Transaccion" >
+		<result property="codigoTransaccion"      column="T_CODIGOTRANSACCION" />
+		<result property="complejidadServicio"    column="T_COMPLEJIDAD" />
+		<result property="descripcion"            column="T_DESCRIPCION" />
+		<result property="estadoTransaccion"      column="T_ESTADO" />
+		<result property="fechaCreacion"          column="T_FECHACREACION" />
+		<result property="fechaTermino"           column="T_FECHATERMINO" />
+		<result property="medioPago.codigoPago"   column="T_CODIGOMEDIOPAGO" />
+		<result property="montoTotal"             column="T_NOMTOTOTAL" />
+		<result property="tipoMoneda.id"          column="T_TIPOMONEDAID" />
+		<result property="tipoMoneda.descripcion" column="T_TIPOMONEDADESC" />
+		<result property="subasta.codigoSubasta"  column="T_CODIGOSUBASTA" />
+	
+		<result property="subasta.cantidadExtenciones"         column="S_CANTIDADEXTENSIONES" />
+		<result property="subasta.codigoSubasta"               column="S_CODIGOSUBASTA" />
+		<result property="subasta.descripcion"                 column="S_DESCRIPCION" />
+		<result property="subasta.duracion"                    column="S_DURACION" />
+		<result property="subasta.extendida"                   column="S_EXTENDIDA" />
+		<result property="subasta.fechaInicio"                 column="S_FECHAINICIO" />
+		<result property="subasta.fechaTermino"                column="S_FECHATERMINO" />
+		<result property="subasta.ofertaGanadora.codigoOferta" column="S_CODIGOOFERTAGANADORA" />
+		<result property="subasta.montoMinimo"                 column="S_MONTOMINIMO" />
+		<result property="subasta.montoInicial"                column="S_MONINICIAL" />
+		<result property="subasta.montoFinal"                  column="S_MONTOFINAL" />
+		<result property="subasta.estadoSubasta"               column="S_ESTADO" />
+		<result property="subasta.solicitud.codigoSolicitud"   column="S_CODIGOSOLICITUD" />
+		<result property="subasta.servicio.codigoServicio"     column="S_CODIGOSERVICIO" />
+	
+		<result property="subasta.solicitud.cliente.codigoCliente"        column="SOL_CODCLIENTE" />
+		<result property="subasta.solicitud.codigoSolicitud"              column="SOL_CODSOLICITUD" />
+		<result property="subasta.solicitud.descripcion"                  column="SOL_DESCRIPCION" />
+		<result property="subasta.solicitud.direccion.codigoDireccion"    column="SOL_CODDIRECCION" />
+		<result property="subasta.solicitud.estadoSolicitud"              column="SOL_ESTADOSOL" />
+		<result property="subasta.solicitud.fechaCreacion"                column="SOL_FECHACREACION" />
+		<result property="subasta.solicitud.fechaVencimiento"             column="SOL_FECHAVENCIMIENTO" />
+		<result property="subasta.solicitud.precioEsperado"               column="SOL_PRECIOESTIMADO" />
+		<result property="subasta.solicitud.prioridad"                    column="SOL_PRIORIDAD" />
+		<result property="subasta.solicitud.servicio.codigoServicio"      column="SOL_CODSERVICIO" />
+	</resultMap>
+	
+	<resultMap id="bitacora-transaccion-mapping" type="com.auctionnow.model.BitacoraTransaccion" >
+		<result property="codigoBitTransaccion" column="BT_CODIGOBITTRANSACCION" />
+		<result property="codigoTransaccion"    column="BT_CODIGOTRANSACCION" />
+		<result property="descripcion"          column="BT_DESCRIPCION" />
+		<result property="estadoOrigen"         column="BT_ESTADOORIGEN" />
+		<result property="estadoDestino"        column="BT_ESTADOFINAL" />
+		<result property="fechaMovimiento"      column="BT_FECHAMOVIMIENTO" />
+	</resultMap>
+	
+	<resultMap id="medio-pago-mapping" type="com.auctionnow.model.MedioPago" >
+		<result property="codigoPago"             column="MP_CODIGOMEDIOPAGO" />
+		<result property="cuotas"                 column="MP_CUOTAS" />
+		<result property="descripcion"            column="MP_DESCRIPCION" />
+		<result property="fechaPago"              column="MP_FECHAPAGO" />
+		<result property="tarjeta.codigoRegistro" column="MP_CODIGOTARJETA" />
+		<result property="totalCompra"            column="MP_MONTO" />
+		<result property="valorCuota"             column="MP_MONTOCUOTA" />
+		<result property="viaPago.id"             column="MP_TIPVIAPAGOID" />
+		<result property="viaPago.descripcion"    column="MP_TIPVIAPAGODESC" />
+	</resultMap>
+	
+	<resultMap id="tarjeta-mapping" type="com.auctionnow.model.Tarjeta" >
+		<result property="codigoRegistro"          column="T_CODIGOTARJETA" />
+		<result property="fechaExpiracion"         column="T_FECHAEXPIRACION" />
+		<result property="entidad.id"              column="T_ENTIDADID" />
+		<result property="entidad.descripcion"     column="T_ENTIDADDESC" />
+		<result property="numeroTarjeta"           column="T_NROTARJETA" />
+		<result property="tipoTarjeta.id"          column="T_TIPTARJETAID" />
+		<result property="tipoTarjeta.descripcion" column="T_TIPTARJETADESC" />
+	</resultMap>
+	
+	
+
+	<!-- SELECTs -->
+	<select id="getServicios" resultMap="servicio-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
+		SELECT 
+			C_CODSER             AS S_CODSERVICIO,
+			SER.T_NOMBRE         AS S_NOMBRE,
+			SER.T_SIGLA          AS S_SIGLA,
+			SER.D_FECREG         AS S_FECHAREGISTRO,
+			SER.T_DESCRIPCION    AS S_DESCRIPCION,
+			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
+			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
+			
+		FROM AN_SERVICIO SER
+		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
+		
+		WHERE TIPSER.C_CATALOGO = 'C_TIPSER'
+		
+		<if test="tipoServicio != null and tipoServicio.id != null and tipoServicio.id != ''">
+			AND SER.C_TIPSER = #{tipoServicio.id}
+		</if>
+	</select>
+	
+	<select id="getServicio" resultMap="servicio-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
+		SELECT 
+			SER.C_CODSER         AS S_CODSERVICIO,
+			SER.T_NOMBRE         AS S_NOMBRE,
+			SER.T_SIGLA          AS S_SIGLA,
+			SER.D_FECREG         AS S_FECHAREGISTRO,
+			SER.T_DESCRIPCION    AS S_DESCRIPCION,
+			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
+			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
+			
+		FROM AN_SERVICIO SER
+		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
+		
+		WHERE SER.C_CODSER = #{codigoServicio}
+		AND TIPSER.C_CATALOGO = 'C_TIPSER'
+	</select>
+	
+	<select id="getServiciosByEmpresa" resultMap="servicio-by-empresa-mapping" parameterType="com.auctionnow.filters.FiltroServicio">
+		SELECT 
+			EMPSER.C_CODEMP      AS ES_CODIGOEMPRESA,
+		    EMPSER.C_CODSER      AS ES_CODIGOSERVICIO,
+		    EMPSER.N_PRIORIDAD   AS ES_PRIORIDAD,
+		    EMPSER.D_FECOPE      AS ES_FECHAEMPOPERA,
+		    EMPSER.D_FECREG      AS ES_FECHAREGISTRO,
+	    	EMPSER.T_ACTIVO      AS ES_ACTIVO,
+	    	
+			EMP.C_CODEMP         AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION    AS E_DESCRIPCION,
+			EMP.D_FECFUN         AS E_FECHAFUNDACION,
+			EMP.D_FECREG         AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE         AS E_NOMBRE,
+			EMP.T_VIGENTE        AS E_VIGENTE,
+			EMP.T_RUT            AS E_RUT,
+			EMP.T_RUTDV          AS E_RUTDV,
+			
+			SER.C_CODSER         AS S_CODSERVICIO,
+			SER.T_NOMBRE         AS S_NOMBRE,
+			SER.T_SIGLA          AS S_SIGLA,
+			SER.D_FECREG         AS S_FECHAREGISTRO,
+			SER.T_DESCRIPCION    AS S_DESCRIPCION,
+			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
+			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
+		
+		FROM AN_EMPRESA_OP_SERVICIO EMPSER
+		INNER JOIN AN_EMPRESA EMP     ON EMPSER.C_CODEMP = EMP.C_CODEMP
+		INNER JOIN AN_SERVICIO SER    ON EMPSER.C_CODSER = SER.C_CODSER
+		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
+		
+		WHERE TIPSER.C_CATALOGO = 'C_TIPSER'
+		AND EMPSER.C_CODEMP = #{codigoEmpresa}
+	</select>
+	
+	<select id="getCargos" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
+		SELECT 
+			CAR.C_CODCAR        AS C_CODIGOCARGO,
+			CAR.T_NOMBRE        AS C_NOMBRE,
+			CAR.T_SIGLA         AS C_SIGLA,
+			CAR.T_DESCRIPCION   AS C_DESCRIPCION,
+			CAR.T_VIGENTE       AS C_VIGENTE
+		
+		FROM AN_CARGO CAR
+	</select>
+	
+	<select id="getCargosByServicio" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
+		SELECT 
+			CAR.C_CODCAR        AS C_CODIGOCARGO,
+			CAR.T_NOMBRE        AS C_NOMBRE,
+			CAR.T_SIGLA         AS C_SIGLA,
+			CAR.T_DESCRIPCION   AS C_DESCRIPCION,
+			CAR.T_VIGENTE       AS C_VIGENTE,
+		
+			SERCAR.C_CODSER     AS CS_CODIGOSERVICIO
+			
+		FROM AN_CARGO CAR
+		INNER JOIN AN_SERVICIO_CARGO SERCAR 
+			ON CAR.C_CODCAR = SERCAR.C_CODCAR
+	
+		WHERE SERCAR.C_CODSER = #{codigoServicio}
+	</select>
+	
+	<select id="getTransaccion" resultMap="transaccion-mapping" parameterType="com.auctionnow.filters.FiltroTransaccion" >
+		SELECT 
+			TRANS.C_CODTRAN          AS T_CODIGOTRANSACCION,
+			TRANS.C_ESTADO           AS T_ESTADO,
+			TRANS.D_FECCREA          AS T_FECHACREACION,
+			TRANS.D_FECTER           AS T_FECHATERMINO,
+			TRANS.N_MTOTOTAL         AS T_NOMTOTOTAL,
+			TRANS.N_CMPLEJ           AS T_COMPLEJIDAD,
+			TRANS.T_DESCRIPCION      AS T_DESCRIPCION,
+			TRANS.C_CODMEDPAG        AS T_CODIGOMEDIOPAGO,
+			TRANS.C_CODSUB           AS T_CODIGOSUBASTA,
+			TIPOMONEDA.C_TIPCATAL    AS T_TIPOMONEDAID,
+			TIPOMONEDA.T_DESCRIPCION AS T_TIPOMONEDADESC
+			
+		FROM AN_TRANSACCION TRANS
+		INNER JOIN AN_CATALOGO TIPOMONEDA ON TRANS.C_TIPMON = TIPOMONEDA.C_TIPCATAL
+			
+		WHERE TIPOMONEDA.C_CATALOGO = 'C_TIPMON'
+		AND TRANS.C_CODTRAN = #{codigoTransaccion}
+	</select>
+	
+	<select id="getTransacciones" resultMap="transacciones-mapping" parameterType="com.auctionnow.filters.FiltroTransaccion" >
+		SELECT 
+			SOL.C_CODSOL      AS SOL_CODSOLICITUD,
+			SOL.T_DESCRIPCION AS SOL_DESCRIPCION,
+			SOL.T_ESTSOL      AS SOL_ESTADOSOL,
+			SOL.D_FECCREA     AS SOL_FECHACREACION,
+			SOL.D_FECVEN      AS SOL_FECHAVENCIMIENTO,
+			SOL.N_PRECEST     AS SOL_PRECIOESTIMADO,
+			SOL.N_PRIOR       AS SOL_PRIORIDAD,
+			SOL.C_CODCLI      AS SOL_CODCLIENTE,
+			SOL.C_CODSER      AS SOL_CODSERVICIO,
+			SOL.C_CODDIR      AS SOL_CODDIRECCION,
+		
+			SUB.C_CODSUB   AS S_CODIGOSUBASTA,
+			SUB.C_ESTADO   AS S_ESTADO,
+			SUB.D_FECINI   AS S_FECHAINICIO,
+			SUB.D_FECTER   AS S_FECHATERMINO,
+			SUB.T_DURACION AS S_DURACION,
+			SUB.N_CANTEXT  AS S_CANTIDADEXTENSIONES,
+			SUB.N_MTOMIN   AS S_MONTOMINIMO,
+			SUB.N_MTOINI   AS S_MONINICIAL,
+			SUB.N_MTOFINAL AS S_MONTOFINAL,
+			SUB.C_EXTEND   AS S_EXTENDIDA,
+			SUB.C_CODOFEG  AS S_CODIGOOFERTAGANADORA,
+			SUB.C_CODSER   AS S_CODIGOSERVICIO,
+			SUB.C_CODSOL   AS S_CODIGOSOLICITUD,
+		
+			TRANS.C_CODTRAN          AS T_CODIGOTRANSACCION,
+			TRANS.C_ESTADO           AS T_ESTADO,
+			TRANS.D_FECCREA          AS T_FECHACREACION,
+			TRANS.D_FECTER           AS T_FECHATERMINO,
+			TRANS.N_MTOTOTAL         AS T_NOMTOTOTAL,
+			TRANS.N_CMPLEJ           AS T_COMPLEJIDAD,
+			TRANS.T_DESCRIPCION      AS T_DESCRIPCION,
+			TRANS.C_CODMEDPAG        AS T_CODIGOMEDIOPAGO,
+			TRANS.C_CODSUB           AS T_CODIGOSUBASTA,
+			TIPOMONEDA.C_TIPCATAL    AS T_TIPOMONEDAID,
+			TIPOMONEDA.T_DESCRIPCION AS T_TIPOMONEDADESC
+			
+		FROM  AN_CLIENTE CLI
+		INNER JOIN AN_SOLICITUD SOL ON CLI.C_CODCLI = SOL.C_CODCLI
+		INNER JOIN AN_SUBASTA SUB ON SOL.C_CODSOL = SUB.C_CODSOL
+		
+		INNER JOIN AN_TRANSACCION TRANS ON SUB.C_CODSUB = TRANS.C_CODSUB
+		INNER JOIN AN_CATALOGO TIPOMONEDA ON TRANS.C_TIPMON = TIPOMONEDA.C_TIPCATAL
+		
+		WHERE TIPOMONEDA.C_CATALOGO = 'C_TIPMON'
+		
+		<if test="codigoCliente != null and codigoCliente != ''">
+			AND CLI.C_CODCLI = #{codigoCliente}
+		</if>
+		
+		<if test="codigoTransaccion != null and codigoTransaccion != ''">
+			AND TRANS.C_CODTRAN = #{codigoTransaccion}
+		</if>
+	</select>
+	
+	<select id="getBitTransaccion" resultMap="bitacora-transaccion-mapping" parameterType="com.auctionnow.filters.FiltroTransaccion" >
+		SELECT 
+			BITTRANS.C_CODBITTRAN  AS BT_CODIGOBITTRANSACCION,
+			BITTRANS.T_ESTORI      AS BT_ESTADOORIGEN,
+			BITTRANS.T_ESTFIN      AS BT_ESTADOFINAL,
+			BITTRANS.D_FECMOV      AS BT_FECHAMOVIMIENTO,
+			BITTRANS.T_DESCRIPCION AS BT_DESCRIPCION,
+			BITTRANS.C_CODTRAN     AS BT_CODIGOTRANSACCION
+			
+		FROM AN_BITTRANSACCION BITTRANS
+			
+		WHERE BITTRANS.C_CODTRAN = #{codigoTransaccion}
+		AND BITTRANS.C_CODBITTRAN = #{codigoBitTransaccion}
+		
+		<!-- QUERY DINAMICA -->
+		
+	</select>
+	
+	<select id="getMedioPago" resultMap="medio-pago-mapping" parameterType="com.auctionnow.filters.FiltroMedioPago" >
+		SELECT
+			MEDPAG.C_CODMEDPAG       AS MP_CODIGOMEDIOPAGO,
+			MEDPAG.D_FECPAG          AS MP_FECHAPAGO,
+			MEDPAG.N_MONTO           AS MP_MONTO,
+			MEDPAG.N_CUOTAS          AS MP_CUOTAS,
+			MEDPAG.N_MTOCTA          AS MP_MONTOCUOTA,
+			MEDPAG.T_DESCRIPCION     AS MP_DESCRIPCION,
+			TIPVIAPAGO.C_TIPCATAL    AS MP_TIPVIAPAGOID,
+			TIPVIAPAGO.T_DESCRIPCION AS MP_TIPVIAPAGODESC,
+			MEDPAG.C_CODTAR          AS MP_CODIGOTARJETA
+			
+		FROM AN_MEDIOPAGO MEDPAG
+		INNER JOIN AN_CATALOGO TIPVIAPAGO ON MEDPAG.C_VIAPAG = TIPVIAPAGO.C_TIPCATAL
+			
+		WHERE TIPOMONEDA.C_CATALOGO = 'C_VIAPAG'
+		AND MEDPAG.C_CODMEDPAG = #{codigoMedioPago}
+	</select>
+	
+	<select id="getTarjeta" resultMap="tarjeta-mapping" parameterType="com.auctionnow.filters.FiltroTarjeta" >
+		SELECT
+			TAR.C_CODTAR             AS T_CODIGOTARJETA,
+			TAR.D_FECEXP             AS T_FECHAEXPIRACION,
+			TAR.T_NROTAR             AS T_NROTARJETA,
+			TIPTARJETA.C_TIPCATAL    AS T_TIPTARJETAID,
+			TIPTARJETA.T_DESCRIPCION AS T_TIPTARJETADESC,
+			ENTIDAD.C_TIPCATAL       AS T_ENTIDADID,
+			ENTIDAD.T_DESCRIPCION    AS T_ENTIDADDESC
+		
+		FROM AN_TARJETA TAR
+		INNER JOIN AN_CATALOGO TIPTARJETA ON TAR.C_TIPTAR = TIPTARJETA.C_TIPCATAL
+		INNER JOIN AN_CATALOGO ENTIDAD ON TAR.C_ENTIDAD = ENTIDAD.C_TIPCATAL
+		
+		WHERE TIPTARJETA.C_CATALOGO = 'C_TIPTAR'
+		AND TIPTARJETA.C_CATALOGO = 'ENTIDAD_COMERCIAL'
+		AND TAR.C_CODTAR = #{codigoTarjeta}
+	</select>
+
+	<!-- INSERTs -->
+	<insert id="addServicio" parameterType="map">
+		INSERT INTO AN_SERVICIO (
+			C_CODSER,
+			T_NOMBRE,
+			T_SIGLA,
+			T_DESCRIPCION,
+			D_FECREG,
+			C_TIPSER
+		) VALUES (
+			#{codigoServicio},
+			#{nombre},
+			#{sigla},
+			#{descripcion},
+			#{fecRegistro},
+			#{tipoServicio}
+		)
+	</insert>
+	
+	<insert id="addTransaccion" parameterType="map" >
+		INSERT INTO AN_TRANSACCION (
+			C_CODTRAN,
+			C_ESTADO,
+			D_FECCREA,
+			D_FECTER,
+			N_MTOTOTAL,
+			N_CMPLEJ,
+			T_DESCRIPCION,
+			C_CODMEDPAG,
+			C_TIPMON,
+			C_CODSUB
+		) VALUES (
+			#{codigoTransaccion},
+			#{estado},
+			#{fechaCreacion},
+			#{fechaTermino},
+			#{montoTotal},
+			#{complejidad},
+			#{descripcion},
+			#{codigoMedioPago},
+			#{tipoMoneda},
+			#{codigoSubasta}
+		)
+	</insert>
+	
+	<insert id="addBitTransaccion" parameterType="map">
+		INSERT INTO AN_BITTRANSACCION (
+			C_CODBITTRAN,
+			T_ESTORI,
+			T_ESTFIN,
+			D_FECMOV,
+			T_DESCRIPCION,
+			C_CODTRAN
+		) VALUES (
+			#{codigoBitTransaccion},
+			#{estadoOrigen},
+			#{estadoFinal},
+			#{fecMovimiento},
+			#{descripcion},
+			#{codigoTransaccion}
+		)	
+	</insert>
+	
+	<insert id="addMedioPago" parameterType="map">
+		INSERT INTO AN_MEDIOPAGO (
+			C_CODMEDPAG,
+			D_FECPAG,
+			N_MONTO,
+			N_CUOTAS,
+			N_MTOCTA,
+			T_DESCRIPCION,
+			C_VIAPAG,
+			C_CODTAR
+		) VALUES (
+			#{codigoMedioPago},
+			#{fechaPago},
+			#{totalCompra},
+			#{cuotas},
+			#{montoCuota},
+			#{descripcion},
+			#{viaPago},
+			#{codigoTarjeta}
+		)
+	</insert>
+	
+	<insert id="addTarjeta" parameterType="map" >
+		INSERT INTO AN_TARJETA (
+			C_CODTAR,
+			D_FECEXP,
+			T_NROTAR,
+			C_ENTIDAD,
+			C_TIPTAR
+		) VALUES (
+			#{codigoTarjeta},
+			#{fechaExpiracion},
+			#{nroTarjeta},
+			#{entidad},
+			#{tipoTarjeta}
+		)
+	</insert>
+	
+	<!-- UPDATEs -->
+	<update id="updateServicio" parameterType="map" >
+		UPDATE AN_SERVICIO
+		SET T_NOMBRE = #{nombre},
+			T_SIGLA = #{sigla},
+			D_FECREG = #{fecRegistro},
+			T_DESCRIPCION = #{descripcion},
+			C_TIPSER = #{tipoServicio}
+		WHERE C_CODSER = #{codigoServicio}
+	</update>
+	
+	<update id="updateTransaccion" parameterType="map" >
+		UPDATE AN_TRANSACCION
+		SET C_ESTADO = #{estado},
+			D_FECCREA = #{fechaCreacion},
+			D_FECTER = #{fechaTermino},
+			N_MTOTOTAL = #{montoTotal},
+			N_CMPLEJ = #{complejidad},
+			T_DESCRIPCION = #{descripcion},
+			C_CODMEDPAG = #{codigoMedioPago},
+			C_TIPMON = #{tipoMoneda},
+			C_CODSUB = #{codigoSubasta}
+		WHERE C_CODTRAN = #{codigoTransaccion}
+	</update>
+	
+	<update id="updateBitTransaccion" parameterType="map">
+		UPDATE AN_BITTRANSACCION
+		SET T_ESTORI = #{estadoOrigen},
+			T_ESTFIN = #{estadoFinal},
+			D_FECMOV = #{fecMovimiento},
+			T_DESCRIPCION = #{descripcion},
+			C_CODTRAN = #{codigoTransaccion}
+		WHERE C_CODBITTRAN = #{codigoBitTransaccion}
+	</update>
+	
+	<update id="updateMedioPago" parameterType="map">
+		UPDATE AN_MEDIOPAGO
+		SET D_FECPAG = #{fechaPago},
+			N_MONTO = #{totalCompra},
+			N_CUOTAS = #{cuotas},
+			N_MTOCTA = #{montoCuota},
+			T_DESCRIPCION = #{descripcion},
+			C_VIAPAG = #{viaPago},
+			C_CODTAR = #{codigoTarjeta}
+		WHERE C_CODMEDPAG = #{codigoMedioPago}
+	</update>
+	
+	<update id="updateTarjeta" parameterType="map" >
+		UPDATE AN_TARJETA
+		SET T_ENTIDAD = #{entidad},
+			D_FECEXP = #{fechaExpiracion},
+			T_NROTAR = #{nroTarjeta},
+			C_TIPTAR = #{tipoTarjeta}
+		WHERE C_CODTAR = #{codigoTarjeta}
+	</update>
+
+</mapper>

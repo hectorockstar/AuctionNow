@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="user-service-ejb-context" class="org.springframework.context.support.ClassPathXmlApplicationContext">		 
+		<constructor-arg>
+			<list>
+				<value>root-context.xml</value>
+				<value>root-jndi-context.xml</value>
+				<value>app/context/transaccion-context.xml</value>
+			</list>
+		</constructor-arg> 		
+	</bean>
+</beans>

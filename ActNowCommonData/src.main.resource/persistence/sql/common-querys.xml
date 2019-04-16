@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.auctionnow.data.common">
+
+	<resultMap id="pais-mapping" type="com.auctionnow.common.Pais" >
+		<result property="codigoPais"  column="P_CODIGOPAIS" />
+		<result property="sigla"       column="P_SIGLA" />
+		<result property="abreviacion" column="P_ABREVIACION" />
+		<result property="nombre"      column="P_NOMBRE" />
+	</resultMap>
+	
+	<resultMap id="region-mapping" type="com.auctionnow.common.Region" >
+		<result property="codigoRegion"    column="R_CODIGOREGION" />
+		<result property="sigla"           column="R_SIGLA" />
+		<result property="nombre"          column="R_NOMBRE" />
+		<result property="identificacion"  column="R_IDENTIFICACION" />
+		<result property="pais.codigoPais" column="R_CODIGOPAIS" />
+	</resultMap>
+	
+	<resultMap id="ciudad-mapping" type="com.auctionnow.common.Ciudad" >
+		<result property="codigoCiudad"        column="C_CODIGOCIUDAD" />
+		<result property="sigla"               column="C_SIGLA" />
+		<result property="nombre"              column="C_NOMBRE" />
+		<result property="region.codigoRegion" column="C_CODIGOREGION" />
+	</resultMap>
+	
+	<resultMap id="comuna-mapping" type="com.auctionnow.common.Comuna" >
+		<result property="codigoComuna"        column="CO_CODIGOCOMUNA" />
+		<result property="sigla"               column="CO_SIGLA" />
+		<result property="nombre"              column="CO_NOMBRE" />
+		<result property="ciudad.codigoCiudad" column="CO_CODIGOCIUDAD" />
+	</resultMap>
+	
+	<resultMap id="div-geo-mapping" type="com.auctionnow.common.Comuna" >
+		<result property="codigoComuna"                   column="CO_CODIGOCOMUNA" />
+		<result property="sigla"                          column="CO_SIGLA" />
+		<result property="nombre"                         column="CO_NOMBRE" />
+		<result property="ciudad.codigoCiudad"            column="C_CODIGOCIUDAD" />
+		<result property="ciudad.sigla"                   column="C_SIGLA" />
+		<result property="ciudad.nombre"                  column="C_NOMBRE" />
+		<result property="ciudad.region.codigoRegion"     column="C_CODIGOREGION" />
+		<result property="ciudad.region.sigla"            column="R_SIGLA" />
+		<result property="ciudad.region.nombre"           column="R_NOMBRE" />
+		<result property="ciudad.region.identificacion"   column="R_IDENTIFICACION" />
+		<result property="ciudad.region.pais.codigoPais"  column="R_CODIGOPAIS" />
+		<result property="ciudad.region.pais.sigla"       column="P_SIGLA" />
+		<result property="ciudad.region.pais.abreviacion" column="P_ABREVIACION" />
+		<result property="ciudad.region.pais.nombre"      column="P_NOMBRE" />
+	</resultMap>
+	
+	<resultMap id="parameter-mapping" type="com.auctionnow.common.Tupla" >
+		<result property="id"          column="C_CODIGO" />
+		<result property="descripcion" column="C_VALOR" />
+	</resultMap>
+	
+	<resultMap id="mail-mapping" type="com.auctionnow.common.Mail" >
+		<result property="codigoMail"  column="M_CODMAIL" />
+		<result property="from"        column="M_FROM" />
+		<result property="to"          column="M_TO" />
+		<result property="cc"          column="M_CC" />
+		<result property="cco"         column="M_CCO" />
+		<result property="asunto"      column="M_ASUNTO" />
+		<result property="textMessage" column="M_MENSAJE" />
+	</resultMap>
+	
+	<!-- Select -->
+	<select id="getPais" resultMap="pais-mapping" parameterType="com.auctionnow.filters.FiltroDivGeografica" >
+		SELECT 
+			PAIS.C_CODPAIS AS P_CODIGOPAIS,
+			PAIS.T_SIGLA   AS P_SIGLA,
+			PAIS.T_ABREV   AS P_ABREVIACION,
+			PAIS.T_NOMBRE  AS P_NOMBRE
+			
+		FROM AN_PAIS PAIS
+		
+		<if test="codigoPais != null and codigoPais != ''">
+			WHERE PAIS.C_CODPAIS = #{codigoPais}
+		</if>
+		
+	</select>
+	
+	<select id="getRegion" resultMap="region-mapping" parameterType="com.auctionnow.filters.FiltroDivGeografica">
+		SELECT 
+			REG.C_CODREG  AS R_CODIGOREGION,
+			REG.T_SIGLA   AS R_SIGLA,
+			REG.T_NOMBRE  AS R_NOMBRE,
+			REG.T_IDENT   AS R_IDENTIFICACION,
+			REG.C_CODPAIS AS R_CODIGOPAIS
+		
+		FROM AN_REGION REG
+		
+		<if test="codigoPais != null and codigoPais != ''">
+			WHERE REG.C_CODPAIS = #{codigoPais}
+		</if>
+		
+		<if test="codigoRegion != null and codigoRegion != ''">
+			WHERE REG.C_CODREG = #{codigoRegion}
+		</if>
+		
+	</select>
+	
+	<select id="getCiudad" resultMap="ciudad-mapping" parameterType="com.auctionnow.filters.FiltroDivGeografica">
+		SELECT 
+			CIU.C_CODCIU AS C_CODIGOCIUDAD,
+			CIU.T_SIGLA  AS C_SIGLA,
+			CIU.T_NOMBRE AS C_NOMBRE,
+			CIU.C_CODREG AS C_CODIGOREGION
+		
+		FROM AN_CIUDAD CIU
+		
+		<if test="codigoRegion != null and codigoRegion != ''">
+			WHERE CIU.C_CODREG = #{codigoRegion}
+		</if>
+		
+		<if test="codigoCiudad != null and codigoCiudad != ''">
+			WHERE CIU.C_CODCIU = #{codigoCiudad}
+		</if>
+		
+	</select>
+	
+	<select id="getComuna" resultMap="comuna-mapping" parameterType="com.auctionnow.filters.FiltroDivGeografica">
+		SELECT
+			COM.C_CODCOM AS CO_CODIGOCOMUNA,
+			COM.T_SIGLA  AS CO_SIGLA,
+			COM.T_NOMBRE AS CO_NOMBRE,
+			COM.C_CODCIU AS CO_CODIGOCIUDAD
+			
+		FROM AN_COMUNA COM 
+		
+		<if test="codigoCiudad != null and codigoCiudad != ''">
+			WHERE COM.C_CODCIU = #{codigoCiudad}
+		</if>
+		
+		<if test="codigoComuna != null and codigoComuna != ''">
+			WHERE COM.C_CODCOM = #{codigoComuna}
+		</if>
+	</select>
+	
+	<select id="getDivGeo" resultMap="div-geo-mapping" parameterType="com.auctionnow.filters.FiltroDivGeografica">
+		SELECT 
+			COM.C_CODCOM   AS CO_CODIGOCOMUNA,
+			COM.T_SIGLA    AS CO_SIGLA,
+			COM.T_NOMBRE   AS CO_NOMBRE,
+			COM.C_CODCIU   AS CO_CODIGOCIUDAD,
+			               
+			CIU.C_CODCIU   AS C_CODIGOCIUDAD,
+			CIU.T_SIGLA    AS C_SIGLA,
+			CIU.T_NOMBRE   AS C_NOMBRE,
+			CIU.C_CODREG   AS C_CODIGOREGION,
+			               
+			REG.C_CODREG   AS R_CODIGOREGION,
+			REG.T_SIGLA    AS R_SIGLA,
+			REG.T_NOMBRE   AS R_NOMBRE,
+			REG.T_IDENT    AS R_IDENTIFICACION,
+			REG.C_CODPAIS  AS R_CODIGOPAIS,
+			
+			PAIS.C_CODPAIS AS P_CODIGOPAIS,
+			PAIS.T_SIGLA   AS P_SIGLA,
+			PAIS.T_ABREV   AS P_ABREVIACION,
+			PAIS.T_NOMBRE  AS P_NOMBRE
+			
+		FROM AN_COMUNA COM
+		INNER JOIN AN_CIUDAD CIU ON COM.C_CODCIU = CIU.C_CODCIU
+		INNER JOIN AN_REGION REG ON CIU.C_CODREG = REG.C_CODREG
+		INNER JOIN AN_PAIS PAIS ON REG.C_CODPAIS = PAIS.C_CODPAIS
+		
+		WHERE COM.C_CODCOM = #{codigoComuna}
+	</select>
+	
+	<select id="getParameter" resultMap="parameter-mapping" parameterType="com.auctionnow.filters.FiltroCatalogo">
+		SELECT 
+			CA.C_TIPCATAL    AS C_CODIGO,
+			CA.T_DESCRIPCION AS C_VALOR
+		
+		FROM AN_CATALOGO CA
+		
+		WHERE CA.C_CATALOGO = #{tipoCatalogo}
+		
+		<if test="key != null and key != ''">
+			AND CA.C_TIPCATAL = #{key}
+		</if>
+		
+		<if test="value != null and value != ''">
+			AND CA.T_DESCRIPCION = #{value}
+		</if>
+		
+		<if test="vigente != null and vigente != ''">
+			AND CA.T_VIGENTE = #{vigente}
+		</if>
+	</select>
+	
+	<select id="getMailMessage" resultMap="mail-mapping" parameterType="java.lang.String" >
+		SELECT 
+			MAIL.C_CODMAIL AS M_CODMAIL,
+			MAIL.T_FROM    AS M_FROM,
+			MAIL.T_TO      AS M_TO,
+			MAIL.T_CC      AS M_CC,
+			MAIL.T_CCO     AS M_CCO,
+			MAIL.T_ASUNTO  AS M_ASUNTO,
+			MAIL.T_MAIL    AS M_MENSAJE
+		FROM AN_MAILREPORT MAIL
+		WHERE MAIL.C_CODMAIL = #{codigoMail}
+	</select>
+	
+	<update id="updateSecuenciaRegistro" parameterType="map">
+		UPDATE AN_CATALOGO 
+			SET T_DESCRIPCION = #{secuencia} 
+		WHERE C_CATALOGO = 'SECUENCIA_REGISTRO' 
+		AND C_TIPCATAL = #{key}
+	</update>
+	
+</mapper>

@@ -1,0 +1,1203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.auctionnow.data.usuario">
+
+	<!-- RESULT MAPS -->
+	<resultMap id="usuarioWeb-mapping" type="com.auctionnow.model.UsuarioWeb">
+		<result property="codigoUsuarioWeb"                 column="UW_CODUSUWEB" />
+		<result property="contrasena"                       column="UW_PASSWORD" />
+		<result property="firmaComentario"                  column="UW_FIRMA" />
+		<result property="nombreUsuario"                    column="UW_NOMBREUSUARIO" />
+		<result property="pregunta1"                        column="UW_PREG1" />
+		<result property="pregunta2"                        column="UW_PREG2" />
+		<result property="pregunta3"                        column="UW_PREG3" />
+		<result property="respuesta1"                       column="UW_RES1" />
+		<result property="respuesta2"                       column="UW_RES2" />
+		<result property="respuesta3"                       column="UW_RES3" />
+		<result property="estadoCuenta"                     column="UW_ESTADOCTA" />
+		<result property="tipoUsuarioWeb.id"                column="UW_USUWEBID" />
+		<result property="tipoUsuarioWeb.descripcion"       column="UW_USUWEBDESC" />
+		<result property="usuario.codigoUsuario"            column="UW_CODUSUARIO" />
+	</resultMap>
+	
+	<resultMap id="cliente-mapping" type="com.auctionnow.model.Cliente">
+		<result property="codigoUsuario"            column="C_CODUSUARIO" />
+		<result property="fechaNacimiento"          column="C_FECHANACIMIENTO" />
+		<result property="fechaRegistro"            column="C_FECHAREGISTRO" />
+		<result property="genero.id"                column="C_GENERO" />
+		<result property="nombre"                   column="C_NOMBRES" />
+		<result property="apellidoPaterno"          column="C_APEPAT" />
+		<result property="apellidoMaterno"          column="C_APEMAT" />
+		<result property="rut"                      column="C_RUT" />
+		<result property="rutDV"                    column="C_RUTDV" />
+		<result property="ocupacion"                column="C_OCUPACION" />
+		<result property="tipoUsuario.id"           column="C_TIPOUSUARIOID" />
+		<result property="tipoUsuario.descripcion"  column="C_TIPOUSUARIODESC" />
+		<result property="codigoCliente"            column="C_CODCLIENTE" />
+		<result property="ocupacion"                column="C_OCUPACION" />
+		<result property="tipoCliente.id"           column="C_TIPOCLIENTEID" />
+		<result property="tipoCliente.descripcion"  column="C_TIPOCLIENTEDESC" />
+		<result property="fichaCliente.codigoFicha" column="C_CODIGOFICHA" />
+	</resultMap>
+	
+	<resultMap id="proveedor-mapping" type="com.auctionnow.model.Proveedor">
+		<result property="codigoUsuario"              column="P_CODUSUARIO" />
+		<result property="fechaNacimiento"            column="P_FECHANACIMIENTO" />
+		<result property="fechaRegistro"              column="P_FECHAREGISTRO" />
+		<result property="genero.id"                  column="P_GENERO" />
+		<result property="nombre"                     column="P_NOMBRES" />
+		<result property="apellidoPaterno"            column="P_APEPAT" />
+		<result property="apellidoMaterno"            column="P_APEMAT" />
+		<result property="rut"                        column="P_RUT" />
+		<result property="rutDV"                      column="P_RUTDV" />
+		<result property="ocupacion"                  column="P_OCUPACION" />
+		<result property="tipoUsuario.id"             column="P_TIPOUSUARIOID" />
+		<result property="tipoUsuario.descripcion"    column="P_TIPOUSUARIODESC" />
+		<result property="codigoProveedor"            column="P_CODPROVEEDOR" />
+		<!-- <result property="cargo"                      column="TRANUM" />  -->
+		<result property="empresa.codigoEmpresa"      column="P_CODEMPRESA" />
+		<result property="fichaProveedor.codigoFicha" column="P_CODFICHA" />
+	</resultMap>
+	
+	<resultMap id="usuarioWebClienteComplete-mapping" type="com.auctionnow.model.UsuarioWeb" extends="usuarioWeb-mapping">
+		<association property="usuario" resultMap="cliente-mapping" >
+			<association property="fichaCliente" resultMap="ficha-cliente-mapping" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="usuarioWebProveedorComplete-mapping" type="com.auctionnow.model.UsuarioWeb" extends="usuarioWeb-mapping">
+		<association property="usuario" resultMap="proveedor-mapping" >
+			<association property="empresa"        resultMap="empresa-mapping" />
+			<association property="fichaProveedor" resultMap="ficha-cliente-mapping" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="empresa-mapping" type="com.auctionnow.model.Empresa" >
+		<result property="codigoEmpresa"   column="E_CODEMPRESA" />
+		<result property="descripcion"     column="E_DESCRIPCION" />
+		<result property="fechaOperaDesde" column="E_FECHAREGISTRO" />
+		<result property="fechaRegistro"   column="E_FECHAREGISTRO" />
+		<result property="nombreEmpresa"   column="E_NOMBRE" />
+		<result property="rut"   		   column="E_RUT" />
+		<result property="rutDV"           column="E_RUTDV" />
+		<result property="vigente"         column="E_VIGENTE" />
+	</resultMap>
+	
+	<resultMap id="contacto-mapping" type="com.auctionnow.model.Contacto" >
+		<result property="codigoContacto"           column="C_CODCONTACTO" />
+		<result property="email"                    column="C_EMAIL" />
+		<result property="prioridad"                column="C_PRIORIDAD" />
+		<result property="telefono1"                column="C_TELFIJ1" />
+		<result property="telefono2"                column="C_TELFIJ2" />
+		<result property="movil1"                   column="C_TELMOV1" />
+		<result property="movil2"                   column="C_TELMOV2" />
+		<result property="tipoContacto.id"          column="C_TIPOCONTACTOID" />
+		<result property="tipoContacto.descripcion" column="C_TIPOCONTACTODESC" />
+	</resultMap>
+	
+	<resultMap id="direccion-mapping" type="com.auctionnow.model.Direccion" >
+		<result property="calle"                     column="D_CALLE" />
+		<result property="ciudad"                    column="D_CIUDADID" />
+		<result property="codigoDireccion"           column="D_CODDIRECCION" />
+		<result property="codigoPostal"              column="D_CODPOSTAL" />
+		<result property="comuna.codigoComuna"       column="D_COMUNAID" />
+		<result property="deptoNro"                  column="D_NRODEPTO" />
+		<result property="numeracion"                column="D_NUMERACION" />
+		<result property="observacion"               column="D_OBSERVACION" />
+		<result property="pais"                      column="D_PAISID" />
+		<result property="piso"                      column="D_PISO" />
+		<result property="prioridad"                 column="D_PRIORIDAD" />
+		<result property="region"                    column="D_REGIONID" />
+		<result property="tipoDireccion.id"          column="D_TIPODIRECCIONID" />
+		<result property="tipoDireccion.descripcion" column="D_TIPODIRECCIONDESC" />
+		<result property="geoLocalizacion.idGeo"     column="D_GEOLOCID" />
+	</resultMap>
+	
+	<resultMap id="geo-loc-mapping" type="com.auctionnow.model.GeoLocalizacion" >
+		<result property="idGeo"                  column="G_CODGEOLOC" />
+		<result property="latitud"                column="G_LATITUD" />
+		<result property="longitud"               column="G_LONGITUD" />
+		<result property="tipoGeoLoc.id"          column="G_TIPOGEOLOCID" />
+		<result property="tipoGeoLoc.descripcion" column="G_TIPOGEOLOCDESC" />
+	</resultMap>
+	
+	<resultMap id="ficha-cliente-mapping" type="com.auctionnow.model.FichaServicioCliente" >
+		<result property="areaTrabajo"          column="FC_AREATRABAJO" />
+		<result property="atencion"             column="FC_ATENCION" />
+		<result property="codigoFicha"          column="FC_CODIGOFICHA" />
+		<result property="complejidad"          column="FC_COMPLEJIDAD" />
+		<result property="descripcion"          column="FC_DESCRIPCION" />
+		<result property="formalidad"           column="FC_FORMALIDAD" />
+		<result property="hospitalidad"         column="FC_HOSPITALIDAD" />
+		<result property="presencia"            column="FC_PRESENCIA" />
+		<result property="recepcion"            column="FC_RECEPCION" />
+		<result property="trato"                column="FC_TRATO" />
+		<result property="cantidadEvaluaciones" column="FC_CANTEVAL" />
+	</resultMap>
+	
+	<resultMap id="ficha-proveedor-mapping" type="com.auctionnow.model.FichaServicioProveedor" >
+		<result property="atencion"             column="FP_ATENCION" />
+		<result property="codigoFicha"          column="FP_CODIGOFICHA" />
+		<result property="coherencia"           column="FP_COHERENCIA" />
+		<result property="contacto"             column="FP_CONTACTO" />
+		<result property="descripcion"          column="FP_DESCRIPCION" />
+		<result property="educacionProblema"    column="FP_EDUPROBLEMA" />
+		<result property="explicaProblema"      column="FP_EXPPROBLEMA" />
+		<result property="puntualidad"          column="FP_PUNTUALIDAD" />
+		<result property="tiempoServicio"       column="FP_TIEMPOSERVICIO" />
+		<result property="cantidadEvaluaciones" column="FP_CANTEVAL" />
+	</resultMap>
+	
+	<resultMap id="opera-servicio-mapping" type="com.auctionnow.model.Servicio" >
+		<result property="codigoServicio"           column="S_CODSERVICIO" />
+		<result property="descripcion"              column="S_DESCRIPCION" />
+		<result property="fechaRegistro"            column="S_FECHAREGISTRO" />
+		<result property="nombre"                   column="S_NOMBRE" />
+		<result property="sigla"                    column="S_SIGLA" />
+		<result property="tipoServicio.id"          column="S_TIPOSERVICIOID" />
+		<result property="tipoServicio.descripcion" column="S_TIPOSERVICIODESC" />
+	</resultMap>
+	
+	<resultMap id="privilegio-mapping" type="com.auctionnow.model.Privilegio" >
+		<result property="codigoPrivilegio"           column="P_CODIGOPRIVILEGIO" />
+		<result property="descPrivilegio"             column="P_DESCRIPCION" />
+		<result property="vigente"                    column="P_VIGENTE" />
+		<result property="observacion"                column="P_OBSERVACION" />
+		<result property="fechaRegistro"              column="P_FECHAREGISTRO" />
+		<result property="tipoPrivilegio.id"          column="P_TIPOPRIVILEGIOID" />
+		<result property="tipoPrivilegio.descripcion" column="P_TIPOPRIVILEGIODESC" />
+		<result property="tipousuarioWeb.id"          column="P_TIPOUSUARIOWEBID" />
+		<result property="tipousuarioWeb.descripcion" column="P_TIPOUSUARIOWEBDESC" />
+	</resultMap>
+	
+	<resultMap id="privilegio-usuario-mapping" type="com.auctionnow.model.UsuarioWebTienePrivilegio" >
+		<result property="activo"          column="PUW_ACTIVO" />
+		<result property="fechaAsignacion" column="PUW_FECHASIGNACION" />
+		<result property="descripcion"     column="PUW_DESCRIPCION" />
+		
+		<collection property="lstPrivilegios" column="S_CODSERVICIO" javaType="ArrayList" ofType="com.auctionnow.model.Privilegio" >
+			<result property="codigoPrivilegio"           column="P_CODIGOPRIVILEGIO" />
+			<result property="descPrivilegio"             column="P_DESCRIPCION" />
+			<result property="vigente"                    column="P_VIGENTE" />
+			<result property="observacion"                column="P_OBSERVACION" />
+			<result property="fechaRegistro"              column="P_FECHAREGISTRO" />
+			<result property="tipoPrivilegio.id"          column="P_TIPOPRIVILEGIOID" />
+			<result property="tipoPrivilegio.descripcion" column="P_TIPOPRIVILEGIODESC" />
+			<result property="tipousuarioWeb.id"          column="P_TIPOUSUARIOWEBID" />
+			<result property="tipousuarioWeb.descripcion" column="P_TIPOUSUARIOWEBDESC" />
+		</collection>
+		
+		<collection property="lstUsuarioWeb" column="S_CODSERVICIO" javaType="ArrayList" ofType="com.auctionnow.model.UsuarioWeb" >
+			<result property="codigoUsuarioWeb"      column="UW_CODUSUWEB" />
+			<result property="contrasena"            column="UW_PASSWORD" />
+			<result property="firmaComentario"       column="UW_FIRMA" />
+			<result property="nombreUsuario"         column="UW_NOMBREUSUARIO" />
+			<result property="pregunta1"             column="UW_PREG1" />
+			<result property="pregunta2"             column="UW_PREG2" />
+			<result property="pregunta3"             column="UW_PREG3" />
+			<result property="respuesta1"            column="UW_RES1" />
+			<result property="respuesta2"            column="UW_RES2" />
+			<result property="respuesta3"            column="UW_RES3" />
+			<result property="estadoCuenta"          column="UW_ESTADOCTA" />
+			<result property="usuario.codigoUsuario" column="UW_CODUSUARIO" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
+		<result property="codigoCargo"  column="CAR_CODIGO" />
+		<result property="nombre"       column="CAR_NOMBRE" />
+		<result property="sigla"        column="CAR_SIGLA" />
+		<result property="descripcion"  column="CAR_DESC" />
+		<result property="vigente"  	column="CAR_VIGEN" />
+	</resultMap>
+	
+	
+	<!-- SELECTs -->
+	<select id="getUsuarioWeb" resultMap="usuarioWeb-mapping" parameterType="com.auctionnow.filters.FiltroUsuarioWeb">
+		SELECT 
+			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
+			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
+			USUWEB.T_PASSWORD       AS UW_PASSWORD,
+			USUWEB.T_FIRMA          AS UW_FIRMA,
+			USUWEB.T_PREG1          AS UW_PREG1,
+			USUWEB.T_PREG2          AS UW_PREG2,
+			USUWEB.T_PREG3          AS UW_PREG3,
+			USUWEB.T_RES1           AS UW_RES1,
+			USUWEB.T_RES2           AS UW_RES2,
+			USUWEB.T_RES3           AS UW_RES3,
+			USUWEB.T_ESTCTA         AS UW_ESTADOCTA,
+			TIPUSUWEB.C_TIPCATAL    AS UW_TIPOUSUWEBID,
+			TIPUSUWEB.T_DESCRIPCION AS UW_TIPOUSUWEBDESC,
+			USUWEB.C_CODUSU         AS UW_CODUSUARIO
+			
+		FROM AN_USUARIOWEB USUWEB
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+		
+		WHERE T_NOMUSU = #{nombreUsuario}
+		AND T_PASSWORD = #{contrasena}
+		AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+	</select>
+	
+	<select id="getCliente" resultMap="cliente-mapping" parameterType="com.auctionnow.filters.FiltroCliente">
+		SELECT 
+		    USU.C_CODUSU         AS C_CODUSUARIO,
+			USU.T_RUT            AS C_RUT,
+			USU.T_RUTDV          AS C_RUTDV,
+			USU.T_NOMBRES        AS C_NOMBRES,
+			USU.T_APEPAT         AS C_APEPAT,
+			USU.T_APEMAT         AS C_APEMAT,
+			USU.D_FECNAC         AS C_FECHANACIMIENTO,
+			USU.T_GENERO         AS C_GENERO,
+			USU.T_OCUPACION      AS C_OCUPACION,
+			USU.D_FECREG         AS C_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL    AS C_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION AS C_TIPOUSUARIODESC,
+			CLI.C_CODCLI         AS C_CODCLIENTE,
+			TIPCLI.C_TIPCATAL    AS C_TIPOCLIENTEID,
+			TIPCLI.T_DESCRIPCION AS C_TIPOCLIENTEDESC
+		
+		FROM AN_USUARIO USU
+		INNER JOIN AN_CLIENTE CLI ON USU.C_CODUSU = CLI.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSU ON USU.C_TIPUSU = TIPUSU.C_TIPCATAL
+		INNER JOIN AN_CATALOGO TIPCLI ON CLI.C_TIPCLI = TIPCLI.C_TIPCATAL
+		
+		WHERE TIPUSU.C_CATALOGO = 'C_TIPUSU'
+		AND TIPCLI.C_CATALOGO = 'C_TIPCLI'
+		
+		<if test="codigoUsuario != null and codigoUsuario != ''">
+			AND USU.C_CODUSU = #{codigoUsuario}
+		</if>
+		
+		<if test="codigoCliente != null and codigoCliente != ''">
+			AND CLI.C_CODCLI = #{codigoCliente}
+		</if>
+		
+	</select>
+	
+	<select id="getProveedor" resultMap="proveedor-mapping" parameterType="com.auctionnow.filters.FiltroProveedor" >
+		SELECT 
+		    USU.C_CODUSU         AS P_CODUSUARIO,
+			USU.T_RUT            AS P_RUT,
+			USU.T_RUTDV          AS P_RUTDV,
+			USU.T_NOMBRES        AS P_NOMBRES,
+			USU.T_APEPAT         AS P_APEPAT,
+			USU.T_APEMAT         AS P_APEMAT,
+			USU.D_FECNAC         AS P_FECHANACIMIENTO,
+			USU.T_GENERO         AS P_GENERO,
+			USU.T_OCUPACION      AS P_OCUPACION,
+			USU.D_FECREG         AS P_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL    AS P_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION AS P_TIPOUSUARIODESC,
+			PROV.C_CODPROV       AS P_CODPROVEEDOR,
+			PROV.C_FICHPROV      AS P_CODFICHA,
+			PROV.C_EMPRESA       AS P_CODEMPRESA
+		
+		FROM AN_USUARIO USU
+		INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSU ON USU.C_TIPUSU = TIPUSU.C_TIPCATAL
+		
+		WHERE TIPUSU.C_CATALOGO = 'C_TIPUSU'
+		
+		<if test="codigoUsuario != null and codigoUsuario != ''">
+			AND USU.C_CODUSU = #{codigoUsuario}
+		</if>
+		
+		<if test="codigoProveedor != null and codigoProveedor != ''">
+			AND PROV.C_CODPROV = #{codigoProveedor}
+		</if>
+		
+	</select>
+	
+	<select id="getClientes" resultMap="usuarioWebClienteComplete-mapping" parameterType="com.auctionnow.filters.FiltroCliente" >
+		SELECT 
+		    USU.C_CODUSU            AS C_CODUSUARIO,
+			USU.T_RUT               AS C_RUT,
+			USU.T_RUTDV             AS C_RUTDV,
+			USU.T_NOMBRES           AS C_NOMBRES,
+			USU.T_APEPAT            AS C_APEPAT,
+			USU.T_APEMAT            AS C_APEMAT,
+			USU.D_FECNAC            AS C_FECHANACIMIENTO,
+			USU.T_GENERO            AS C_GENERO,
+			USU.T_OCUPACION         AS C_OCUPACION,
+			USU.D_FECREG            AS C_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL       AS C_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION    AS C_TIPOUSUARIODESC,
+			
+			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
+			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
+			USUWEB.T_PASSWORD       AS UW_PASSWORD,
+			USUWEB.T_FIRMA          AS UW_FIRMA,
+			USUWEB.T_PREG1          AS UW_PREG1,
+			USUWEB.T_PREG2          AS UW_PREG2,
+			USUWEB.T_PREG3          AS UW_PREG3,
+			USUWEB.T_RES1           AS UW_RES1,
+			USUWEB.T_RES2           AS UW_RES2,
+			USUWEB.T_RES3           AS UW_RES3,
+			USUWEB.T_ESTCTA         AS UW_ESTADOCTA,
+			TIPUSUWEB.C_TIPCATAL    AS UW_TIPOUSUWEBID,
+			TIPUSUWEB.T_DESCRIPCION AS UW_TIPOUSUWEBDESC,
+			USUWEB.C_CODUSU         AS UW_CODUSUARIO
+			
+			CLI.C_CODCLI            AS C_CODCLIENTE,
+			TIPCLI.C_TIPCATAL       AS C_TIPOCLIENTEID,
+			TIPCLI.T_DESCRIPCION    AS C_TIPOCLIENTEDESC
+		
+		FROM AN_USUARIO USU
+		
+		INNER JOIN AN_USUARIOWEB USUWEB ON USU.C_CODUSU = USUWEB.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+		
+		INNER JOIN AN_CLIENTE CLI ON USU.C_CODUSU = CLI.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSU ON USU.C_TIPUSU = TIPUSU.C_TIPCATAL
+		INNER JOIN AN_CATALOGO TIPCLI ON CLI.C_TIPCLI = TIPCLI.C_TIPCATAL
+		
+		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		AND TIPUSU.C_CATALOGO = 'C_TIPUSU'
+		AND TIPCLI.C_CATALOGO = 'C_TIPCLI'
+		
+		<if test="fechaNacimientoDesde != null and fechaNacimientoHasta != null">
+			AND USU.D_FECNAC BETWEEN #{fechaNacimientoDesde}  AND #{fechaNacimientoHasta}
+		</if>
+		
+		<if test="fechaRegistroDesde != null and fechaRegistroHasta != null">
+			AND USU.D_FECREG BETWEEN #{fechaRegistroDesde}  AND #{fechaRegistroHasta}
+		</if>
+		
+		<if test="genero != null and genero != ''">
+			AND USU.T_GENERO = #{genero}
+		</if>
+		
+		<if test="estadoCuenta != null and estadoCuenta != ''">
+			AND USUWEB.T_ESTCTA = #{estadoCuenta}
+		</if>
+		
+		<if test="tipoUsuarioWeb != null and tipoUsuarioWeb != ''">
+			AND TIPUSUWEB.C_TIPCATAL = #{tipoUsuarioWeb}
+		</if>
+		
+		<if test="tipoUsuario != null and tipoUsuario != ''">
+			AND TIPUSU.C_TIPCATAL = #{tipoUsuario}
+		</if>
+		
+		<if test="tipoCliente != null and tipoCliente != ''">
+			AND TIPCLI.C_TIPCATAL = #{tipoCliente}
+		</if>
+		
+	</select>
+	
+	<select id="getProveedores" resultMap="usuarioWebProveedorComplete-mapping" parameterType="com.auctionnow.filters.FiltroProveedor" >
+		SELECT 
+		    USU.C_CODUSU            AS C_CODUSUARIO,
+			USU.T_RUT               AS C_RUT,
+			USU.T_RUTDV             AS C_RUTDV,
+			USU.T_NOMBRES           AS C_NOMBRES,
+			USU.T_APEPAT            AS C_APEPAT,
+			USU.T_APEMAT            AS C_APEMAT,
+			USU.D_FECNAC            AS C_FECHANACIMIENTO,
+			USU.T_GENERO            AS C_GENERO,
+			USU.T_OCUPACION         AS C_OCUPACION,
+			USU.D_FECREG            AS C_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL       AS C_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION    AS C_TIPOUSUARIODESC,
+			
+			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
+			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
+			USUWEB.T_PASSWORD       AS UW_PASSWORD,
+			USUWEB.T_FIRMA          AS UW_FIRMA,
+			USUWEB.T_PREG1          AS UW_PREG1,
+			USUWEB.T_PREG2          AS UW_PREG2,
+			USUWEB.T_PREG3          AS UW_PREG3,
+			USUWEB.T_RES1           AS UW_RES1,
+			USUWEB.T_RES2           AS UW_RES2,
+			USUWEB.T_RES3           AS UW_RES3,
+			USUWEB.T_ESTCTA         AS UW_ESTADOCTA,
+			TIPUSUWEB.C_TIPCATAL    AS UW_TIPOUSUWEBID,
+			TIPUSUWEB.T_DESCRIPCION AS UW_TIPOUSUWEBDESC,
+			USUWEB.C_CODUSU         AS UW_CODUSUARIO,
+			
+			PROV.C_CODPROV          AS P_CODPROVEEDOR,
+			PROV.C_FICHPROV         AS P_CODFICHA,
+			PROV.C_EMPRESA          AS P_CODEMPRESA,
+			
+			FICHPRO.C_FICHPROV      AS FP_CODIGOFICHA,
+			FICHPRO.N_ATENCION      AS FP_ATENCION,
+			FICHPRO.N_COHEREN       AS FP_COHERENCIA,
+			FICHPRO.N_CNTCTO        AS FP_CONTACTO,
+			FICHPRO.N_EDPROB        AS FP_EDUPROBLEMA,
+			FICHPRO.N_EXPROB        AS FP_EXPPROBLEMA,
+			FICHPRO.N_PUNTUAL       AS FP_PUNTUALIDAD,
+			FICHPRO.N_TIMESERV      AS FP_TIEMPOSERVICIO,
+			FICHPRO.T_DESCRIPCION   AS FP_DESCRIPCION,
+			
+			EMP.C_CODEMP            AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION       AS E_DESCRIPCION,
+			EMP.D_FECFUN            AS E_FECHAFUNDACION,
+			EMP.D_FECREG            AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE            AS E_NOMBRE
+		
+		FROM AN_USUARIO USU
+		
+		INNER JOIN AN_USUARIOWEB USUWEB ON USU.C_CODUSU = USUWEB.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+		
+		INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
+		INNER JOIN AN_CATALOGO TIPUSU ON USU.C_TIPUSU = TIPUSU.C_TIPCATAL
+		
+		INNER JOIN AN_FICHAPROVEEDOR FICHPRO ON PROV.C_FICHPROV = FICHPRO.C_FICHPROV
+		
+		INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
+		INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+		
+		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		AND TIPUSU.C_CATALOGO = 'C_TIPUSU'
+		
+		<if test="tipoServicio != null and tipoServicio != ''">
+			AND OPERA.C_CODSER = #{tipoServicio}
+		</if>
+		
+	</select>
+	
+	<select id="getEmpresa" resultMap="empresa-mapping" parameterType="com.auctionnow.filters.FiltroEmpresa" >
+		SELECT 
+			EMP.C_CODEMP      AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION AS E_DESCRIPCION,
+			EMP.D_FECFUN      AS E_FECHAFUNDACION,
+			EMP.D_FECREG      AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE      AS E_NOMBRE,
+			EMP.T_RUT		  AS E_RUT,
+			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.T_VIGENTE     AS E_VIGENTE
+			
+		FROM AN_EMPRESA EMP
+		
+		WHERE EMP.C_CODEMP = #{codigoEmpresa}
+	</select>
+	
+	<select id="getEmpresas" resultMap="empresa-mapping" >
+		SELECT 
+			EMP.C_CODEMP      AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION AS E_DESCRIPCION,
+			EMP.D_FECFUN      AS E_FECHAFUNDACION,
+			EMP.D_FECREG      AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE      AS E_NOMBRE,
+			EMP.T_RUT		  AS E_RUT,
+			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.T_VIGENTE     AS E_VIGENTE
+			
+		FROM AN_EMPRESA EMP
+		
+		<!-- FALTAN FILTROS -->
+		
+	</select>
+	
+	<select id="getContactos" resultMap="contacto-mapping" parameterType="com.auctionnow.filters.FiltroContacto" >
+		SELECT 
+			CON.C_CODCON         AS C_CODCONTACTO,
+			CON.T_EMAIL          AS C_EMAIL,
+			CON.N_PRIOR          AS C_PRIORIDAD,
+			CON.N_TELFIJO1       AS C_TELFIJ1,
+			CON.N_TELFIJO2       AS C_TELFIJ2,
+			CON.N_TELMOV1        AS C_TELMOV1,
+			CON.N_TELMOV2        AS C_TELMOV2,
+			TIPCON.C_TIPCATAL    AS C_TIPOCONTACTOID,
+			TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC
+			
+		FROM AN_CONTACTO CON
+		INNER JOIN AN_CATALOGO TIPCON ON CON.C_TIPCON = TIPCON.C_TIPCATAL
+		
+		<if test="codigoServicio != null and codigoServicio != ''">
+			INNER JOIN AN_USUARIO USU ON CON.C_TITULAR = USU.C_CODUSU
+			INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
+			INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
+			INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+		</if>
+		
+		WHERE TIPCON.C_CATALOGO = 'C_TIPCON'
+		
+		<if test="codigoTitular != null and codigoTitular != ''">
+			AND CON.C_TITULAR = #{codigoTitular}
+		</if>
+		
+		<if test="codigoContacto != null and codigoContacto != ''">
+			AND CON.C_CODCON = #{codigoContacto}
+		</if>
+		
+		<if test="codigoServicio != null and codigoServicio != ''">
+			AND OPERA.C_CODSER = #{codigoServicio}
+			AND OPERA.T_ACTIVO = 'S'
+			AND USU.C_TIPUSU = 'P'
+			AND CON.N_PRIOR IN (1, 2)
+		</if>
+	</select>
+	
+	<select id="getDireccion" resultMap="direccion-mapping" parameterType="com.auctionnow.filters.FiltroDireccion" >
+		SELECT 
+			DIR.C_CODDIR         AS D_CODDIRECCION,
+			DIR.T_CALLE          AS D_CALLE,
+			DIR.T_NUMERACION     AS D_NUMERACION,
+			DIR.T_NRODEPTO       AS D_NRODEPTO,
+			DIR.N_PISO           AS D_PISO,
+			DIR.T_OBSERV         AS D_OBSERVACION,
+			DIR.T_PRIOR          AS D_PRIORIDAD,
+			DIR.T_CODPOS         AS D_CODPOSTAL,
+			TIPDIR.C_TIPCATAL    AS D_TIPODIRECCIONID,
+			TIPDIR.T_DESCRIPCION AS D_TIPODIRECCIONDESC,
+			DIR.C_COMUNA         AS D_COMUNAID,
+			DIR.C_CODGEOLOC      AS D_GEOLOCID
+			
+		FROM AN_DIRECCION DIR
+		INNER JOIN AN_CATALOGO TIPDIR ON DIR.C_TIPDIR = TIPDIR.C_TIPCATAL
+		
+		WHERE TIPDIR.C_CATALOGO = 'C_TIPDIR'
+		
+		<if test="codigoTitular != null and codigoTitular != ''">
+			AND DIR.C_TITULAR = #{codigoTitular}
+		</if> 
+		
+		<if test="codigoDireccion != null and codigoDireccion != ''">
+			AND DIR.C_CODDIR = #{codigoDireccion}
+		</if>
+	</select>
+
+	<select id="getGeoLocalizacion" resultMap="geo-loc-mapping" parameterType="com.auctionnow.filters.FiltroGeoLoc" >
+		SELECT 
+			GEO.C_CODGEOLOC         AS G_CODGEOLOC,
+			GEO.N_LATITUD           AS G_LATITUD,
+			GEO.N_LONGITUD          AS G_LONGITUD,
+			TIPGEOLOC.C_TIPCATAL    AS G_TIPOGEOLOCID,
+			TIPGEOLOC.T_DESCRIPCION AS G_TIPOGEOLOCDESC,
+		FROM AN_GEOLOC GEO
+		INNER JOIN AN_CATALOGO TIPGEOLOC ON GEO.GEO.T_TIPGEO = TIPGEOLOC.C_TIPCATAL
+		
+		WHERE GEO.C_CODGEOLOC = #{codigoGeoLocalizacion}
+		AND TIPGEOLOC.C_CATALOGO = 'T_TIPGEO'
+	</select>
+	
+	<select id="getFichaCliente" resultMap="ficha-cliente-mapping" parameterType="com.auctionnow.filters.FiltroCliente" >
+		SELECT 
+			FICHCLI.C_FICHCLI     AS FC_CODIGOFICHA,
+			FICHCLI.N_AREATRA     AS FC_AREATRABAJO,
+			FICHCLI.N_ATENCION    AS FC_ATENCION,
+			FICHCLI.N_COMPLEJ     AS FC_COMPLEJIDAD,
+			FICHCLI.N_FORMALI     AS FC_FORMALIDAD,
+			FICHCLI.N_HOPST       AS FC_HOSPITALIDAD,
+			FICHCLI.N_PRESENC     AS FC_PRESENCIA,
+			FICHCLI.N_RECEP       AS FC_RECEPCION,
+			FICHCLI.N_TRATO       AS FC_TRATO,
+			FICHCLI.T_DESCRIPCION AS FC_DESCRIPCION,
+			FICHCLI.N_CANTEVAL    AS FC_CANTEVAL
+			
+		FROM AN_FICHACLIENTE FICHCLI
+		
+		WHERE FICHCLI.C_FICHCLI = #{codigoFicha}
+	</select>
+	
+	<select id="getFichaProveedor" resultMap="ficha-proveedor-mapping" parameterType="com.auctionnow.filters.FiltroProveedor" >
+		SELECT 
+			FICHPRO.C_FICHPROV    AS FP_CODIGOFICHA,
+			FICHPRO.N_ATENCION    AS FP_ATENCION,
+			FICHPRO.N_COHEREN     AS FP_COHERENCIA,
+			FICHPRO.N_CNTCTO      AS FP_CONTACTO,
+			FICHPRO.N_EDPROB      AS FP_EDUPROBLEMA,
+			FICHPRO.N_EXPROB      AS FP_EXPPROBLEMA,
+			FICHPRO.N_PUNTUAL     AS FP_PUNTUALIDAD,
+			FICHPRO.N_TIMESERV    AS FP_TIEMPOSERVICIO,
+			FICHPRO.T_DESCRIPCION AS FP_DESCRIPCION,
+			FICHPRO.N_CANTEVAL    AS FP_CANTEVAL
+			
+		FROM AN_FICHAPROVEEDOR FICHPRO
+			
+		WHERE FICHPRO.C_FICHPROV = #{codigoFicha}
+	</select>
+	
+	
+	
+	<select id="getPrivilegios" resultMap="privilegio-mapping" parameterType="com.auctionnow.filters.FiltroPrivilegio" >
+		SELECT
+			PRIV.C_CODPRIV          AS P_CODIGOPRIVILEGIO,
+			PRIV.T_DESCRIPCION      AS P_DESCRIPCION,
+			PRIV.T_VIGENTE          AS P_VIGENTE,
+			PRIV.T_OBSERVACION      AS P_OBSERVACION,
+			PRIV.D_FECREG           AS P_FECHAREGISTRO,
+			TIPPRIV.C_TIPCATAL      AS P_TIPOPRIVILEGIOID,
+			TIPPRIV.T_DESCRIPCION   AS P_TIPOPRIVILEGIODESC,
+			TIPUSUWEB.C_TIPCATAL    AS P_TIPOUSUARIOWEBID,
+			TIPUSUWEB.T_DESCRIPCION AS P_TIPOUSUARIOWEBDESC
+			
+		FROM AN_PRIVILEGIO PRIV
+		INNER JOIN AN_CATALOGO TIPPRIV ON PRIV.C_TIPOPRIV = TIPPRIV.C_TIPCATAL
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON PRIV.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+			
+		WHERE TIPPRIV.C_CATALOGO = 'C_TIPOPRIV' 
+		AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		
+		<if test="codigoPrivilegio != null and codigoPrivilegio != ''">
+			AND PRIV.C_CODPRIV = #{codigoPrivilegio}
+		</if>
+		
+		<if test="vigente != null and vigente != ''">
+			AND PRIV.T_VIGENTE = #{vigente}
+		</if>
+		
+		<if test="tipoPrivilegio != null and tipoPrivilegio != ''">
+			AND PRIV.C_TIPOPRIV = #{tipoPrivilegio}
+		</if>
+		
+		<if test="tipoUsuario != null and tipoUsuario != ''">
+			AND PRIV.C_TIPUSUWEB = #{tipoUsuario}
+		</if>
+		
+		<!-- FALTAN FILTROS -->
+	</select>
+	
+	<select id="getPrivilegiosUsuario" resultMap="privilegio-usuario-mapping" parameterType="com.auctionnow.filters.FiltroUsuarioWeb" >
+		SELECT 
+			PRIVUSUWEB.C_CODPRIV     AS PUW_CODIGOPRIVILEGIO,
+			PRIVUSUWEB.C_CODUSUWEB   AS PUW_CODIGOUSUARIOWEB,
+			PRIVUSUWEB.T_ACTIVO      AS PUW_ACTIVO,
+			PRIVUSUWEB.D_FECASIG     AS PUW_FECHASIGNACION,
+			PRIVUSUWEB.T_DESCRIPCION AS PUW_DESCRIPCION,
+			
+			PRIV.C_CODPRIV           AS P_CODIGOPRIVILEGIO,
+			PRIV.T_DESCRIPCION       AS P_DESCRIPCION,
+			PRIV.T_VIGENTE           AS P_VIGENTE,
+			PRIV.T_OBSERVACION       AS P_OBSERVACION,
+			PRIV.D_FECREG            AS P_FECHAREGISTRO,
+			TIPPRIV.C_TIPCATAL       AS P_TIPOPRIVILEGIOID,
+			TIPPRIV.T_DESCRIPCION    AS P_TIPOPRIVILEGIODESC,
+			TIPUSUWEB.C_TIPCATAL     AS P_TIPOUSUARIOWEBID,
+			TIPUSUWEB.T_DESCRIPCION  AS P_TIPOUSUARIOWEBDESC,
+			
+			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
+			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
+			USUWEB.T_PASSWORD       AS UW_PASSWORD,
+			USUWEB.T_FIRMA          AS UW_FIRMA,
+			USUWEB.T_PREG1          AS UW_PREG1,
+			USUWEB.T_PREG2          AS UW_PREG2,
+			USUWEB.T_PREG3          AS UW_PREG3,
+			USUWEB.T_RES1           AS UW_RES1,
+			USUWEB.T_RES2           AS UW_RES2,
+			USUWEB.T_RES3           AS UW_RES3,
+			USUWEB.T_ESTCTA         AS UW_ESTADOCTA,
+			USUWEB.C_CODUSU         AS UW_CODUSUARIO
+			
+		FROM AN_PRIV_USUARIOWEB PRIVUSUWEB
+		
+		INNER JOIN AN_PRIVILEGIO PRIV ON PRIVUSUWEB.C_CODPRIV = PRIV.C_CODPRIV
+		INNER JOIN AN_CATALOGO TIPPRIV ON PRIV.C_TIPOPRIV = TIPPRIV.C_TIPCATAL
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON PRIV.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+		
+		INNER JOIN AN_USUARIOWEB USUWEB ON PRIVUSUWEB.C_CODUSUWEB = USUWEB.C_CODUSUWEB
+		
+		WHERE TIPPRIV.C_CATALOGO = 'C_TIPOPRIV' 
+		AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		
+		<if test="codigoPrivilegio != null and codigoPrivilegio != ''">
+			AND PRIV.C_TIPOPRIV = #{codigoPrivilegio}
+		</if>
+		
+		<if test="tipoUsuarioWeb != null and tipoUsuarioWeb != ''">
+			AND PRIV.C_TIPUSUWEB = #{tipoUsuarioWeb}
+		</if>
+		
+		<if test="activo != null and activo != ''">
+			AND PRIVUSUWEB.T_ACTIVO = #{activo}
+		</if>
+		
+	</select>
+	
+	<select id="getValidateLogin" resultType="java.lang.String" parameterType="map" >
+		SELECT 
+		TIPUSUWEB.T_DESCRIPCION
+		
+		FROM AN_USUARIOWEB USUWEB
+		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+		
+		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		AND USUWEB.T_NOMUSU = #{userName}
+		AND USUWEB.T_PASSWORD = #{password}
+	</select>
+	
+	<select id="getCargos" resultMap="cargo-mapping" parameterType="map" >
+		SELECT
+			CAR.C_CODCAR      AS CAR_CODIGO,
+			CAR.T_NOMBRE      AS CAR_NOMBRE,
+			CAR.T_SIGLA       AS CAR_SIGLA,
+			CAR.T_DESCRIPCION AS CAR_DESC,
+			CAR.T_VIGENTE     AS CAR_VIGEN
+			
+		FROM AN_CARGO CAR
+		
+		<if test="codigoCargo != null and codigoCargo != ''">
+			WHERE CAR.C_CODCAR = #{codigoCargo}
+		</if>
+	</select>
+	
+
+	<!-- INSERTs -->
+	<insert id="addUsuario" parameterType="map" >
+		INSERT INTO AN_USUARIO (
+			C_CODUSU,
+			T_RUT,
+			T_RUTDV,
+			T_NOMBRES,
+			T_APEPAT,
+			T_APEMAT,
+			D_FECNAC,
+			T_GENERO,
+			T_OCUPACION,
+			D_FECREG,
+			C_TIPUSU
+		) VALUES (
+			#{codigoUsuario},
+			#{rut},
+			#{rutDV},
+			#{nombres},
+			#{apePaterno},
+			#{apeMaterno},
+			#{fecNacimiento},
+			#{genero},
+			#{ocupacion},
+			#{fecRegistro},
+			#{tipoUsuario}
+		)
+	</insert>
+	
+	<insert id="addUsuarioWeb" parameterType="map" >
+		INSERT INTO AN_USUARIOWEB (
+			C_CODUSUWEB,
+			T_NOMUSU,
+			T_PASSWORD,
+			T_FIRMA,
+			T_PREG1,
+			T_PREG2,
+			T_PREG3,
+			T_RES1,
+			T_RES2,
+			T_RES3,
+			T_ESTCTA,
+			C_TIPUSUWEB,
+			C_CODUSU
+		) VALUES (
+			#{codigoUsuWeb},
+			#{nombreUsuario},
+			#{password},
+			#{firma},
+			#{pregunta1},
+			#{pregunta2},
+			#{pregunta3},
+			#{respuesta1},
+			#{respuesta2},
+			#{respuesta3},
+			#{estadoCuenta},
+			#{tipoUsuWeb},
+			#{codigoUsuario}
+		)
+	</insert>
+	
+	<insert id="addProveedor" parameterType="map" >
+		INSERT INTO AN_PROVEEDOR (
+			C_CODPROV,
+			C_FICHPROV,
+			C_EMPRESA,
+			C_CODSER,
+			C_CODCAR,
+			C_CODUSU
+		) VALUES (
+			#{codigoProveedor},
+			#{codigoFichaProv},
+			#{codigoEmpresa},
+			#{codigoServicio},
+			#{codigoCargo},
+			#{codigoUsuario}
+		)
+	</insert>
+	
+	<insert id="addCliente" parameterType="map" >
+		INSERT INTO AN_CLIENTE (
+			C_CODCLI,
+			C_FICHCLI,
+			C_TIPCLI,
+			C_CODUSU
+		) VALUES (
+			#{codigoCliente},
+			#{codigoFichaCli},
+			#{tipoCliente},
+			#{codigoUsuario}
+		)
+	</insert>
+	
+	<insert id="addDireccion" parameterType="map" >
+		INSERT INTO AN_DIRECCION (
+			C_CODDIR,
+			T_CALLE,
+			T_NUMERACION,
+			T_NRODEPTO,
+			N_PISO,
+			T_OBSERV,
+			T_PRIOR,
+			T_CODPOS,
+			C_TIPDIR,
+			C_COMUNA,
+			C_CODGEOLOC,
+			C_TITULAR
+		) VALUES (
+			#{codigoDireccion},
+			#{calle},
+			#{numeracion},
+			#{nroDepto},
+			#{piso},
+			#{observacion},
+			#{prioridad},
+			#{codigoPostal},
+			#{tipoDireccion},
+			#{codigoComuna},
+			#{codigoGeoLoc},
+			#{codigoUsuario}
+		)
+	</insert>
+	
+	<insert id="addContacto" parameterType="map" >
+		INSERT INTO AN_CONTACTO (
+			C_CODCON,
+			T_EMAIL,
+			N_PRIOR,
+			N_TELFIJO1,
+			N_TELFIJO2,
+			N_TELMOV1,
+			N_TELMOV2,
+			C_TIPCON,
+			C_TITULAR
+		) VALUES (
+			#{codigoContacto},
+			#{email},
+			#{prioridad},
+			#{telefonoFijo1},
+			#{telefonoFijo2},
+			#{telefonoMovil1},
+			#{telefonoMovil2},
+			#{tipoContacto},
+			#{codigoUsuario}
+		)
+	</insert>
+	
+	<insert id="addEmpresa" parameterType="map" >
+		INSERT INTO AN_EMPRESA (
+			C_CODEMP,
+			T_DESCRIPCION,
+			D_FECFUN,
+			D_FECREG,
+			T_NOMBRE,
+			T_RUT,
+			T_RUTDV,
+			T_VIGENTE
+		) VALUES (
+			#{codigoEmpresa},
+			#{descripcion},
+			#{fecFundacion},
+			#{fecRegistro},
+			#{nombre},
+			#{rut},
+			#{rutDV},
+			#{vigente}
+		)
+	</insert>
+	
+	<insert id="addEmpresaOpera" parameterType="map" >
+		INSERT INTO AN_EMPRESA_OP_SERVICIO (
+			C_CODEMP,
+			C_CODSER,
+			N_PRIORIDAD,
+			D_FECOPE,
+			D_FECREG,
+			T_ACTIVO
+		) VALUES (
+			#{codigoEmpresa},
+			#{codigoServicio},
+			#{prioridad},
+			#{fecDesdeOpera},
+			#{fecRegistro},
+			#{activo}
+		)
+	</insert>
+	
+	<insert id="addGeoLocalizacion" parameterType="map" >
+		INSERT INTO AN_GEOLOC (
+			C_CODGEOLOC,
+			N_LATITUD,
+			N_LONGITUD,
+			T_TIPGEO
+		) VALUES (
+			#{codigoGeoLoc},
+			#{latitud},
+			#{longitud},
+			#{tipoGeoLoc}
+		)
+	</insert>
+	
+	<insert id="addFichaCliente" parameterType="map" >
+		INSERT INTO AN_FICHACLIENTE (
+			C_FICHCLI,
+			N_AREATRA,
+			N_ATENCION,
+			N_COMPLEJ,
+			N_FORMALI,
+			N_HOPST,
+			N_PRESENC,
+			N_RECEP,
+			N_TRATO,
+			T_DESCRIPCION
+		) VALUES (
+			#{codigoFicha},
+			#{areaTrabajo},
+			#{atencion},
+			#{complejidad},
+			#{formalidad},
+			#{hospitalidad},
+			#{presencia},
+			#{recepcion},
+			#{trato},
+			#{descripcion}
+		)
+	</insert>
+	
+	<insert id="addFichaProveedor" parameterType="map" >
+		INSERT INTO AN_FICHAPROVEEDOR (
+			C_FICHPROV,
+			N_ATENCION,
+			N_COHEREN,
+			N_CNTCTO,
+			N_EDPROB,
+			N_EXPROB,
+			N_PUNTUAL,
+			N_TIMESERV,
+			T_DESCRIPCION
+		) VALUES ( 
+			#{codigoFicha},
+			#{atencion},
+			#{coherencia},
+			#{contacto},
+			#{educacionProblema},
+			#{explicaProblema},
+			#{puntualidad},
+			#{tiempoServicio},
+			#{descripcion}
+		)
+	</insert>
+	
+	<insert id="addPrivilegio" parameterType="map" >
+		INSERT INTO AN_PRIVILEGIO (
+			C_CODPRIV,
+			T_DESCRIPCION,
+			T_VIGENTE,
+			T_OBSERVACION,
+			D_FECREG,
+			C_TIPOPRIV,
+			C_TIPUSUWEB
+		) VALUES (
+			#{codigoPrivilegio},
+			#{descripcion},
+			#{vigente},
+			#{observacion},
+			#{fechaRegistro},
+			#{tipoPrivilegio},
+			#{tipoUsuarioWeb}
+		)
+	</insert>
+	
+	<insert id="addUsuarioPrivilegio" parameterType="map">
+		INSERT INTO AN_PRIV_USUARIOWEB (
+			C_CODPRIV,
+			C_CODUSUWEB,
+			T_ACTIVO, 
+			D_FECASIG
+			T_DESCRIPCION
+		) VALUES (
+			#{codigoPrivilegio},
+			#{codigoUsuarioWeb},
+			#{activo},
+			#{fechaAsignacion},
+			#{descripcion}
+		)
+	</insert>
+	
+	<insert id="addCargo" parameterType="map" >
+		INSERT INTO AN_CARGO (
+			C_CODCAR,
+			T_NOMBRE,
+			T_SIGLA,
+			T_DESCRIPCION,
+			T_VIGENTE
+		) VALUES (
+			#{codigoCargo},
+			#{nombrecargo},
+			#{sigla},
+			#{descripcion},
+			#{vigente}
+		)
+	</insert>
+	
+	<!-- UPDATEs -->
+	<update id="updateUsuario" parameterType="map" >
+		UPDATE AN_USUARIO
+		SET T_RUT = #{rut},
+			T_RUTDV = #{rutDV},
+			T_NOMBRES = #{nombres},
+			T_APEPAT = #{apePaterno},
+			T_APEMAT = #{apeMaterno},
+			D_FECNAC = #{fecNacimiento},
+			T_GENERO = #{genero},
+			T_OCUPACION = #{ocupacion},
+			D_FECREG = #{fecRegistro},
+			C_TIPUSU = #{tipoUsuario}
+		WHERE C_CODUSU = #{codigoUsuario}
+	</update>
+	
+	<update id="updateCliente" parameterType="map" >
+		UPDATE AN_CLIENTE
+		SET C_FICHCLI = #{codigoFichaCli},
+			C_TIPCLI = #{tipoCliente}
+		WHERE C_CODUSU = #{codigoUsuario}
+		AND C_CODCLI = #{codigoCliente}
+	</update>
+	
+	<update id="updateProveedor" parameterType="map" >
+		UPDATE AN_PROVEEDOR
+		SET C_FICHPROV = #{codigoFichaProv},
+			C_EMPRESA = #{codigoEmpresa}
+		WHERE C_CODUSU = #{codigoUsuario}
+		AND C_CODPROV = #{codigoProveedor}
+	</update>
+	
+	<update id="updateUsuarioWeb" parameterType="map" >
+		UPDATE AN_USUARIOWEB
+		SET T_NOMUSU = #{nombreUsuario},
+			T_PASSWORD = #{password},
+			T_FIRMA = #{firma},
+			T_PREG1 = #{pregunta1},
+			T_PREG2 = #{pregunta2},
+			T_PREG3 = #{pregunta3},
+			T_RES1 = #{respuesta1},
+			T_RES2 = #{respuesta2},
+			T_RES3 = #{respuesta3},
+			T_ESTCTA = #{estadoCuenta},
+			C_TIPUSUWEB = #{tipoUsuWeb}
+		WHERE C_CODUSU = #{codigoUsuario}
+		AND C_CODUSUWEB = #{codigoUsuWeb}
+	</update>
+	
+	<update id="updateContacto" parameterType="map" >
+		UPDATE AN_CONTACTO
+		SET T_EMAIL = #{email},
+			N_PRIOR = #{prioridad},
+			N_TELFIJO1 = #{telefonoFijo1},
+			N_TELFIJO2 = #{telefonoFijo2},
+			N_TELMOV1 = #{telefonoMovil1},
+			N_TELMOV2 = #{telefonoMovil2},
+			C_TIPCON = #{tipoContacto}
+		WHERE C_CODCON = #{codigoContacto}
+		AND C_TITULAR = #{codigoTitular}
+	</update>
+	
+	<update id="updateDireccion" parameterType="map" >
+		UPDATE AN_DIRECCION
+		SET T_CALLE = #{calle},
+			T_NUMERACION = #{numeracion},
+			T_NRODEPTO = #{nroDepto},
+			N_PISO = #{piso},
+			T_OBSERV = #{observacion},
+			T_PRIOR = #{prioridad},
+			T_CODPOS = #{codigoPostal},
+			C_TIPDIR = #{tipoDireccion},
+			C_COMUNA = #{codigoComuna},
+			C_CODGEOLOC = #{codigoGeoLoc}
+		WHERE C_CODDIR = #{codigoDireccion}
+		AND C_TITULAR = #{codigoTitular}
+	</update>
+	
+	<update id="updateEmpresa" parameterType="map" >
+		UPDATE AN_EMPRESA
+		SET T_DESCRIPCION = #{descripcion},
+			D_FECFUN = #{fecFundacion},
+			D_FECREG = #{fecRegistro},
+			T_NOMBRE = #{nombre},
+			T_VIGENTE = #{vigente}
+		WHERE C_CODEMP = #{codigoEmpresa}
+	</update>
+	
+	<update id="updateEmpresaOpera" parameterType="map" >
+		UPDATE AN_EMPRESA_OP_SERVICIO
+		SET N_PRIORIDAD = #{prioridad},
+			D_FECOPE = #{fecDesdeOpera},
+			T_ACTIVO = #{activo}
+		WHERE C_CODEMP = #{codigoEmpresa}
+		AND C_CODSER = #{codigoServicio}
+	</update>
+	
+	<update id="updateGeoLocalizacion" parameterType="map" >
+		UPDATE AN_GEOLOC
+		SET N_LATITUD = #{latitud},
+			N_LONGITUD = #{longitud},
+			T_TIPGEO = #{tipoGeoLoc}
+		WHERE C_CODGEOLOC = #{codigoGeoLoc}
+	</update>
+	
+	<update id="updateFichaCliente" parameterType="map" >
+		UPDATE AN_FICHACLIENTE
+		SET N_AREATRA = #{areaTrabajo},
+			N_ATENCION = #{atencion},
+			N_COMPLEJ = #{complejidad},
+			N_FORMALI = #{formalidad},
+			N_HOPST = #{hospitalidad},
+			N_PRESENC = #{presencia},
+			N_RECEP = #{recepcion},
+			N_TRATO = #{trato},
+			T_DESCRIPCION = #{descripcion},
+			N_CANTEVAL = #{cantidadEvaluaciones}
+		WHERE C_FICHCLI = #{codigoFicha}
+	</update>
+	
+	<update id="updateFichaProveedor" parameterType="map" >
+		UPDATE AN_FICHAPROVEEDOR
+		SET N_ATENCION = #{atencion},
+			N_COHEREN = #{coherencia},
+			N_CNTCTO = #{contacto},
+			N_EDPROB = #{educacionProblema},
+			N_EXPROB = #{explicaProblema},
+			N_PUNTUAL = #{puntualidad},
+			N_TIMESERV = #{tiempoServicio},
+			T_DESCRIPCION = #{descripcion},
+			N_CANTEVAL = #{cantidadEvaluaciones}
+		WHERE C_FICHPROV = #{codigoFicha}
+	</update>
+	
+	<update id="updatePrivilegio" parameterType="map" >
+		UPDATE AN_PRIVILEGIO
+		SET T_DESCRIPCION = #{descripcion},
+			T_VIGENTE = #{vigente},
+			T_OBSERVACION = #{observacion},
+			D_FECREG = #{fechaRegistro},
+			C_TIPOPRIV = #{tipoPrivilegio},
+			C_TIPUSUWEB = #{tipoUsuarioWeb}
+		WHERE C_CODPRIV = #{codigoPrivilegio}
+	</update>
+	
+	<update id="updateUsuarioPrivilegio" parameterType="map" >
+		UPDATE AN_PRIV_USUARIOWEB
+		SET T_ACTIVO = #{activo},
+		    T_DESCRIPCION = #{descripcion}
+		WHERE C_CODPRIV = #{codigoPrivilegio}
+		AND C_CODUSUWEB = #{codigoUsuarioWeb}
+	</update>
+	
+	<update id="updateCargo" parameterType="map" >
+		UPDATE AN_CARGO
+		SET T_NOMBRE = #{nombrecargo},
+			T_SIGLA = #{sigla},
+			T_DESCRIPCION = #{descripcion},
+			T_VIGENTE = #{vigente}
+		WHERE C_CODCAR = #{codigoCargo}
+	</update>
+</mapper>

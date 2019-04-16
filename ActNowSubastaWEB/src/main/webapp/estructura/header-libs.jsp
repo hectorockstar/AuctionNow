@@ -53,8 +53,6 @@
     		setDatePicker('fechaFundacion');
     	});
     	$('#fechaFundacion').click();
-    	
-    	console.log('Init Config');
     });
     
     function setDatePicker(inputId){

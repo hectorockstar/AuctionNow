@@ -68,13 +68,13 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 	@Transactional(rollbackFor = AuctionNowServiceException.class)
 	public String addUsuarioWebCliente() throws AuctionNowServiceException {
 
-		List<Contacto> contactos = new ArrayList<Contacto>();
-		contactos.add(contacto);
-		cliente.setContactos(contactos);
-
-		List<Direccion> direcciones = new ArrayList<Direccion>();
-		direcciones.add(direccion);
-		cliente.setDirecciones(direcciones);
+//		List<Contacto> contactos = new ArrayList<Contacto>();
+//		contactos.add(contacto);
+//		cliente.setContactos(contactos);
+//
+//		List<Direccion> direcciones = new ArrayList<Direccion>();
+//		direcciones.add(direccion);
+//		cliente.setDirecciones(direcciones);
 
 		usuarioWeb.setUsuario(cliente);
 

@@ -156,7 +156,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("genero", usuario.getGenero().getId());
 		parameters.put("ocupacion", usuario.getOcupacion());
 		parameters.put("fecRegistro", usuario.getFechaRegistro());
-		//parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
+		parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
 
 		return (Integer) getSqlSession().update("updateUsuario", parameters);
 	}
@@ -165,8 +165,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer actualizaUsuarioCliente(Cliente cliente) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoCliente", cliente.getCodigoCliente());
-		parameters.put("codigoFichaCli",
-				cliente.getFichaCliente() == null ? 0 : cliente.getFichaCliente().getCodigoFicha());
+		parameters.put("codigoFichaCli", cliente.getFichaCliente() == null ? 0 : cliente.getFichaCliente().getCodigoFicha());
 		parameters.put("tipoCliente", cliente.getTipoCliente().getId());
 		parameters.put("codigoUsuario", cliente.getCodigoUsuario());
 
@@ -333,8 +332,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("codigoPostal", direccion.getCodigoPostal());
 		parameters.put("tipoDireccion", direccion.getTipoDireccion().getId());
 		parameters.put("codigoComuna", direccion.getComuna().getCodigoComuna());
-		parameters.put("codigoGeoLoc",
-				direccion.getGeoLocalizacion() == null ? 0 : direccion.getGeoLocalizacion().getIdGeo());
+		parameters.put("codigoGeoLoc", direccion.getGeoLocalizacion() == null ? 0 : direccion.getGeoLocalizacion().getIdGeo());
 		parameters.put("codigoUsuario", codigoTitular);
 
 		return (Integer) getSqlSession().insert("addDireccion", parameters);

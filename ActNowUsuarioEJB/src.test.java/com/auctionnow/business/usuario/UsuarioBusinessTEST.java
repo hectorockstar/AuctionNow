@@ -51,7 +51,7 @@ public class UsuarioBusinessTEST {
 		usercliente.setApellidoPaterno("Gonzalez");
 		usercliente.setFechaNacimiento(new Date());
 		usercliente.setFechaRegistro(new Date());
-		usercliente.setGenero("M");
+		usercliente.setGenero(new Tupla());
 		usercliente.setNombre("Hector");
 		usercliente.setOcupacion("EST");
 		usercliente.setRut("18092255");

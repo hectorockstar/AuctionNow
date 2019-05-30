@@ -12,7 +12,7 @@
 
 	<div class="jumbotron">
 		<div class="container text-center">
-			<h1>Bienvenido a AuctionNow</h1>
+			<h1>AuctionNow</h1>
 			<p>Encuentra el servicio que necesites. O publica tus servicios
 				para que el mundo te conozca.</p>
 		</div>

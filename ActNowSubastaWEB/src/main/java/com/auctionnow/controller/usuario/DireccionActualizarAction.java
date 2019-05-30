@@ -27,9 +27,9 @@ public class DireccionActualizarAction extends AbstractControllerConfig {
 
 	public String showActualizaDireccion() {
 		
-		UsuarioWeb usuarioWeb = ((UsuarioWeb)getSession().get("usuarioWeb"));
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
 
-		List<Direccion> direcciones = usuarioWeb.getUsuario().getDirecciones();
+		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(usuarioWebSession.getUsuario().getDirecciones());
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
@@ -38,15 +38,18 @@ public class DireccionActualizarAction extends AbstractControllerConfig {
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
 		
-		//getRequest().put("codigoTitular", usuarioWeb.getUsuario().getCodigoUsuario());
+		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
+		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
+		List<Comuna> comunas= getCommonEjbRemote().getComuna(filtroDivGeografica);
+		
 		getRequest().put("direcciones", direcciones);
 		getRequest().put("tipsDirecciones", tipsDirecciones);
-		getRequest().put("comunas", new ArrayList<Comuna>());
-		getRequest().put("ciudades", new ArrayList<Ciudad>());
-		getRequest().put("regiones", new ArrayList<Region>());
+		getRequest().put("comunas", comunas);
+		getRequest().put("ciudades", ciudades);
+		getRequest().put("regiones", regiones);
 		getRequest().put("paises", paises);
 
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public String actualizaDireccion() {

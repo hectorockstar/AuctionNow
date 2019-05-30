@@ -68,9 +68,6 @@ public class LoginUserAction extends AbstractControllerConfig {
 
 			return SUCCESS;
 		} else {
-
-//			getSession().put("errMsj",
-//					"El Usuario ingresado no existe, o quizas escribiste mal tu contraseña. Por favor intenta nuevamente.");
 			getSession().put("errMsj",true);
 			return ERROR;
 		}

@@ -86,7 +86,7 @@
 		<action name="showActualizaDireccion" class="com.auctionnow.controller.usuario.DireccionActualizarAction"
 			method="showActualizaDireccion">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaDireccion.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaDirecciones.jsp</result>
 		</action>
 		
 		<action name="actualizaDireccion" class="com.auctionnow.controller.usuario.DireccionActualizarAction"

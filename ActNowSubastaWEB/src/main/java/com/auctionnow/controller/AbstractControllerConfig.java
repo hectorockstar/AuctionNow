@@ -1,5 +1,7 @@
 package com.auctionnow.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -121,6 +123,13 @@ public class AbstractControllerConfig extends ActionSupport
 
 	public void setTransaccionEjbRemote(ITransaccionEjbRemote transaccionEjbRemote) {
 		this.transaccionEjbRemote = transaccionEjbRemote;
+	}
+	
+	public String getFechaFormat(Date fechaAformatear) {
+		SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaFormat = formatterDate.format(fechaAformatear);
+		
+		return fechaFormat;
 	}
 
 }

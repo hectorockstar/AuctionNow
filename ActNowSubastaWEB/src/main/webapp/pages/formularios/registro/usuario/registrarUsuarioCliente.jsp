@@ -14,8 +14,8 @@
 						<form action="addUsuarioWebCliente" class="form-horizontal" id="formulario_registro_usuario" method="POST">
 							
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalCliente.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroContacto.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroDireccion.jsp" />
+							<%-- <jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroContacto.jsp" />
+							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroDireccion.jsp" /> --%>
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />
 
 							<div class="form-group">

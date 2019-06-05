@@ -33,6 +33,7 @@
 		<result property="rut"                      column="C_RUT" />
 		<result property="rutDV"                    column="C_RUTDV" />
 		<result property="ocupacion"                column="C_OCUPACION" />
+		<result property="pais.codigoPais"          column="C_CODIGOPAIS" />
 		<result property="tipoUsuario.id"           column="C_TIPOUSUARIOID" />
 		<result property="tipoUsuario.descripcion"  column="C_TIPOUSUARIODESC" />
 		<result property="codigoCliente"            column="C_CODCLIENTE" />
@@ -252,6 +253,7 @@
 			USU.T_GENERO         AS C_GENERO,
 			USU.T_OCUPACION      AS C_OCUPACION,
 			USU.D_FECREG         AS C_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS C_CODIGOPAIS,
 			TIPUSU.C_TIPCATAL    AS C_TIPOUSUARIOID,
 			TIPUSU.T_DESCRIPCION AS C_TIPOUSUARIODESC,
 			CLI.C_CODCLI         AS C_CODCLIENTE,
@@ -749,6 +751,7 @@
 			T_GENERO,
 			T_OCUPACION,
 			D_FECREG,
+			C_CODPAIS,
 			C_TIPUSU
 		) VALUES (
 			#{codigoUsuario},
@@ -761,6 +764,7 @@
 			#{genero},
 			#{ocupacion},
 			#{fecRegistro},
+			#{pais},
 			#{tipoUsuario}
 		)
 	</insert>

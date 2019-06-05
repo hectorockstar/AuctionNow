@@ -273,6 +273,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("ocupacion", usuario.getOcupacion());
 		parameters.put("fecRegistro", usuario.getFechaRegistro());
 		parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
+		parameters.put("pais", usuario.getPais().getCodigoPais());
 
 		return (Integer) getSqlSession().insert("addUsuario", parameters);
 	}

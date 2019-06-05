@@ -61,7 +61,7 @@ public class AbstractControllerConfig extends ActionSupport
 		
 		this.setCommonEjbRemote((ICommonEjbRemote) ejbInstance
 				.getEJB("ActNowCommonService/ActNowCommonEJB/CommonEjb!"    + ICommonEjbRemote.class.getName()));
-		
+
 		this.setTransaccionEjbRemote((ITransaccionEjbRemote) ejbInstance
 				.getEJB("ActNowTransaccionService/ActNowTransaccionEJB/TransaccionEjb!" + ITransaccionEjbRemote.class.getName()));
 		

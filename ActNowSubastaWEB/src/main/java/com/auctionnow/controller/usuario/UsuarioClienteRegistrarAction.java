@@ -35,6 +35,7 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 	protected Cliente cliente;
 	protected Direccion direccion;
 	protected Contacto contacto;
+	protected Pais pais;
 
 	@Transactional(rollbackFor = AuctionNowServiceException.class)
 	public String showRegistarUsuarioCliente() {
@@ -75,7 +76,7 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 //		List<Direccion> direcciones = new ArrayList<Direccion>();
 //		direcciones.add(direccion);
 //		cliente.setDirecciones(direcciones);
-
+		cliente.setPais(pais);
 		usuarioWeb.setUsuario(cliente);
 
 		// VALIDAR CAMPOS
@@ -131,6 +132,14 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 }

@@ -2,8 +2,6 @@
     <wb-module deploy-name="ActNowCommonEJB">
         <wb-resource deploy-path="/" source-path="/src.main.java" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/src.main.resource"/>
-        <wb-resource deploy-path="/" source-path="/src.test.java"/>
-        <wb-resource deploy-path="/" source-path="/src.test.resource"/>
         <property name="java-output-path" value="/ActNowCommonEJB/build/classes"/>
         <property name="ClientProject" value="ActNowCommonClient"/>
         <property name="ClientJARURI" value="ActNowCommonClient.jar"/>

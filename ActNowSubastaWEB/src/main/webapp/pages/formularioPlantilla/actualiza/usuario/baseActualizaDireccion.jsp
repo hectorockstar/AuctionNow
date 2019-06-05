@@ -12,19 +12,20 @@
 			<s:hidden value="%{geoLocalizacion.idGeo}" name="direccion.geoLocalizacion.idGeo" id="h_geoLocalizacion" />
 			<s:hidden value="%{codigoDireccion}" name="direccion.codigoDireccion" id="h_codigoDireccion" />
 			
+			<%-- <jsp:include page="../../../../pages/formularioPlantilla/filtro/comunes/baseActualizaFiltroRegionPorPais.jsp" /> --%>
+			
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="comuna">
+				<label class="control-label col-sm-3" for="comuna<s:property value='codigoDireccion' />">
 					<s:text name="common.label.comuna" />: 
 				</label>
-				<div class="col-sm-3 campoValidado">
-					<s:select class="form-control" id="comuna" 
-						name="direccion.comuna.codigoComuna"
-						list="#request.comunas" 
+				<div class="col-sm-4 campoValidado">
+					<s:select class="form-control" id="comuna%{codigoDireccion}"
+						name="direccion.comuna.codigoComuna" 
+						list="#request.comunas"
 						headerKey="" 
-						headerValue="Selecccione..."
-						listKey="codigoComuna" 
-						listValue="nombre"
-						value="comuna.codigoComuna" />
+						headerValue="Selecccione..." 
+						listKey="codigoComuna"
+						listValue="nombre" />
 				</div>
 			</div>
 			

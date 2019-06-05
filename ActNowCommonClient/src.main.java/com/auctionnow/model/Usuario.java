@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.auctionnow.common.Pais;
 import com.auctionnow.common.Tupla;
 
 public class Usuario implements Serializable {
@@ -28,6 +29,7 @@ public class Usuario implements Serializable {
 	private String rutDV;
 	private String ocupacion;
 	private Tupla tipoUsuario;
+	private Pais pais;
 
 	public Tupla getTipoUsuario() {
 		return tipoUsuario;
@@ -136,4 +138,13 @@ public class Usuario implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
+	}
+	
 }

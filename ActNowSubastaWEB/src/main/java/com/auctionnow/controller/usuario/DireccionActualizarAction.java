@@ -36,17 +36,14 @@ public class DireccionActualizarAction extends AbstractControllerConfig {
 		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
+		filtroDivGeografica.setCodigoPais(usuarioWebSession.getUsuario().getPais().getCodigoPais());
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-		
-		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
-		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
-		List<Comuna> comunas= getCommonEjbRemote().getComuna(filtroDivGeografica);
 		
 		getRequest().put("direcciones", direcciones);
 		getRequest().put("tipsDirecciones", tipsDirecciones);
-		getRequest().put("comunas", comunas);
-		getRequest().put("ciudades", ciudades);
-		getRequest().put("regiones", regiones);
+		getRequest().put("comunas", new ArrayList<Comuna>());
+		getRequest().put("ciudades", new ArrayList<Ciudad>());
+		getRequest().put("regiones", new ArrayList<Region>());
 		getRequest().put("paises", paises);
 
 		return SUCCESS;

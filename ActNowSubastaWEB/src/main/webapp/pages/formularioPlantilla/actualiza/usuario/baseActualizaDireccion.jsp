@@ -8,26 +8,11 @@
 	<div class="containAddressAccordion">
 		<form action="" class="form-horizontal" id="formulario_update_direccion<s:property value='codigoDireccion' />" method="POST">
 			
-			<s:hidden value="%{prioridad}" name="direccion.prioridad" id="h_prioridad" />
-			<s:hidden value="%{geoLocalizacion.idGeo}" name="direccion.geoLocalizacion.idGeo" id="h_geoLocalizacion" />
-			<s:hidden value="%{codigoDireccion}" name="direccion.codigoDireccion" id="h_codigoDireccion" />
+			<s:hidden value="%{prioridad}" name="direccion.prioridad" id="h_prioridad%{codigoDireccion}" />
+			<s:hidden value="%{geoLocalizacion.idGeo}" name="direccion.geoLocalizacion.idGeo" id="h_geoLocalizacion%{codigoDireccion}" />
+			<s:hidden value="%{codigoDireccion}" name="direccion.codigoDireccion" id="h_codigoDireccion%{codigoDireccion}" />
 			
-			<%-- <jsp:include page="../../../../pages/formularioPlantilla/filtro/comunes/baseActualizaFiltroRegionPorPais.jsp" /> --%>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-3" for="comuna<s:property value='codigoDireccion' />">
-					<s:text name="common.label.comuna" />: 
-				</label>
-				<div class="col-sm-4 campoValidado">
-					<s:select class="form-control" id="comuna%{codigoDireccion}"
-						name="direccion.comuna.codigoComuna" 
-						list="#request.comunas"
-						headerKey="" 
-						headerValue="Selecccione..." 
-						listKey="codigoComuna"
-						listValue="nombre" />
-				</div>
-			</div>
+			<jsp:include page="../../../../pages/formularioPlantilla/filtro/comunes/baseActualizaFiltroRegionPorPais.jsp" />
 			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="calle<s:property value='codigoDireccion' />">

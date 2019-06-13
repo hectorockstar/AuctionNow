@@ -8,6 +8,7 @@ import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
 import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.filters.FiltroDivGeografica;
+import com.google.gson.Gson;
 
 public class CommonController extends AbstractControllerConfig {
 
@@ -19,6 +20,8 @@ public class CommonController extends AbstractControllerConfig {
 	protected Region region;
 	protected Ciudad ciudad;
 	protected Comuna comuna;
+	
+
 
 	public String getRegionesByPais() {
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
@@ -26,6 +29,8 @@ public class CommonController extends AbstractControllerConfig {
 
 		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
 		this.getRequest().put("regiones", regiones);
+		
+		this.jsonFormatResult(regiones);
 		
 		return SUCCESS;
 		
@@ -38,6 +43,8 @@ public class CommonController extends AbstractControllerConfig {
 
 		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
 		this.getRequest().put("ciudades", ciudades);
+		
+		this.jsonFormatResult(ciudades);
 
 		return SUCCESS;
 
@@ -50,6 +57,8 @@ public class CommonController extends AbstractControllerConfig {
 
 		List<Comuna> comunas = getCommonEjbRemote().getComuna(filtroDivGeografica);
 		this.getRequest().put("comunas", comunas);
+		
+		this.jsonFormatResult(comunas);
 
 		return SUCCESS;
 	}

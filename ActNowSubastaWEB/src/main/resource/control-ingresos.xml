@@ -7,6 +7,11 @@
 	<constant name="struts.action.excludePattern" value="/cargaMenuUsuario" />
 	
 	<package name="default" extends="struts-default">			
+	<result-types> 
+             <result-type name="json" class="com.googlecode.jsonplugin.JSONResult" /> 
+         </result-types> 
+	
+	
 		<action name="loginUser" class="com.auctionnow.controller.usuario.LoginUserAction" 
 			method="loginUser">
 			<result name="SUCCESS">/index.jsp</result>
@@ -112,7 +117,7 @@
 		<action name="showActualizaContacto" class="com.auctionnow.controller.usuario.ContactoActualizarAction"
 			method="showActualizaContacto">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaContacto.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaContactos.jsp</result>
 		</action>
 		
 		<action name="actualizaContacto" class="com.auctionnow.controller.usuario.ContactoActualizarAction"
@@ -328,19 +333,25 @@
 			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoCmbComunas.jsp</result>
 		</action>
 		
-		<!-- <action name="getRegionesByPaisForUpdate" class="com.auctionnow.controller.common.CommonController"
+		<action name="getRegionesByPaisForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getRegionesByPais">
-			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoActualizaCmbRegiones.jsp</result>
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="getCiudadesByRegionForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getCiudadesByRegion">
-			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoActualizaCmbCiudades.jsp</result>
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="getComunaByCiudadForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getComunaByCiudad">
-			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoActualizaCmbComunas.jsp</result>
-		</action> -->
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
+		</action>
 	</package>
 </struts>

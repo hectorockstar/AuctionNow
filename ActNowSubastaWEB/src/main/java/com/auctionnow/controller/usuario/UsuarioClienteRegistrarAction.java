@@ -54,7 +54,7 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-
+		
 		getRequest().put("tipsDirecciones", tipsDirecciones);
 		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);

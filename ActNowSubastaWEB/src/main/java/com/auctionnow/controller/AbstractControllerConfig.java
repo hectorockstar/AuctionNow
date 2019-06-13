@@ -1,6 +1,9 @@
 package com.auctionnow.controller;
 
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -15,8 +18,10 @@ import com.auctionnow.ejb.ISolicitudEjbRemote;
 import com.auctionnow.ejb.ITransaccionEjbRemote;
 import com.auctionnow.ejb.IUsuarioEjbRemote;
 import com.auctionnow.utils.AuctionNowGetEJB;
+import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class AbstractControllerConfig extends ActionSupport
 		implements ApplicationAware, SessionAware, RequestAware, Preparable {
@@ -39,6 +44,8 @@ public class AbstractControllerConfig extends ActionSupport
 	protected Map<String, Object> session;
 	protected Map<String, Object> request;
 	protected String messageType = INFO_MESSAGE;
+	
+	protected InputStream inputStream;
 
 	@EJB
 	private IUsuarioEjbRemote usuarioEjbRemote;
@@ -123,6 +130,23 @@ public class AbstractControllerConfig extends ActionSupport
 
 	public void setTransaccionEjbRemote(ITransaccionEjbRemote transaccionEjbRemote) {
 		this.transaccionEjbRemote = transaccionEjbRemote;
+	}
+	
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+	
+	public void jsonFormatResult(Object object){
+		
+		if(object instanceof ArrayList) {
+			String json = new Gson().toJson(object);
+			inputStream = new StringBufferInputStream(json);
+		}
+		
 	}
 	
 	public String getFechaFormat(Date fechaAformatear) {

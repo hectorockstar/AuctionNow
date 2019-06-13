@@ -21,6 +21,7 @@ public class Contacto implements Serializable {
 	private String movil1;
 	private String movil2;
 	private Tupla tipoContacto;
+	private Direccion direccion;
 
 	public Tupla getTipoContacto() {
 		return tipoContacto;
@@ -88,6 +89,14 @@ public class Contacto implements Serializable {
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
 	}
 
 }

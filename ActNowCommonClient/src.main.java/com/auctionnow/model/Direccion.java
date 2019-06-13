@@ -1,6 +1,7 @@
 package com.auctionnow.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -23,6 +24,7 @@ public class Direccion implements Serializable {
 	private Integer piso;
 	private Integer prioridad;
 	private Tupla tipoDireccion;
+	private List<Contacto> contactos;
 	private Comuna comuna;
 
 	public String getCodigoDireccion() {
@@ -113,7 +115,16 @@ public class Direccion implements Serializable {
 		this.prioridad = prioridad;
 	}
 
+	public List<Contacto> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(List<Contacto> contactos) {
+		this.contactos = contactos;
+	}
+	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 }

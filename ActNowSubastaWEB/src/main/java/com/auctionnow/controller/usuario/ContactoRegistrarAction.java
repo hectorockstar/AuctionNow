@@ -8,6 +8,7 @@ import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.model.Contacto;
+import com.auctionnow.model.Direccion;
 import com.auctionnow.model.UsuarioWeb;
 
 public class ContactoRegistrarAction extends AbstractControllerConfig {
@@ -21,13 +22,20 @@ public class ContactoRegistrarAction extends AbstractControllerConfig {
 
 	public String showAddContacto() {
 		
+		//VALIDAR QUE HAYAN DIRECCIONES REGISTRADAS PARA AGREGAR CONTACTOS
+		
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
+
+		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(usuarioWebSession.getUsuario().getDirecciones());
+		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
 		List<Tupla> lstTipContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
 		
+		getRequest().put("direcciones", direcciones);
 		getRequest().put("tipsContactos", lstTipContactos);
 		
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public String addContacto() {
@@ -45,7 +53,7 @@ public class ContactoRegistrarAction extends AbstractControllerConfig {
 		usuWeb.getUsuario().setContactos(contactos);
 		this.getSession().put("usuarioWeb", usuWeb);
 		
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public Contacto getContacto() {

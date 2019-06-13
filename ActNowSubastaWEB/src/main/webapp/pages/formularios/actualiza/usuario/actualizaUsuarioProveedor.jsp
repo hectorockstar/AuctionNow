@@ -13,7 +13,6 @@
 
 						<form action="actualizaUsuarioWebCliente" class="form-horizontal" id="formulario_actualiza_datos_usuario" method="POST">
 							
-							
 							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoPersonalProveedor.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoUsuarioWeb.jsp" />
 							
@@ -27,35 +26,9 @@
 								</div>
 							</div>
 						</form>
-						
-						<s:iterator value="usuarioWeb.usuario.direcciones" var="dir" >
-							<br>
-							<h3>
-								<ins><s:text name="title.label.datos.actualiza.direccion" /></ins>
-							</h3>
-							<br>
-							
-							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaDireccion.jsp" />
-						</s:iterator>
-							
-						<s:iterator value="usuarioWeb.usuario.contactos" var="con" >
-							<br>
-							<h3>
-								<ins><s:text name="title.label.datos.actualiza.contacto" /></ins>
-							</h3>
-							<br>
-							
-							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaContacto.jsp" />
-						</s:iterator>	
-						
 					</div>
-
-
 				</div>
-
-
 			</div>
-			
 		</div>
 	</div>
 </div>

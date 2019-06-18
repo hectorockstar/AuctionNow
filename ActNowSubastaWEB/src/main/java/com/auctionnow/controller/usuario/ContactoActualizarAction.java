@@ -8,6 +8,7 @@ import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.model.Contacto;
+import com.auctionnow.model.Direccion;
 import com.auctionnow.model.UsuarioWeb;
 
 public class ContactoActualizarAction extends AbstractControllerConfig {
@@ -20,17 +21,21 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 	protected Contacto contacto;
 
 	public String showActualizaContacto() {
+		
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
 
-		List<Contacto> contactos = ((UsuarioWeb) getSession().get("usuarioWeb")).getUsuario().getContactos();
+		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(usuarioWebSession.getUsuario().getDirecciones());
+		List<Contacto> contactos = usuarioWebSession.getUsuario().getContactos();
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
 		List<Tupla> lstTipContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
 
+		getRequest().put("direcciones", direcciones);
 		getRequest().put("contactos", contactos);
 		getRequest().put("tipsContactos", lstTipContactos);
 
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public String actualizaContacto() {
@@ -52,7 +57,7 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 			getSession().put("usuarioWeb", usuarioWebSession);
 		}
 
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public Contacto getContacto() {

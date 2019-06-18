@@ -16,6 +16,10 @@
 
 
 <ul>
+<!-- Usuario Administracdro -->
+<li><a href="<s:url action="showRegistarUsuarioAdministrador"/>">Registrar Administrador</a></li>
+<li><a href="<s:url action="showActualizaUsuarioAdministrador"/>">Actualizar Administrador</a> (Iniciar Sesion Antes como usuario Administrador)</li>
+
 <!-- Usuario Cliente -->
 <li><a href="<s:url action="showRegistarUsuarioCliente"/>">Registrar Cliente</a></li>
 <li><a href="<s:url action="showActualizaUsuarioCliente"/>">Actualizar Cliente</a> (Iniciar Sesion Antes)</li>

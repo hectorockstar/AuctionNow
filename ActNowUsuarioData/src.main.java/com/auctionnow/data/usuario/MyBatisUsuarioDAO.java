@@ -316,6 +316,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("telefonoMovil2", contacto.getMovil2());
 		parameters.put("tipoContacto", contacto.getTipoContacto().getId());
 		parameters.put("codigoUsuario", codigoTitular);
+		parameters.put("codigoDireccion", contacto.getDireccion().getCodigoDireccion());
 
 		return (Integer) getSqlSession().insert("addContacto", parameters);
 	}

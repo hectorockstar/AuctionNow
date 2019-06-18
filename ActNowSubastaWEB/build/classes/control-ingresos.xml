@@ -24,6 +24,29 @@
 			<result name="SUCCESS">/index.jsp</result>
 			<result name="ERROR">/index.jsp</result>		
 		</action>
+		
+		<!-- Usuario Administrador -->
+		<action name="showRegistarUsuarioAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorRegistrarAction"
+			method="showRegistarUsuarioAdministrador">
+			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
+			<result name="SUCCESS">/pages/formularios/registro/usuario/registrarUsuarioAdministrador.jsp</result>
+		</action>
+
+		<action name="addUsuarioWebAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorRegistrarAction"
+			method="addUsuarioWebAdministrador">
+			<result name="ERROR">ERROR</result>
+			<result name="SUCCESS">/pages/ingresar.jsp</result>
+		</action>
+
+		<action name="showActualizaUsuarioAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorActualizarAction"
+			method="showActualizaUsuarioAdministrador">
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaUsuarioCliente.jsp</result>
+		</action>
+
+		<action name="actualizaUsuarioWebAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorActualizarAction"
+			method="actualizaUsuarioWebAdministrador">
+			<result name="SUCCESS">/WEB-INF/views/usuario/exitoformularios.jsp</result>
+		</action>
 
 
 		<!-- Usuario Cliente -->

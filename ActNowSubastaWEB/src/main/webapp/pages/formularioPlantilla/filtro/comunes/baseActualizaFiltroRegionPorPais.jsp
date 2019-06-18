@@ -2,7 +2,7 @@
 
 <div class="form-group">
 	<label class="control-label col-sm-2" for="pais<s:property value='codigoDireccion' />">
-		<s:text name="common.label.pais" />: 
+		<s:text name="common.label.pais" />:
 	</label>
 	<div class="col-sm-3 campoValidado">
 		<s:select class="form-control" id="pais%{codigoDireccion}" 
@@ -95,7 +95,7 @@
 						}
 					}
 				});
-			} else{
+			} else {
 				$("#region<s:property value='codigoDireccion' />")
 				    .find('option')
 				    .remove()
@@ -162,7 +162,7 @@
 						}
 					}
 				});
-			} else{
+			} else {
 				$("#ciudad<s:property value='codigoDireccion' />")
 				    .find('option')
 				    .remove()
@@ -212,7 +212,7 @@
 						}
 					}
 				});
-			} else{
+			} else {
 				$("#comuna<s:property value='codigoDireccion' />")
 				    .find('option')
 				    .remove()

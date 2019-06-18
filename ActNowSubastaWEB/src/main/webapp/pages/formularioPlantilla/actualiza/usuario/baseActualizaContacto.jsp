@@ -13,7 +13,18 @@
 			<s:hidden value="%{prioridad}" name="contacto.prioridad" id="h_prioridad%{codigoContacto}" />
 			<s:hidden value="%{codigoContacto}" name="contacto.codigoContacto" id="h_codigoContacto%{codigoContacto}" />
 			
-			
+			<div class="form-group">
+				<label class="control-label col-sm-3" for="contacto"> 
+					<s:text name="common.label.seleccione.direccion" />:
+				</label>
+				<div class="col-sm-9 campoValidado">
+					<s:select class="form-control" id="tipoContacto"
+						name="contacto.direccion.codigoDireccion" list="#request.direcciones"
+						headerKey="" headerValue="Seleccione Dirección..." listKey="codigoDireccion"
+						listValue="calle+' '+numeracion+', '+comuna.nombre+', '+comuna.ciudad.nombre+', '+comuna.ciudad.region.nombre+' - '+tipoDireccion.descripcion" 
+						value="direccion.codigoDireccion"/>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label class="control-label col-md-2 col-xs-2"
@@ -32,7 +43,7 @@
 					<input type="text" class="form-control"
 						id="movil2<s:property value='codigoContacto' />"
 						name="contacto.movil1" placeholder="Ingrese su móvil"
-						value='<s:property value="movil2"/>'>
+						value='<s:property value="movil1"/>'>
 				</div>
 				<%-- <label class="control-label col-md-2 col-xs-2"
 					for="telefono2<s:property value='codigoContacto' />"> <s:text name="common.label.telefono.fijo" /> 2:

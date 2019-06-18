@@ -1,7 +1,6 @@
 package com.auctionnow.controller.usuario;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.auctionnow.common.Ciudad;
@@ -57,7 +56,7 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 		getRequest().put("regiones", new ArrayList<Region>());
 		getRequest().put("paises", paises);
 
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public String addEmpresa() {

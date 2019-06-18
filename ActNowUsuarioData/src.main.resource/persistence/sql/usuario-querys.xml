@@ -87,15 +87,17 @@
 	</resultMap>
 	
 	<resultMap id="contacto-mapping" type="com.auctionnow.model.Contacto" >
-		<result property="codigoContacto"           column="C_CODCONTACTO" />
-		<result property="email"                    column="C_EMAIL" />
-		<result property="prioridad"                column="C_PRIORIDAD" />
-		<result property="telefono1"                column="C_TELFIJ1" />
-		<result property="telefono2"                column="C_TELFIJ2" />
-		<result property="movil1"                   column="C_TELMOV1" />
-		<result property="movil2"                   column="C_TELMOV2" />
-		<result property="tipoContacto.id"          column="C_TIPOCONTACTOID" />
-		<result property="tipoContacto.descripcion" column="C_TIPOCONTACTODESC" />
+		<result property="codigoContacto"            column="C_CODCONTACTO" />
+		<result property="email"                     column="C_EMAIL" />
+		<result property="prioridad"                 column="C_PRIORIDAD" />
+		<result property="telefono1"                 column="C_TELFIJ1" />
+		<result property="telefono2"                 column="C_TELFIJ2" />
+		<result property="movil1"                    column="C_TELMOV1" />
+		<result property="movil2"                    column="C_TELMOV2" />
+		<result property="tipoContacto.id"           column="C_TIPOCONTACTOID" />
+		<result property="tipoContacto.descripcion"  column="C_TIPOCONTACTODESC" />
+		<result property="codigoTitular" 			 column="C_CODTITULAR" />
+		<result property="direccion.codigoDireccion" column="C_CODDIRECCION" />
 	</resultMap>
 	
 	<resultMap id="direccion-mapping" type="com.auctionnow.model.Direccion" >
@@ -504,7 +506,9 @@
 			CON.N_TELMOV1        AS C_TELMOV1,
 			CON.N_TELMOV2        AS C_TELMOV2,
 			TIPCON.C_TIPCATAL    AS C_TIPOCONTACTOID,
-			TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC
+			TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC,
+			CON.C_TITULAR        AS C_CODTITULAR,
+			CON.C_CODDIR         AS C_CODDIRECCION
 			
 		FROM AN_CONTACTO CON
 		INNER JOIN AN_CATALOGO TIPCON ON CON.C_TIPCON = TIPCON.C_TIPCATAL
@@ -873,7 +877,8 @@
 			N_TELMOV1,
 			N_TELMOV2,
 			C_TIPCON,
-			C_TITULAR
+			C_TITULAR,
+			C_CODDIR
 		) VALUES (
 			#{codigoContacto},
 			#{email},
@@ -883,7 +888,8 @@
 			#{telefonoMovil1},
 			#{telefonoMovil2},
 			#{tipoContacto},
-			#{codigoUsuario}
+			#{codigoUsuario},
+			#{codigoDireccion}
 		)
 	</insert>
 	

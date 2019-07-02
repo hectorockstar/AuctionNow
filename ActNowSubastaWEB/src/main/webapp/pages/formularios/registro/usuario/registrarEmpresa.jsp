@@ -10,10 +10,10 @@
 					<br>
 					<div id="formulario_servicio">
 
-						<form action="addEmpresa" class="form-horizontal" id="formulario_registro_empresa" method="POST">
+						<form action="addUsuarioWebEmpresa" class="form-horizontal" id="formulario_registro_empresa" method="POST">
 
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroEmpresa.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroServicioPorCategoria1.jsp" />
+							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />
 							
 							<div class="clearfix "></div>
 							<div class="form-group">

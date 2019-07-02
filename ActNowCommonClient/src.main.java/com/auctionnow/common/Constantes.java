@@ -15,6 +15,7 @@ public class Constantes {
 	public static final String CATALOGO_TARJETA_TIPO = "C_TIPTAR";
 	public static final String CATALOGO_GENERO = "C_GENERO";
 	public static final String CATALOGO_NIVEL_PRIORIDAD = "C_PRIORIDAD";
+	public static final String CATALOGO_VIGENTE = "T_VIGENTE";
 	
 	public static final String CATALOGO_ENTIDAD_COMERCIAL = "ENTIDAD_COMERCIAL";
 	public static final String CATALOGO_VALOR_LOGICO = "VALOR_LOGICO";
@@ -47,10 +48,12 @@ public class Constantes {
 	public static final String TIPOUSUARIO_SIGLA_ADMINISTRADOR = "A";
 	public static final String TIPOUSUARIO_SIGLA_CLIENTE = "C";
 	public static final String TIPOUSUARIO_SIGLA_PROVEEDOR = "P";
+	public static final String TIPOUSUARIO_SIGLA_EMPRESA = "E";
 
 	public static final String TIPOUSUARIO_ADMINISTRADOR = "ADMINISTRADOR";
 	public static final String TIPOUSUARIO_CLIENTE = "CLIENTE";
 	public static final String TIPOUSUARIO_PROVEEDOR = "PROVEEDOR";
+	public static final String TIPOUSUARIO_EMPRESA = "EMPRESA";
 
 	// TIPOS DE CLIENTE
 	public static final String TIPOCLIENTE_SIGLA_PERSONA = "P";
@@ -67,6 +70,7 @@ public class Constantes {
 
 	// ESTADO CUENTA
 	public static final String ACTIVA = "A";
+	public static final String NO_ACTIVA = "NA";
 	
 	// SERVICE RESPONCES
 	public static final Integer UPDATE_DONE = 1;

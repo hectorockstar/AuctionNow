@@ -29,106 +29,61 @@ public class UsuarioProveedorActualizarAction extends AbstractControllerConfig {
 
 	protected UsuarioWeb usuarioWeb;
 	protected Proveedor proveedor;
-	protected Direccion direccion;
-	protected Contacto contacto;
 
 	public String showActualizaUsuarioProveedor() throws AuctionNowServiceException {
 
 		UsuarioWeb usuWeb = (UsuarioWeb) getSession().get("usuarioWeb");
 		setUsuarioWeb(usuWeb);
-
-		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(getUsuarioWeb().getUsuario().getDirecciones());
-		usuarioWeb.getUsuario().setDirecciones(direcciones);
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
 		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
 		
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
-		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
-		List<Comuna> comunas= getCommonEjbRemote().getComuna(filtroDivGeografica);
 		
 		FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
 		List<Empresa> empresas = getUsuarioEjbRemote().getEmpresas(filtroEmpresa);
 		
 		getRequest().put("codigoTitular", usuarioWeb.getUsuario().getCodigoUsuario());
-		getRequest().put("tipsDirecciones", tipsDirecciones);
-		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);
 		getRequest().put("empresas", empresas);
-		getRequest().put("comunas", comunas);
-		getRequest().put("ciudades", ciudades);
-		getRequest().put("regiones", regiones);
 		getRequest().put("paises", paises);
 		getRequest().put("usuarioWeb", usuarioWeb);
 
-		return "SUCCESS";
+		return SUCCESS;
 	}
 
 	public String actualizaUsuarioWebProveedor() throws AuctionNowServiceException {
 		// VALIDAR CAMPOS
-
-		// //////////////PRUEBA
-		usuarioWeb = new UsuarioWeb();
-		usuarioWeb.setCodigoUsuarioWeb("100");
-		usuarioWeb.setContrasena("hrs");
-		usuarioWeb.setEstadoCuenta("A");
-		usuarioWeb.setFirmaComentario("CHAUUUUU!");
-		usuarioWeb.setNombreUsuario("hector123");
-		usuarioWeb.setPregunta1("?13454");
-		usuarioWeb.setPregunta2("?23453");
-		usuarioWeb.setPregunta3("?33454");
-		usuarioWeb.setRespuesta1("R134534");
-		usuarioWeb.setRespuesta2("R2345345");
-		usuarioWeb.setRespuesta3("R3345345");
-
+		UsuarioWeb updateUsuarioWeb = (UsuarioWeb) getSession().get("usuarioWeb");
+		
+		updateUsuarioWeb.getUsuario().setNombre(proveedor.getNombre().trim());
+		updateUsuarioWeb.getUsuario().setApellidoPaterno(proveedor.getApellidoPaterno().trim());
+		updateUsuarioWeb.getUsuario().setApellidoMaterno(proveedor.getApellidoMaterno().trim());
+		updateUsuarioWeb.getUsuario().setRut(proveedor.getRut().trim());
+		updateUsuarioWeb.getUsuario().setRutDV(proveedor.getRutDV().trim());
+		updateUsuarioWeb.getUsuario().setGenero(proveedor.getGenero());
+		updateUsuarioWeb.getUsuario().setFechaNacimiento(proveedor.getFechaNacimiento());
+		
+		updateUsuarioWeb.setContrasena(usuarioWeb.getContrasena().trim());
+		updateUsuarioWeb.setRespuesta1(usuarioWeb.getRespuesta1().trim());
+		updateUsuarioWeb.setRespuesta2(usuarioWeb.getRespuesta2().trim());
+		updateUsuarioWeb.setRespuesta3(usuarioWeb.getRespuesta3().trim());
+		updateUsuarioWeb.setFirmaComentario(usuarioWeb.getFirmaComentario().trim());
+		updateUsuarioWeb.setEstadoCuenta(Constantes.ACTIVA); //TODO EL ADMIN PUEDE MODIFICAR ESTE ATRIBUTO
+		
 		Tupla tipoUsuarioWeb = new Tupla();
-		tipoUsuarioWeb.setId("P");
-		tipoUsuarioWeb.setDescripcion("PROVEEDOR");
-		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR);
+		updateUsuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
-		Proveedor proveedor = new Proveedor();
-		proveedor.setApellidoMaterno("tapi");
-		proveedor.setApellidoPaterno("gon");
-		proveedor.setCodigoProveedor("3");
-		proveedor.setCodigoUsuario("3");
-		proveedor.setFechaNacimiento(new Date());
-		proveedor.setFechaRegistro(new Date());
-
-		Tupla genero = new Tupla();
-		genero.setId("M");
-		proveedor.setGenero(genero);
-		
-		proveedor.setNombre("Hector ");
-		proveedor.setOcupacion("Est");
-		proveedor.setRut("18092256");
-		proveedor.setRutDV("7");
-		
-		Tupla tipoUsuario = new Tupla();
-		tipoUsuario.setId("P");
-		tipoUsuario.setDescripcion("PROVEEDOR");
-		proveedor.setTipoUsuario(tipoUsuario);
-
-		usuarioWeb.setUsuario(proveedor);
-		// //////////////PRUEBA
-
-		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioProveedor(usuarioWeb);
+		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioCliente(updateUsuarioWeb);
 		if (resultado != null && resultado != 0) {
 			getSession().remove("usuarioWeb");
-			getSession().put("usuarioWeb", getUsuarioWeb());
+			getSession().put("usuarioWeb", updateUsuarioWeb);
 		}
 
-		return "SUCCESS";
+		return SUCCESS;
 	}
 
 	public UsuarioWeb getUsuarioWeb() {
@@ -137,5 +92,13 @@ public class UsuarioProveedorActualizarAction extends AbstractControllerConfig {
 
 	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
 		this.usuarioWeb = usuarioWeb;
+	}
+
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 }

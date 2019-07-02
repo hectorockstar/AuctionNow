@@ -26,6 +26,7 @@ import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.TipoUsuarioWeb;
 import com.auctionnow.model.Usuario;
@@ -63,8 +64,8 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("telefonoMovil1", contacto.getMovil1());
 		parameters.put("telefonoMovil2", contacto.getMovil2());
 		parameters.put("tipoContacto", contacto.getTipoContacto().getId());
-		parameters.put("codigoTitular", codigoTitular); // codigoUsuario,
-														// codigoEmpresa
+		parameters.put("codigoDireccion", contacto.getDireccion().getCodigoDireccion()); // codigoDireccion
+		parameters.put("codigoTitular", codigoTitular); // codigoUsuario, codigoEmpresa
 
 		return (Integer) getSqlSession().update("updateContacto", parameters);
 	}
@@ -97,6 +98,8 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("fecRegistro", empresa.getFechaRegistro());
 		parameters.put("nombre", empresa.getNombreEmpresa());
 		parameters.put("vigente", empresa.getVigente());
+		parameters.put("rut", empresa.getRut());
+		parameters.put("rutDV", empresa.getRutDV());
 
 		return (Integer) getSqlSession().update("updateEmpresa", parameters);
 	}
@@ -205,16 +208,14 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer actualizaOperacionEmpresa(Empresa empresa) {
+	public Integer actualizaRubro(Rubro rubro) {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", empresa.getCodigoEmpresa());
-		parameters.put("codigoServicio", empresa.getServicio().getCodigoServicio());
-		parameters.put("prioridad", empresa.getServicio().getPrioridad());
-		parameters.put("fecDesdeOpera", empresa.getServicio().getOperaServicioDesde());
-		parameters.put("activo", empresa.getServicio().getActivo());
+		parameters.put("codigoEmpresa", rubro.getEmpresa().getCodigoEmpresa());
+		parameters.put("codigoServicio", rubro.getServicio().getCodigoServicio());
+		parameters.put("activo", rubro.getActivo());
 
-		return (Integer) getSqlSession().update("updateEmpresaOpera", parameters);
+		return (Integer) getSqlSession().update("updateRubro", parameters);
 	}
 
 	@Override
@@ -349,6 +350,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("fecRegistro", empresa.getFechaRegistro());
 		parameters.put("nombre", empresa.getNombreEmpresa());
 		parameters.put("vigente", empresa.getVigente());
+		parameters.put("codigoPais", empresa.getPais().getCodigoPais());
 		parameters.put("rut", empresa.getRut());
 		parameters.put("rutDV", empresa.getRutDV());
 
@@ -356,17 +358,14 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer addOperacionEmpresa(Empresa empresa) {
+	public Integer addRubro(Rubro rubro) {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", empresa.getCodigoEmpresa());
-		parameters.put("codigoServicio", empresa.getServicio().getCodigoServicio());
-		parameters.put("prioridad", empresa.getServicio().getPrioridad());
-		parameters.put("fecDesdeOpera", empresa.getServicio().getOperaServicioDesde());
-		parameters.put("fecRegistro", empresa.getServicio().getFechaRegistroWeb());
-		parameters.put("activo", empresa.getServicio().getActivo());
+		parameters.put("codigoEmpresa", rubro.getEmpresa().getCodigoEmpresa());
+		parameters.put("codigoServicio", rubro.getServicio().getCodigoServicio());
+		parameters.put("activo", rubro.getActivo());
 
-		return (Integer) getSqlSession().insert("addEmpresaOpera", parameters);
+		return (Integer) getSqlSession().insert("addRubro", parameters);
 	}
 
 	@Override
@@ -426,7 +425,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("respuesta3", usuarioWeb.getRespuesta3());
 		parameters.put("estadoCuenta", usuarioWeb.getEstadoCuenta());
 		parameters.put("tipoUsuWeb", usuarioWeb.getTipoUsuarioWeb().getId());
-		parameters.put("codigoUsuario", usuarioWeb.getUsuario().getCodigoUsuario());
+		parameters.put("codigoUsuario", usuarioWeb.getUsuario() == null ? usuarioWeb.getEmpresa().getCodigoEmpresa() : usuarioWeb.getUsuario().getCodigoUsuario());
 
 		return (Integer) getSqlSession().insert("addUsuarioWeb", parameters);
 	}

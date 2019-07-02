@@ -21,6 +21,7 @@ import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Usuario;
 import com.auctionnow.model.UsuarioWeb;
 import com.auctionnow.model.UsuarioWebTienePrivilegio;
@@ -42,7 +43,7 @@ public interface IUsuarioDAO {
 
 	Integer addEmpresa(Empresa empresa);
 
-	Integer addOperacionEmpresa(Empresa empresa);
+	Integer addRubro(Rubro rubro);
 
 	Integer addGeoLocalizacion(GeoLocalizacion geoLocalizacion);
 
@@ -79,7 +80,7 @@ public interface IUsuarioDAO {
 
 	Integer actualizaUsuarioWeb(UsuarioWeb usuarioWeb);
 
-	Integer actualizaOperacionEmpresa(Empresa empresa);
+	Integer actualizaRubro(Rubro rubro);
 
 	Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion, String activo);
 	

@@ -18,8 +18,6 @@
 
 							<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa1.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalProveedor.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroContacto.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroDireccion.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />
 
 							<div class="form-group">

@@ -3,6 +3,8 @@ package com.auctionnow.controller.usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
 import com.auctionnow.common.Constantes;
@@ -10,13 +12,13 @@ import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
 import com.auctionnow.common.Tupla;
 import com.auctionnow.controller.AbstractControllerConfig;
+import com.auctionnow.exception.AuctionNowServiceException;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroDivGeografica;
 import com.auctionnow.filters.FiltroServicio;
-import com.auctionnow.model.Contacto;
-import com.auctionnow.model.Direccion;
 import com.auctionnow.model.Empresa;
 import com.auctionnow.model.Servicio;
+import com.auctionnow.model.UsuarioWeb;
 
 public class EmpresaRegistrarAction extends AbstractControllerConfig {
 
@@ -25,14 +27,13 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Direccion direccion;
-	protected Contacto contacto;
+	private UsuarioWeb usuarioWeb;
 	protected Empresa empresa;
-	protected Servicio servicio;
+	protected Pais pais;
 	
 	protected FiltroServicio filtroServicio;
 
-	public String showAddEmpresa() {
+	public String showAddUsuarioWebEmpresa() {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
@@ -62,22 +63,24 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 	public String addEmpresa() {
 		// TODO
 		// VALIDAR CAMPOS
-		
-		List<Contacto> contactos = new ArrayList<Contacto>();
-		contactos.add(contacto);
-		empresa.setContactos(contactos);
-
-		List<Direccion> direcciones = new ArrayList<Direccion>();
-		direcciones.add(direccion);
-		empresa.setDirecciones(direcciones);
-
-		if (empresa.getServicios() != null && empresa.getServicios().size() > 0) {
-			empresa.setVigente("S");
-		}
-		
-		empresa.setServicio(servicio);
-
 		Integer resultado = getUsuarioEjbRemote().addEmpresa(empresa);
+
+		return SUCCESS;
+	}
+	
+	@Transactional(rollbackFor = AuctionNowServiceException.class)
+	public String addUsuarioWebEmpresa() throws AuctionNowServiceException {
+		//VALIDAR CAMPOS
+		empresa.setPais(pais);
+		usuarioWeb.setEmpresa(empresa);
+		usuarioWeb.setEstadoCuenta(Constantes.NO_ACTIVA);
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_EMPRESA);
+		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
+		
+		
+		Integer resultado = getUsuarioEjbRemote().addCuentaUsuarioEmpresa(usuarioWeb);
 
 		return SUCCESS;
 	}
@@ -90,22 +93,6 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
-	}
-
 	public Empresa getEmpresa() {
 		return empresa;
 	}
@@ -113,13 +100,13 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-
-	public Servicio getServicio() {
-		return servicio;
+	
+	public UsuarioWeb getUsuarioWeb() {
+		return usuarioWeb;
 	}
 
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
+	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
+		this.usuarioWeb = usuarioWeb;
 	}
 
 	public FiltroServicio getFiltroServicio() {
@@ -128,6 +115,14 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 
 	public void setFiltroServicio(FiltroServicio filtroServicio) {
 		this.filtroServicio = filtroServicio;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 	
 }

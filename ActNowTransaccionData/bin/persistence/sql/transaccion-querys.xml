@@ -14,20 +14,15 @@
 		<result property="tipoServicio.descripcion" column="S_TIPOSERVICIODESC" />
 	</resultMap>
 	
-	<resultMap type="com.auctionnow.model.Servicio" id="servicio-by-empresa-mapping" extends="servicio-mapping" >
-		<result property="prioridad"           	   column="ES_PRIORIDAD" />
-		<result property="activo"                  column="ES_ACTIVO" />
-		<result property="operaServicioDesde"      column="ES_FECHAEMPOPERA" />
-		<result property="fechaRegistroWeb"        column="ES_FECHAREGISTRO" />
-		
-		<result property="empresa.codigoEmpresa"   column="E_CODEMPRESA" />
-		<result property="empresa.descripcion"     column="E_DESCRIPCION" />
-		<result property="empresa.fechaOperaDesde" column="E_FECHAFUNDACION" />
-		<result property="empresa.fechaRegistro"   column="E_FECHAREGISTRO" />
-		<result property="empresa.nombreEmpresa"   column="E_NOMBRE" />
-		<result property="empresa.vigente"         column="E_VIGENTE" />
-		<result property="empresa.rut"             column="E_RUT" />
-		<result property="empresa.rutDV"           column="E_RUTDV" />
+	<resultMap type="com.auctionnow.model.Rubro" id="rubro-mapping" >
+		<result property="tipoRubro.id"            column="R_CODIGORUBRO" />
+		<result property="tipoRubro.descripcion"   column="R_DESCRIPCIONRUBRO" />
+		<result property="empresa.codigoEmpresa"   column="R_CODIGOEMPRESA" />
+		<result property="servicio.codigoServicio" column="R_CODIGOSERVICIO" />
+		<result property="prioridad"               column="R_PRIORIDAD" />
+		<result property="operaServicioDesde"      column="R_FECHAEMPOPERA" />
+		<result property="fechaRegistroWeb"        column="R_FECHAREGISTRO" />
+		<result property="activo"           	   column="R_ACTIVO" />
 	</resultMap>
 	
 	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
@@ -163,39 +158,19 @@
 		AND TIPSER.C_CATALOGO = 'C_TIPSER'
 	</select>
 	
-	<select id="getServiciosByEmpresa" resultMap="servicio-by-empresa-mapping" parameterType="com.auctionnow.filters.FiltroServicio">
+	<select id="getRubrosByEmpresa" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro">
 		SELECT 
-			EMPSER.C_CODEMP      AS ES_CODIGOEMPRESA,
-		    EMPSER.C_CODSER      AS ES_CODIGOSERVICIO,
-		    EMPSER.N_PRIORIDAD   AS ES_PRIORIDAD,
-		    EMPSER.D_FECOPE      AS ES_FECHAEMPOPERA,
-		    EMPSER.D_FECREG      AS ES_FECHAREGISTRO,
-	    	EMPSER.T_ACTIVO      AS ES_ACTIVO,
-	    	
-			EMP.C_CODEMP         AS E_CODEMPRESA,
-			EMP.T_DESCRIPCION    AS E_DESCRIPCION,
-			EMP.D_FECFUN         AS E_FECHAFUNDACION,
-			EMP.D_FECREG         AS E_FECHAREGISTRO,
-			EMP.T_NOMBRE         AS E_NOMBRE,
-			EMP.T_VIGENTE        AS E_VIGENTE,
-			EMP.T_RUT            AS E_RUT,
-			EMP.T_RUTDV          AS E_RUTDV,
-			
-			SER.C_CODSER         AS S_CODSERVICIO,
-			SER.T_NOMBRE         AS S_NOMBRE,
-			SER.T_SIGLA          AS S_SIGLA,
-			SER.D_FECREG         AS S_FECHAREGISTRO,
-			SER.T_DESCRIPCION    AS S_DESCRIPCION,
-			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
-			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
+			RUB.C_RUBRO			 AS R_CODIGORUBRO,
+			RUB.T_RUBDESC		 AS R_DESCRIPCIONRUBRO,
+			RUB.C_CODEMP         AS R_CODIGOEMPRESA,
+		    RUB.C_CODSER         AS R_CODIGOSERVICIO,
+		    RUB.N_PRIORIDAD      AS R_PRIORIDAD,
+		    RUB.D_FECOPE         AS R_FECHAEMPOPERA,
+		    RUB.D_FECREG         AS R_FECHAREGISTRO,
+	    	RUB.T_ACTIVO         AS R_ACTIVO
+		FROM AN_RUBRO RUB
 		
-		FROM AN_EMPRESA_OP_SERVICIO EMPSER
-		INNER JOIN AN_EMPRESA EMP     ON EMPSER.C_CODEMP = EMP.C_CODEMP
-		INNER JOIN AN_SERVICIO SER    ON EMPSER.C_CODSER = SER.C_CODSER
-		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
-		
-		WHERE TIPSER.C_CATALOGO = 'C_TIPSER'
-		AND EMPSER.C_CODEMP = #{codigoEmpresa}
+		WHERE RUB.C_CODEMP = #{codigoEmpresa}
 	</select>
 	
 	<select id="getCargos" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >

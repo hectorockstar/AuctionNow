@@ -26,8 +26,6 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 
 	protected UsuarioWeb usuarioWeb;
 	protected Cliente cliente;
-	protected Direccion direccion;
-	protected Contacto contacto;
 
 	public String showActualizaUsuarioCliente() throws AuctionNowServiceException {
 
@@ -37,32 +35,16 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 		usuarioWebSession.getUsuario().setDirecciones(direcciones);
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
 		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
-		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
-		List<Comuna> comunas= getCommonEjbRemote().getComuna(filtroDivGeografica);
 		
 		//SE SETEA USUARIO WEB PARA DESPLEGAR INFO EN LA PAGINA JSP
 		setUsuarioWeb(usuarioWebSession);
 		
-		getRequest().put("tipsDirecciones", tipsDirecciones);
-		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);
-		getRequest().put("comunas", comunas);
-		getRequest().put("ciudades", ciudades);
-		getRequest().put("regiones", regiones);
 		getRequest().put("paises", paises);
 		getRequest().put("fechaNacimientoFormat", this.getFechaFormat(usuarioWebSession.getUsuario().getFechaNacimiento()));
 
@@ -86,6 +68,11 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 		updateUsuarioWeb.setRespuesta2(usuarioWeb.getRespuesta2().trim());
 		updateUsuarioWeb.setRespuesta3(usuarioWeb.getRespuesta3().trim());
 		updateUsuarioWeb.setFirmaComentario(usuarioWeb.getFirmaComentario().trim());
+		updateUsuarioWeb.setEstadoCuenta(Constantes.ACTIVA); //TODO EL ADMIN PUEDE MODIFICAR ESTE ATRIBUTO
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
+		updateUsuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
 		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioCliente(updateUsuarioWeb);
 		if (resultado != null && resultado != 0) {
@@ -112,20 +99,4 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 		this.cliente = cliente;
 	}
 
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
-	}
-	
 }

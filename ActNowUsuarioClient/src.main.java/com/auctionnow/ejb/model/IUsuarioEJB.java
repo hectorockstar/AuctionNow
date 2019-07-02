@@ -30,9 +30,13 @@ import com.auctionnow.model.UsuarioWebTienePrivilegio;
 public interface IUsuarioEJB {
 
 	// INSERTS
+	Integer addCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb);
+	
 	Integer addCuentaUsuarioCliente(UsuarioWeb usuarioWeb);
 
 	Integer addCuentaUsuarioProveedor(UsuarioWeb usuarioWeb);
+	
+	Integer addCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb);
 
 	Integer addEmpresa(Empresa empresa);
 
@@ -43,9 +47,13 @@ public interface IUsuarioEJB {
 	Integer addOperacionEmpresa(Empresa empresa);
 
 	// UPDATES
+	Integer actualizaCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb);
+	
 	Integer actualizaCuentaUsuarioCliente(UsuarioWeb usuarioWeb);
 
 	Integer actualizaCuentaUsuarioProveedor(UsuarioWeb usuarioWeb);
+	
+	Integer actualizaCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb);
 
 	Integer actualizaEmpresa(Empresa empresa);
 
@@ -59,6 +67,8 @@ public interface IUsuarioEJB {
 	UsuarioWeb getUsuarioWebClienteData(FiltroUsuarioWeb filtroUsuarioWeb);
 
 	UsuarioWeb getUsuarioWebProveedorData(FiltroUsuarioWeb filtroUsuarioWeb);
+	
+	UsuarioWeb getUsuarioWebEmpresaData(FiltroUsuarioWeb filtroUsuarioWeb);
 
 	Empresa getEmpresa(FiltroEmpresa filtroEmpresa);
 

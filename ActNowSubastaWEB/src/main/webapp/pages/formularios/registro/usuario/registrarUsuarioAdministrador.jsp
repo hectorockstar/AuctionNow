@@ -8,9 +8,8 @@
 				<div class="col-xs-8">
 					<h2><s:text name="title.label.formulario.registro.administrador" /></h2>
 					<br>
-					<div id="formulario_usuario">
-
-						<form action="addUsuarioWebAdministrador" class="form-horizontal" id="formulario_registro_Administrador" method="POST">
+					<div id="formulario_administrador">
+						<form action="addUsuarioWebAdministrador" class="form-horizontal" id="formulario_registro_administrador" method="POST">
 							
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalCliente.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />

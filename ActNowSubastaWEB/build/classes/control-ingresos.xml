@@ -151,14 +151,14 @@
 		
 		
 		<!-- Empresa -->
-		<action name="showAddEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="showAddEmpresa">
+		<action name="showAddUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
+			method="showAddUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularios/registro/usuario/registrarEmpresa.jsp</result>
 		</action>
 		
-		<action name="addEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="addEmpresa">
+		<action name="addUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
+			method="addUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/WEB-INF/views/usuario/addEmpresaExito.jsp</result>
 		</action>
@@ -168,14 +168,14 @@
 			<result name="SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroServicioPorCategoria2.jsp</result>
 		</action>
 		
-		<action name="showActualizaEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
-			method="showActualizaEmpresa">
+		<action name="showActualizaUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
+			method="showActualizaUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaEmpresa.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaUsuarioEmpresa.jsp</result>
 		</action>
 		
-		<action name="actualizaEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
-			method="actualizaEmpresa">
+		<action name="actualizaUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
+			method="actualizaUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
@@ -188,7 +188,7 @@
 		
 		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
 			method="getServiciosEmpresa">
-			<result name= "SUCCESS">/pages/formularioPlantilla/servicio/resultadoServiciosEmpresa.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
 		</action>
 		
 		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
@@ -203,7 +203,7 @@
 		
 		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
 			method="getServicios">
-			<result name= "SUCCESS">/pages/formularioPlantilla/servicio/resultadoServicios.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServicios.jsp</result>
 		</action>
 		
 		<action name="addServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"

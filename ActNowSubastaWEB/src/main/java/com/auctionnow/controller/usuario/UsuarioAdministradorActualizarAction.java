@@ -2,18 +2,14 @@ package com.auctionnow.controller.usuario;
 
  import java.util.List;
 
-import com.auctionnow.common.Ciudad;
-import com.auctionnow.common.Comuna;
 import com.auctionnow.common.Constantes;
 import com.auctionnow.common.Pais;
-import com.auctionnow.common.Region;
 import com.auctionnow.common.Tupla;
 import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.exception.AuctionNowServiceException;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroDivGeografica;
 import com.auctionnow.model.Cliente;
-import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
 import com.auctionnow.model.UsuarioWeb;
 
@@ -73,8 +69,13 @@ public class UsuarioAdministradorActualizarAction extends AbstractControllerConf
 		updateUsuarioWeb.setRespuesta2(usuarioWeb.getRespuesta2().trim());
 		updateUsuarioWeb.setRespuesta3(usuarioWeb.getRespuesta3().trim());
 		updateUsuarioWeb.setFirmaComentario(usuarioWeb.getFirmaComentario().trim());
+		updateUsuarioWeb.setEstadoCuenta(Constantes.ACTIVA); //TODO EL ADMIN PUEDE MODIFICAR ESTE ATRIBUTO
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_ADMINISTRADOR);
+		updateUsuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
-		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioCliente(updateUsuarioWeb);
+		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioAdministrador(updateUsuarioWeb);
 		if (resultado != null && resultado != 0) {
 			getSession().remove("usuarioWeb");
 			getSession().put("usuarioWeb", updateUsuarioWeb);

@@ -21,7 +21,7 @@
 								<div class="col-sm-4 campoValidado">
 									<s:select class="form-control" id="empresas"
 										name="filtroServicio.codigoEmpresa" list="#request.empresas"
-										headerKey="" headerValue='' listKey="codigoEmpresa"
+										headerKey="" headerValue='Seleccione...' listKey="codigoEmpresa"
 										listValue="nombreEmpresa" />
 								</div>
 							</div>

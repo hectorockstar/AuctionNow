@@ -21,42 +21,11 @@ public class Servicio implements Serializable {
 	private String sigla;
 	private Tupla tipoServicio;
 
-	// Empresa a la que pertenece el Servicio
-	private Integer prioridad;
-	private String activo;
-	private Date operaServicioDesde;
-	private Empresa empresa;
-	private Date fechaRegistroWeb;
-
 	// Empresas que dictan el Servicio
 	private List<Empresa> lstEmpresas;
 
 	// Cantidad de cargos que ofrece el servicio
 	private List<Cargo> lstCargos;
-
-	public Date getOperaServicioDesde() {
-		return operaServicioDesde;
-	}
-
-	public void setOperaServicioDesde(Date operaServicioDesde) {
-		this.operaServicioDesde = operaServicioDesde;
-	}
-
-	public String getActivo() {
-		return activo;
-	}
-
-	public void setActivo(String activo) {
-		this.activo = activo;
-	}
-
-	public Integer getPrioridad() {
-		return prioridad;
-	}
-
-	public void setPrioridad(Integer prioridad) {
-		this.prioridad = prioridad;
-	}
 
 	public List<Empresa> getLstEmpresas() {
 		return lstEmpresas;
@@ -114,32 +83,16 @@ public class Servicio implements Serializable {
 		this.tipoServicio = tipoServicio;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
-
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}
-
-	public Date getFechaRegistroWeb() {
-		return fechaRegistroWeb;
-	}
-
-	public void setFechaRegistroWeb(Date fechaRegistroWeb) {
-		this.fechaRegistroWeb = fechaRegistroWeb;
-	}
-
 	public List<Cargo> getLstCargos() {
 		return lstCargos;
 	}
 
 	public void setLstCargos(List<Cargo> lstCargos) {
 		this.lstCargos = lstCargos;
+	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
 }

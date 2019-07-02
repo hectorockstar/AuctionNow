@@ -76,3 +76,18 @@
 			name="proveedor.fechaNacimiento" placeholder="Fecha nacimiento">
 	</div>
 </div>
+
+<div class="form-group">
+	<label class="control-label col-sm-3" for="pais">
+		<s:text name="common.label.pais" />: 
+	</label>
+	<div class="col-sm-4 campoValidado">
+		<s:select class="form-control" id="pais" 
+			name="pais.codigoPais"
+			list="#request.paises" 
+			headerKey="" 
+			headerValue="Selecccione..."
+			listKey="codigoPais" 
+			listValue="nombre" />
+	</div>
+</div>

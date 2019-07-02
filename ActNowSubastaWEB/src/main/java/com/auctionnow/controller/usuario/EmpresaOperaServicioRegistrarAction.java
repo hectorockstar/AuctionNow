@@ -32,9 +32,7 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 	}
 
 	public String getServiciosEmpresa() {
-
 		List<Servicio> serviciosEmpresa = getTransaccionEjbRemote().getServiciosByEmpresa(filtroServicio);
-
 		if (serviciosEmpresa != null && serviciosEmpresa.size() > 0) {
 
 			this.getRequest().put("countServicios", serviciosEmpresa.size());
@@ -44,7 +42,6 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 			// TODO
 			/// Arrojar mensaje que no hay resultados!!
 		}
-
 		return SUCCESS;
 	}
 	

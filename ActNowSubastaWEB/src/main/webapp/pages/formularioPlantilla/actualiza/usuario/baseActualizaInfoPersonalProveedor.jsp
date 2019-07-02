@@ -69,8 +69,7 @@
 			headerValue="Selecccione..."
 			listKey="id" 
 			listValue="descripcion"
-			value="usuarioWeb.usuario.genero.id"
-			/>
+			value="usuarioWeb.usuario.genero.id" />
 	</div>
 </div>
 

@@ -47,11 +47,16 @@ public class UsuarioAdministradorRegistrarAction extends AbstractControllerConfi
 
 		cliente.setPais(pais);
 		usuarioWeb.setUsuario(cliente);
+		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_ADMINISTRADOR);
+		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
 		// VALIDAR CAMPOS
 		boolean validador = validateFields(usuarioWeb);
 
-		Integer resultado = getUsuarioEjbRemote().addCuentaUsuarioCliente(usuarioWeb);
+		Integer resultado = getUsuarioEjbRemote().addCuentaUsuarioAdministrador(usuarioWeb);
 
 		return "SUCCESS";
 	}

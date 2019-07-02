@@ -36,11 +36,10 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	protected UsuarioWeb usuarioWeb;
 	protected Proveedor proveedor;
-	protected Direccion direccion;
-	protected Contacto contacto;
 	protected Empresa empresa;
 	protected Servicio servicio;
 	protected Cargo cargo;
+	protected Pais pais;
 
 	public String showRegistrarUsuarioProveedor() throws AuctionNowServiceException {
 		
@@ -83,20 +82,17 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public String addUsuarioWebProveedor() throws AuctionNowServiceException {
 		// VALIDAR CAMPOS
-
-		List<Contacto> contactos = new ArrayList<Contacto>();
-		contactos.add(contacto);
-		proveedor.setContactos(contactos);
-
-		List<Direccion> direcciones = new ArrayList<Direccion>();
-		direcciones.add(direccion);
-		proveedor.setDirecciones(direcciones);
-		
+		proveedor.setPais(pais);
 		proveedor.setEmpresa(empresa);
 		proveedor.setServicio(servicio);
 		proveedor.setCargo(cargo);
 		
 		usuarioWeb.setUsuario(proveedor);
+		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR);
+		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 		
 		Integer resultado = getUsuarioEjbRemote().addCuentaUsuarioProveedor(usuarioWeb);
 
@@ -117,22 +113,6 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
-	}
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
 	}
 
 	public Cargo getCargo() {
@@ -157,6 +137,14 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public void setServicio(Servicio servicio) {
 		this.servicio = servicio;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 	
 }

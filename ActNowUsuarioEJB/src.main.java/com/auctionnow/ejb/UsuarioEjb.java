@@ -46,11 +46,17 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public UsuarioEjb() {
 
 	}
-
+	
+	public Integer addCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb) {
+		return usuarioBusiness.addCuentaUsuarioAdministrador(usuarioWeb);
+	}
+	
 	public Integer addCuentaUsuarioCliente(UsuarioWeb usuarioWeb) {
-		System.out.println("EJB CUENTA USUARIO");
-
 		return usuarioBusiness.addCuentaUsuarioCliente(usuarioWeb);
+	}
+	
+	public Integer addCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb) {
+		return usuarioBusiness.addCuentaUsuarioEmpresa(usuarioWeb);
 	}
 
 	public Integer addCuentaUsuarioProveedor(UsuarioWeb usuarioWeb) {
@@ -76,6 +82,14 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public Integer actualizaCuentaUsuarioProveedor(UsuarioWeb usuarioWeb) {
 		return usuarioBusiness.actualizaCuentaUsuarioProveedor(usuarioWeb);
 	}
+	
+	public Integer actualizaCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb) {
+		return usuarioBusiness.actualizaCuentaUsuarioAdministrador(usuarioWeb);
+	}
+	
+	public Integer actualizaCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb) {
+		return usuarioBusiness.actualizaCuentaUsuarioEmpresa(usuarioWeb);
+	}
 
 	public Integer actualizaEmpresa(Empresa empresa) {
 		return usuarioBusiness.actualizaEmpresa(empresa);
@@ -95,6 +109,10 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 
 	public UsuarioWeb getUsuarioWebProveedorData(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return usuarioBusiness.getUsuarioWebProveedorData(filtroUsuarioWeb);
+	}
+	
+	public UsuarioWeb getUsuarioWebEmpresaData(FiltroUsuarioWeb filtroUsuarioWeb) {
+		return usuarioBusiness.getUsuarioWebEmpresaData(filtroUsuarioWeb);
 	}
 
 	public List<Empresa> getEmpresas(FiltroEmpresa filtroEmpresa) {
@@ -182,7 +200,6 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 		return usuarioBusiness.actualizaOperacionEmpresa(empresa);
 	}
 
-	@Override
 	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
 		return usuarioBusiness.getCargos(filtroCargo);
 	}

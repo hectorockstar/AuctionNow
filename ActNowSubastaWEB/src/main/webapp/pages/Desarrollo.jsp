@@ -37,8 +37,8 @@
 <li><a href="<s:url action="showActualizaContacto"/>">Actualiza Contacto</a> (Iniciar Sesion Antes)</li>
 
 <!-- Empresa -->
-<li><a href="<s:url action="showAddEmpresa"/>">Registra Empresa</a></li>
-<li><a href="<s:url action="showActualizaEmpresa"/>">Actualiza Empresa</a></li>
+<li><a href="<s:url action="showAddUsuarioWebEmpresa"/>">Registra Empresa</a></li>
+<li><a href="<s:url action="showActualizaUsuarioWebEmpresa"/>">Actualiza Empresa</a></li>
 
 <!-- Servicio Empresa -->
 <li><a href="<s:url action="showAddServicioEmpresa"/>">Registra Servicio a Empresa</a></li>

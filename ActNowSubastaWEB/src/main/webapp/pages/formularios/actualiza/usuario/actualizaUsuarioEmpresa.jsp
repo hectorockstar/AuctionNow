@@ -8,10 +8,10 @@
 				<div class="col-xs-8">
 					<h2><s:text name="title.label.formulario.actualiza.cliente" /></h2>
 					<br>
-					<div id="formulario_usuario">
+					<div id="formulario_usuario_empresa">
 
-						<form action="actualizaUsuarioWebCliente" class="form-horizontal" id="formulario_actualiza_datos_usuario" method="POST">
-							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoPersonalCliente.jsp" />
+						<form action="actualizaUsuarioWebEmpresa" class="form-horizontal" id="formulario_actualiza_datos_empresa" method="POST">
+							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaEmpresa.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoUsuarioWeb.jsp" />
 							
 							<br>

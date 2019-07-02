@@ -17,9 +17,10 @@
 		<result property="respuesta2"                       column="UW_RES2" />
 		<result property="respuesta3"                       column="UW_RES3" />
 		<result property="estadoCuenta"                     column="UW_ESTADOCTA" />
-		<result property="tipoUsuarioWeb.id"                column="UW_USUWEBID" />
-		<result property="tipoUsuarioWeb.descripcion"       column="UW_USUWEBDESC" />
+		<result property="tipoUsuarioWeb.id"                column="UW_TIPOUSUWEBID" />
+		<result property="tipoUsuarioWeb.descripcion"       column="UW_TIPOUSUWEBDESC" />
 		<result property="usuario.codigoUsuario"            column="UW_CODUSUARIO" />
+		<result property="empresa.codigoEmpresa"            column="UW_CODEMPRESA" />
 	</resultMap>
 	
 	<resultMap id="cliente-mapping" type="com.auctionnow.model.Cliente">
@@ -54,6 +55,7 @@
 		<result property="rut"                        column="P_RUT" />
 		<result property="rutDV"                      column="P_RUTDV" />
 		<result property="ocupacion"                  column="P_OCUPACION" />
+		<result property="pais.codigoPais"            column="P_CODIGOPAIS" />
 		<result property="tipoUsuario.id"             column="P_TIPOUSUARIOID" />
 		<result property="tipoUsuario.descripcion"    column="P_TIPOUSUARIODESC" />
 		<result property="codigoProveedor"            column="P_CODPROVEEDOR" />
@@ -83,6 +85,7 @@
 		<result property="nombreEmpresa"   column="E_NOMBRE" />
 		<result property="rut"   		   column="E_RUT" />
 		<result property="rutDV"           column="E_RUTDV" />
+		<result property="pais.codigoPais"      column="E_CODIGOPAIS" />
 		<result property="vigente"         column="E_VIGENTE" />
 	</resultMap>
 	
@@ -236,11 +239,13 @@
 			USUWEB.C_CODUSU         AS UW_CODUSUARIO
 			
 		FROM AN_USUARIOWEB USUWEB
-		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
-		
+		INNER JOIN AN_CATALOGO TIPUSUWEB 
+			ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+			AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+			
 		WHERE T_NOMUSU = #{nombreUsuario}
 		AND T_PASSWORD = #{contrasena}
-		AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		
 	</select>
 	
 	<select id="getCliente" resultMap="cliente-mapping" parameterType="com.auctionnow.filters.FiltroCliente">
@@ -292,6 +297,7 @@
 			USU.T_GENERO         AS P_GENERO,
 			USU.T_OCUPACION      AS P_OCUPACION,
 			USU.D_FECREG         AS P_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS P_CODIGOPAIS,
 			TIPUSU.C_TIPCATAL    AS P_TIPOUSUARIOID,
 			TIPUSU.T_DESCRIPCION AS P_TIPOUSUARIODESC,
 			PROV.C_CODPROV       AS P_CODPROVEEDOR,
@@ -435,11 +441,15 @@
 			FICHPRO.N_TIMESERV      AS FP_TIEMPOSERVICIO,
 			FICHPRO.T_DESCRIPCION   AS FP_DESCRIPCION,
 			
-			EMP.C_CODEMP            AS E_CODEMPRESA,
-			EMP.T_DESCRIPCION       AS E_DESCRIPCION,
-			EMP.D_FECFUN            AS E_FECHAFUNDACION,
-			EMP.D_FECREG            AS E_FECHAREGISTRO,
-			EMP.T_NOMBRE            AS E_NOMBRE
+			EMP.C_CODEMP      		AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION 		AS E_DESCRIPCION,
+			EMP.D_FECFUN      		AS E_FECHAFUNDACION,
+			EMP.D_FECREG      		AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE      		AS E_NOMBRE,
+			EMP.T_RUT		  		AS E_RUT,
+			EMP.T_RUTDV		  		AS E_RUTDV,
+			EMP.C_CODPAIS     		AS E_CODIGOPAIS,
+			EMP.T_VIGENTE     		AS E_VIGENTE
 		
 		FROM AN_USUARIO USU
 		
@@ -452,13 +462,13 @@
 		INNER JOIN AN_FICHAPROVEEDOR FICHPRO ON PROV.C_FICHPROV = FICHPRO.C_FICHPROV
 		
 		INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
-		INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+		INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		
 		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
 		AND TIPUSU.C_CATALOGO = 'C_TIPUSU'
 		
 		<if test="tipoServicio != null and tipoServicio != ''">
-			AND OPERA.C_CODSER = #{tipoServicio}
+			AND RUB.C_CODSER = #{tipoServicio}
 		</if>
 		
 	</select>
@@ -472,6 +482,7 @@
 			EMP.T_NOMBRE      AS E_NOMBRE,
 			EMP.T_RUT		  AS E_RUT,
 			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.C_CODPAIS     AS E_CODIGOPAIS,
 			EMP.T_VIGENTE     AS E_VIGENTE
 			
 		FROM AN_EMPRESA EMP
@@ -488,6 +499,7 @@
 			EMP.T_NOMBRE      AS E_NOMBRE,
 			EMP.T_RUT		  AS E_RUT,
 			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.C_CODPAIS     AS E_CODIGOPAIS,
 			EMP.T_VIGENTE     AS E_VIGENTE
 			
 		FROM AN_EMPRESA EMP
@@ -517,7 +529,7 @@
 			INNER JOIN AN_USUARIO USU ON CON.C_TITULAR = USU.C_CODUSU
 			INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
 			INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
-			INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+			INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		</if>
 		
 		WHERE TIPCON.C_CATALOGO = 'C_TIPCON'
@@ -531,8 +543,8 @@
 		</if>
 		
 		<if test="codigoServicio != null and codigoServicio != ''">
-			AND OPERA.C_CODSER = #{codigoServicio}
-			AND OPERA.T_ACTIVO = 'S'
+			AND RUB.C_CODSER = #{codigoServicio}
+			AND RUB.T_ACTIVO = 'S'
 			AND USU.C_TIPUSU = 'P'
 			AND CON.N_PRIOR IN (1, 2)
 		</if>
@@ -902,6 +914,7 @@
 			T_NOMBRE,
 			T_RUT,
 			T_RUTDV,
+			C_CODPAIS,
 			T_VIGENTE
 		) VALUES (
 			#{codigoEmpresa},
@@ -911,25 +924,29 @@
 			#{nombre},
 			#{rut},
 			#{rutDV},
+			#{codigoPais},
 			#{vigente}
 		)
 	</insert>
 	
-	<insert id="addEmpresaOpera" parameterType="map" >
-		INSERT INTO AN_EMPRESA_OP_SERVICIO (
-			C_CODEMP,
-			C_CODSER,
+	<insert id="addRubro" parameterType="map" >
+		INSERT INTO AN_RUBRO (
+			C_RUBRO,
+			T_RUBDESC,
 			N_PRIORIDAD,
 			D_FECOPE,
 			D_FECREG,
-			T_ACTIVO
+			T_ACTIVO,
+			C_CODEMP,
+			C_CODSER
 		) VALUES (
-			#{codigoEmpresa},
-			#{codigoServicio},
+			#{codigoRubro},
 			#{prioridad},
 			#{fecDesdeOpera},
 			#{fecRegistro},
-			#{activo}
+			#{activo},
+			#{codigoEmpresa},
+			#{codigoServicio}
 		)
 	</insert>
 	
@@ -1106,7 +1123,8 @@
 			N_TELFIJO2 = #{telefonoFijo2},
 			N_TELMOV1 = #{telefonoMovil1},
 			N_TELMOV2 = #{telefonoMovil2},
-			C_TIPCON = #{tipoContacto}
+			C_TIPCON = #{tipoContacto},
+			C_CODDIR = #{codigoDireccion}
 		WHERE C_CODCON = #{codigoContacto}
 		AND C_TITULAR = #{codigoTitular}
 	</update>
@@ -1133,12 +1151,14 @@
 			D_FECFUN = #{fecFundacion},
 			D_FECREG = #{fecRegistro},
 			T_NOMBRE = #{nombre},
-			T_VIGENTE = #{vigente}
+			T_VIGENTE = #{vigente},
+			T_RUT = #{rut},
+			T_RUTDV = #{rutDV}
 		WHERE C_CODEMP = #{codigoEmpresa}
 	</update>
 	
-	<update id="updateEmpresaOpera" parameterType="map" >
-		UPDATE AN_EMPRESA_OP_SERVICIO
+	<update id="updateRubro" parameterType="map" >
+		UPDATE AN_RUBRO
 		SET N_PRIORIDAD = #{prioridad},
 			D_FECOPE = #{fecDesdeOpera},
 			T_ACTIVO = #{activo}

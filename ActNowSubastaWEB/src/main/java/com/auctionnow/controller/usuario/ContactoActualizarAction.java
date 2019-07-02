@@ -24,8 +24,16 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 		
 		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
 
-		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(usuarioWebSession.getUsuario().getDirecciones());
-		List<Contacto> contactos = usuarioWebSession.getUsuario().getContactos();
+		List<Direccion> lstDireccionesUsuarioWeb = null;
+		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+			lstDireccionesUsuarioWeb = usuarioWebSession.getEmpresa().getDirecciones();
+		} else {
+			lstDireccionesUsuarioWeb = usuarioWebSession.getUsuario().getDirecciones();
+		}
+		
+		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(lstDireccionesUsuarioWeb);
+		
+		List<Contacto> contactos = (usuarioWebSession.getEmpresa() != null ? usuarioWebSession.getEmpresa().getContactos() : usuarioWebSession.getUsuario().getContactos());
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
@@ -42,7 +50,15 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 		// TODO
 		// VALIDAR CAMPOS
 
-		String codigoTitular = ((UsuarioWeb) getSession().get("usuarioWeb")).getUsuario().getCodigoUsuario();
+		String codigoTitular = "";
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
+		
+		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+			codigoTitular = usuarioWebSession.getEmpresa().getCodigoEmpresa();
+		} else {
+			codigoTitular = usuarioWebSession.getUsuario().getCodigoUsuario();
+		}
+		
 		Integer resultado = getUsuarioEjbRemote().actualizaContacto(contacto, codigoTitular);
 
 		if (resultado != null && resultado != 0) {
@@ -50,11 +66,13 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 			filtroContacto.setCodigoTitular(codigoTitular);
 			List<Contacto> contactos = getUsuarioEjbRemote().getContactos(filtroContacto);
 
-			UsuarioWeb usuarioWebSession = ((UsuarioWeb) getSession().get("usuarioWeb"));
-			usuarioWebSession.getUsuario().setContactos(contactos);
-
-			getSession().remove("usuarioWeb");
-			getSession().put("usuarioWeb", usuarioWebSession);
+			if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+				usuarioWebSession.getEmpresa().setContactos(contactos);
+			} else {
+				usuarioWebSession.getUsuario().setContactos(contactos);
+			}
+			
+			this.getSession().put("usuarioWeb", usuarioWebSession);
 		}
 
 		return SUCCESS;

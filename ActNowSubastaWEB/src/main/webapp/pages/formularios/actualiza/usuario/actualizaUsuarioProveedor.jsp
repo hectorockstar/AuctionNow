@@ -2,7 +2,6 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 <div class="panel panel-default">
 	<div class="panel-body">
-
 		<!--Inicio contenido dinámico-->
 		<div class="container"> 
 			<div class="row well">
@@ -11,8 +10,7 @@
 					<br>
 					<div id="formulario_usuario">
 
-						<form action="actualizaUsuarioWebCliente" class="form-horizontal" id="formulario_actualiza_datos_usuario" method="POST">
-							
+						<form action="actualizaUsuarioWebProveedor" class="form-horizontal" id="formulario_actualiza_datos_usuario" method="POST">
 							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoPersonalProveedor.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/actualiza/usuario/baseActualizaInfoUsuarioWeb.jsp" />
 							

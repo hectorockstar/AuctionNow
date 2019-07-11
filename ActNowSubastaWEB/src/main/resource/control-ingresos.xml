@@ -163,11 +163,6 @@
 			<result name="SUCCESS">/WEB-INF/views/usuario/addEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="getServiciosByCategoria" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="getServiciosByCategoria">
-			<result name="SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroServicioPorCategoria2.jsp</result>
-		</action>
-		
 		<action name="showActualizaUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
 			method="showActualizaUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
@@ -180,34 +175,40 @@
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="showAddServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
-			method="showAddServicioEmpresa">
+		<action name="getServiciosByRubro" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="getServiciosByRubro">
+			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
+		</action>
+		
+		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="showAddRubroEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularios/registro/servicio/asignarServicioEmpresa.jsp</result>
 		</action>
 		
-		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServiciosEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
 		</action>
 		
-		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServiciosByEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa2.jsp</result>
 		</action>
 		
-		<action name="getCargosByServicio" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="getCargosByServicio" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getCargosByServicio">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa3.jsp</result>
 		</action>
 		
-		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServicios">
 			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServicios.jsp</result>
 		</action>
 		
-		<action name="addServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
-			method="addServicioEmpresa">
+		<action name="asignaRubroServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="asignaRubroServiciosEmpresa">
+			<result name= "SUCCESS"></result>
 		</action>
 		
 		<action name="showActualizaServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioActualizarAction"

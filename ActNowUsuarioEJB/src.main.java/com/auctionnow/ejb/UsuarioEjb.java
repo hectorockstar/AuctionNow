@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import com.auctionnow.business.usuario.IUsuarioBusiness;
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
@@ -22,7 +21,6 @@ import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -114,6 +112,10 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public UsuarioWeb getUsuarioWebEmpresaData(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return usuarioBusiness.getUsuarioWebEmpresaData(filtroUsuarioWeb);
 	}
+	
+	public UsuarioWeb getUsuarioWebAdministradorData(FiltroUsuarioWeb filtroUsuarioWeb) {
+		return usuarioBusiness.getUsuarioWebAdministradorData(filtroUsuarioWeb);
+	}
 
 	public List<Empresa> getEmpresas(FiltroEmpresa filtroEmpresa) {
 		return usuarioBusiness.getEmpresas(filtroEmpresa);
@@ -162,7 +164,7 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public Cliente getCliente(FiltroCliente filtroCliente) {
 		return usuarioBusiness.getCliente(filtroCliente);
 	}
-
+	
 	public FichaServicioCliente getClienteFicha(FiltroCliente filtroCliente) {
 		return usuarioBusiness.getClienteFicha(filtroCliente);
 	}
@@ -190,18 +192,6 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 
 	public List<Direccion> asignarComunaDireccion(List<Direccion> direcciones) {
 		return usuarioBusiness.asignarComunaDireccion(direcciones);
-	}
-
-	public Integer addOperacionEmpresa(Empresa empresa) {
-		return usuarioBusiness.addOperacionEmpresa(empresa);
-	}
-
-	public Integer actualizaOperacionEmpresa(Empresa empresa) {
-		return usuarioBusiness.actualizaOperacionEmpresa(empresa);
-	}
-
-	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
-		return usuarioBusiness.getCargos(filtroCargo);
 	}
 
 }

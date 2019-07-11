@@ -1,33 +1,75 @@
 package com.auctionnow.controller.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.auctionnow.common.Constantes;
 import com.auctionnow.controller.AbstractControllerConfig;
-import com.auctionnow.filters.FiltroEmpresa;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Empresa;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
+import com.auctionnow.model.UsuarioWeb;
 
-public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfig {
+public class EmpresaAsignarRubroAction extends AbstractControllerConfig {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Empresa empresa;
+	protected UsuarioWeb usuarioWeb;
+	protected Rubro rubro;
+	
 	protected Servicio servicio;
 	protected FiltroServicio filtroServicio;
+	
+	protected String[] estadosServicios;
 
-	public String showAddServicioEmpresa() {
+	public String showAddRubroEmpresa() {
+		//SOLO USUARIO EMPRESA
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
+		
+		FiltroRubro filtroRubro = new FiltroRubro();
+		List<Rubro> lstRubros = getTransaccionEjbRemote().getRubros(filtroRubro);
+		
+		//SE SETEA USUARIO WEB PARA DESPLEGAR INFO EN LA PAGINA JSP
+		setUsuarioWeb(usuarioWebSession);
+		
+		getRequest().put("rubros", lstRubros);
+		getRequest().put("fechaFundacionFormat", this.getFechaFormat(usuarioWebSession.getEmpresa().getFechaOperaDesde()));
 
-		FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
-		List<Empresa> empresas = getUsuarioEjbRemote().getEmpresas(filtroEmpresa);
-
-		getRequest().put("empresas", empresas);
-
+		return SUCCESS;
+	}
+	
+	public String getServiciosByRubro() {
+		
+		FiltroServicio filtroServicio = new FiltroServicio();
+		filtroServicio.setCodigoRubro(rubro.getCodigoRubro());
+		List<Servicio> lstServicio = getTransaccionEjbRemote().getServicios(filtroServicio);
+		
+		getRequest().put("servicios", lstServicio);
+		
+		return SUCCESS;
+	}
+	
+	public String asignaRubroServiciosEmpresa() {
+		
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
+		
+		Empresa empresa = usuarioWebSession.getEmpresa();
+		
+		Rubro rubroAsignado = getTransaccionEjbRemote().asignaRubroServiciosEmpresa(empresa.getCodigoEmpresa(), rubro, estadosServicios);
+		
+		List<Rubro> rubros = empresa.getRubros();
+		if(rubros == null) {
+			rubros = new ArrayList<Rubro>();
+			rubros.add(rubroAsignado);
+		} 
+		rubros.add(rubroAsignado);
+		empresa.setRubros(rubros);
+		usuarioWebSession.setEmpresa(empresa);
+		
 		return SUCCESS;
 	}
 
@@ -48,7 +90,7 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 	public String getServiciosByEmpresa() {
 
 		filtroServicio = new FiltroServicio();
-		filtroServicio.setCodigoEmpresa(empresa.getCodigoEmpresa());
+//		filtroServicio.setCodigoEmpresa(empresa.getCodigoEmpresa());
 
 		List<Servicio> serviciosEmpresa = getTransaccionEjbRemote().getServiciosByEmpresa(filtroServicio);
 		this.getRequest().put("serviciosEmpresa", serviciosEmpresa);
@@ -58,11 +100,6 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 	
 	public String getCargosByServicio() {
 
-		filtroServicio = new FiltroServicio();
-		filtroServicio.setCodigoServicio(servicio.getCodigoServicio());
-
-		List<Cargo> cargosServicio = getTransaccionEjbRemote().getCargosByServicio(filtroServicio);
-		this.getRequest().put("cargosServicio", cargosServicio);
 
 		return SUCCESS;
 	}
@@ -85,22 +122,14 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 
 	public void addServicioEmpresa() {
 
-		empresa.setServicio(servicio);
-		Integer resRegOperaServicio = getUsuarioEjbRemote().addOperacionEmpresa(empresa);
-		
-		if(resRegOperaServicio == Constantes.UPDATE_DONE){
-			this.addActionMessage("Servicio se agrego con exito");
-		} else {
-			this.addActionError("No es posible agregar Servicio");
-		}
+	}
+	
+	public UsuarioWeb getUsuarioWeb() {
+		return usuarioWeb;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
+		this.usuarioWeb = usuarioWeb;
 	}
 
 	public Servicio getServicio() {
@@ -119,4 +148,19 @@ public class EmpresaOperaServicioRegistrarAction extends AbstractControllerConfi
 		this.filtroServicio = filtroServicio;
 	}
 
+	public Rubro getRubro() {
+		return rubro;
+	}
+
+	public void setRubro(Rubro rubro) {
+		this.rubro = rubro;
+	}
+
+	public String[] getEstadosServicios() {
+		return estadosServicios;
+	}
+
+	public void setEstadosServicios(String[] estadosServicios) {
+		this.estadosServicios = estadosServicios;
+	}
 }

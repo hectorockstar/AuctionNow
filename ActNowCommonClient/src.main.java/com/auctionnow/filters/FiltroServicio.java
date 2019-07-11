@@ -13,6 +13,8 @@ public class FiltroServicio implements Serializable {
 
 	private String codigoServicio;
 	private String codigoEmpresa;
+	private String codigoRubro;
+	
 	private Tupla tipoServicio;
 
 	public Tupla getTipoServicio() {
@@ -39,4 +41,12 @@ public class FiltroServicio implements Serializable {
 		this.codigoServicio = codigoServicio;
 	}
 
+	public String getCodigoRubro() {
+		return codigoRubro;
+	}
+
+	public void setCodigoRubro(String codigoRubro) {
+		this.codigoRubro = codigoRubro;
+	}
+	
 }

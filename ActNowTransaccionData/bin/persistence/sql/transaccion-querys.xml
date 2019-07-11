@@ -4,33 +4,28 @@
 
 <mapper namespace="com.auctionnow.data.transaccion">
 
-	<resultMap id="servicio-mapping" type="com.auctionnow.model.Servicio" >
-		<result property="codigoServicio"           column="S_CODSERVICIO" />
-		<result property="descripcion"              column="S_DESCRIPCION" />
-		<result property="fechaRegistro"            column="S_FECHAREGISTRO" />
-		<result property="nombre"                   column="S_NOMBRE" />
-		<result property="sigla"                    column="S_SIGLA" />
-		<result property="tipoServicio.id"          column="S_TIPOSERVICIOID" />
-		<result property="tipoServicio.descripcion" column="S_TIPOSERVICIODESC" />
+	<resultMap id="rubro-mapping" type="com.auctionnow.model.Rubro" >
+		<result property="codigoRubro" column="R_CODIGORUBRO" />
+		<result property="nombre"      column="R_NOMBRE" />
+		<result property="descripcion" column="R_DESCRIPCION" />
+		<result property="activo"  	   column="R_ACTIVO" />
 	</resultMap>
 	
-	<resultMap type="com.auctionnow.model.Rubro" id="rubro-mapping" >
-		<result property="tipoRubro.id"            column="R_CODIGORUBRO" />
-		<result property="tipoRubro.descripcion"   column="R_DESCRIPCIONRUBRO" />
-		<result property="empresa.codigoEmpresa"   column="R_CODIGOEMPRESA" />
-		<result property="servicio.codigoServicio" column="R_CODIGOSERVICIO" />
-		<result property="prioridad"               column="R_PRIORIDAD" />
-		<result property="operaServicioDesde"      column="R_FECHAEMPOPERA" />
-		<result property="fechaRegistroWeb"        column="R_FECHAREGISTRO" />
-		<result property="activo"           	   column="R_ACTIVO" />
+	<resultMap id="servicio-mapping" type="com.auctionnow.model.Servicio" >
+		<result property="codigoServicio"    column="S_CODSERVICIO" />
+		<result property="descripcion"       column="S_DESCRIPCION" />
+		<result property="nombre"            column="S_NOMBRE" />
+		<result property="sigla"             column="S_SIGLA" />
+		<result property="rubro.codigoRubro" column="S_CODIGORUBRO" />
 	</resultMap>
 	
 	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
-		<result property="codigoCargo" column="C_CODIGOCARGO" />
-		<result property="nombre"      column="C_NOMBRE" />
-		<result property="sigla"       column="C_SIGLA" />
-		<result property="descripcion" column="C_DESCRIPCION" />
-		<result property="vigente"     column="C_VIGENTE" />
+		<result property="codigoCargo"  		   column="CAR_CODIGOCARGO" />
+		<result property="nombre"       		   column="CAR_NOMBRE" />
+		<result property="sigla"        		   column="CAR_SIGLA" />
+		<result property="descripcion"             column="CAR_DESCRIPCION" />
+		<result property="activo"  	               column="CAR_ACTIVO" />
+		<result property="servicio.codigoServicio" column="CAR_CODIGOSERVICIO" />
 	</resultMap>
 	
 	<resultMap id="transaccion-mapping" type="com.auctionnow.model.Transaccion" >
@@ -117,27 +112,38 @@
 		<result property="tipoTarjeta.id"          column="T_TIPTARJETAID" />
 		<result property="tipoTarjeta.descripcion" column="T_TIPTARJETADESC" />
 	</resultMap>
-	
-	
 
 	<!-- SELECTs -->
+	<select id="getRubros" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro" >
+		SELECT
+		    RUBRO.C_CODRUBRO    AS R_CODIGORUBRO,
+		    RUBRO.T_NOMBRE      AS R_NOMBRE,
+		    RUBRO.T_DESCRIPCION AS R_DESCRIPCION,
+		    RUBRO.T_ACTIVO      AS R_ACTIVO
+		FROM AN_RUBRO RUBRO
+	</select>
+	
+	<select id="getRubro" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro" >
+		SELECT
+		    RUBRO.C_CODRUBRO    AS R_CODIGORUBRO,
+		    RUBRO.T_NOMBRE      AS R_NOMBRE,
+		    RUBRO.T_DESCRIPCION AS R_DESCRIPCION,
+		    RUBRO.T_ACTIVO      AS R_ACTIVO
+		FROM AN_RUBRO RUBRO
+		WHERE RUBRO.C_CODRUBRO = #{codigoRubro}
+	</select>
+	
 	<select id="getServicios" resultMap="servicio-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
 		SELECT 
-			C_CODSER             AS S_CODSERVICIO,
+			SER.C_CODSER         AS S_CODSERVICIO,
 			SER.T_NOMBRE         AS S_NOMBRE,
 			SER.T_SIGLA          AS S_SIGLA,
-			SER.D_FECREG         AS S_FECHAREGISTRO,
 			SER.T_DESCRIPCION    AS S_DESCRIPCION,
-			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
-			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
-			
+			SER.C_CODRUBRO		 AS S_CODIGORUBRO
 		FROM AN_SERVICIO SER
-		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
 		
-		WHERE TIPSER.C_CATALOGO = 'C_TIPSER'
-		
-		<if test="tipoServicio != null and tipoServicio.id != null and tipoServicio.id != ''">
-			AND SER.C_TIPSER = #{tipoServicio.id}
+		<if test="codigoRubro != null and codigoRubro != ''">
+			WHERE SER.C_CODRUBRO = #{codigoRubro}
 		</if>
 	</select>
 	
@@ -146,16 +152,12 @@
 			SER.C_CODSER         AS S_CODSERVICIO,
 			SER.T_NOMBRE         AS S_NOMBRE,
 			SER.T_SIGLA          AS S_SIGLA,
-			SER.D_FECREG         AS S_FECHAREGISTRO,
 			SER.T_DESCRIPCION    AS S_DESCRIPCION,
-			TIPSER.C_TIPCATAL    AS S_TIPOSERVICIOID,
-			TIPSER.T_DESCRIPCION AS S_TIPOSERVICIODESC
+			SER.C_CODRUBRO		 AS S_CODIGORUBRO
 			
 		FROM AN_SERVICIO SER
-		INNER JOIN AN_CATALOGO TIPSER ON SER.C_TIPSER = TIPSER.C_TIPCATAL
 		
 		WHERE SER.C_CODSER = #{codigoServicio}
-		AND TIPSER.C_CATALOGO = 'C_TIPSER'
 	</select>
 	
 	<select id="getRubrosByEmpresa" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro">
@@ -173,32 +175,34 @@
 		WHERE RUB.C_CODEMP = #{codigoEmpresa}
 	</select>
 	
-	<select id="getCargos" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
+	<select id="getCargos" resultMap="cargo-mapping" parameterType="map" >
 		SELECT 
-			CAR.C_CODCAR        AS C_CODIGOCARGO,
-			CAR.T_NOMBRE        AS C_NOMBRE,
-			CAR.T_SIGLA         AS C_SIGLA,
-			CAR.T_DESCRIPCION   AS C_DESCRIPCION,
-			CAR.T_VIGENTE       AS C_VIGENTE
-		
-		FROM AN_CARGO CAR
-	</select>
-	
-	<select id="getCargosByServicio" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroServicio" >
-		SELECT 
-			CAR.C_CODCAR        AS C_CODIGOCARGO,
-			CAR.T_NOMBRE        AS C_NOMBRE,
-			CAR.T_SIGLA         AS C_SIGLA,
-			CAR.T_DESCRIPCION   AS C_DESCRIPCION,
-			CAR.T_VIGENTE       AS C_VIGENTE,
-		
-			SERCAR.C_CODSER     AS CS_CODIGOSERVICIO
+			CAR.C_CODCAR        AS CAR_CODIGOCARGO,
+			CAR.T_NOMBRE        AS CAR_NOMBRE,
+			CAR.T_SIGLA         AS CAR_SIGLA,
+			CAR.T_DESCRIPCION   AS CAR_DESCRIPCION,
+			CAR.T_ACTIVO        AS CAR_ACTIVO,
+			CAR.C_CODSER        AS CAR_CODIGOSERVICIO
 			
 		FROM AN_CARGO CAR
-		INNER JOIN AN_SERVICIO_CARGO SERCAR 
-			ON CAR.C_CODCAR = SERCAR.C_CODCAR
+		
+		<if test="codigoCargo != null and codigoCargo != ''">
+			WHERE CAR.C_CODCAR = #{codigoCargo}
+		</if>
+	</select>
 	
-		WHERE SERCAR.C_CODSER = #{codigoServicio}
+	
+	<select id="getCargosByServicio" resultMap="cargo-mapping" parameterType="com.auctionnow.filters.FiltroCargo" >
+		SELECT 
+			CAR.C_CODCAR        AS CAR_CODIGOCARGO,
+			CAR.T_NOMBRE        AS CAR_NOMBRE,
+			CAR.T_SIGLA         AS CAR_SIGLA,
+			CAR.T_DESCRIPCION   AS CAR_DESCRIPCION,
+			CAR.T_ACTIVO        AS CAR_ACTIVO,
+			CAR.C_CODSER        AS CAR_CODIGOSERVICIO
+			
+		FROM AN_CARGO CAR
+		WHERE CAR.C_CODSER = #{codigoServicio}
 	</select>
 	
 	<select id="getTransaccion" resultMap="transaccion-mapping" parameterType="com.auctionnow.filters.FiltroTransaccion" >
@@ -334,23 +338,60 @@
 		AND TIPTARJETA.C_CATALOGO = 'ENTIDAD_COMERCIAL'
 		AND TAR.C_CODTAR = #{codigoTarjeta}
 	</select>
+	
+	<select id="getRubroUltimaJerarquia" resultType="int" parameterType="map" >
+		SELECT 
+			MAX(EJER.N_JERARQUIA)
+		
+		FROM AN_EJERCE EJER
+		
+		WHERE EJER.C_TITULAR = #{codigoTitular}
+	</select>
 
 	<!-- INSERTs -->
+	<insert id="addRubro" parameterType="map" >
+		INSERT INTO AN_RUBRO (
+			C_CODRUBRO,
+			T_NOMBRE,
+			T_DESCRIPCION,
+			T_ACTIVO
+		) VALUES (
+			#{codigoRubro},
+			#{nombre},
+			#{descripcion},
+			#{activo}
+		)
+	</insert>
+	
 	<insert id="addServicio" parameterType="map">
 		INSERT INTO AN_SERVICIO (
 			C_CODSER,
 			T_NOMBRE,
 			T_SIGLA,
 			T_DESCRIPCION,
-			D_FECREG,
-			C_TIPSER
+			C_CODRUBRO
 		) VALUES (
 			#{codigoServicio},
 			#{nombre},
 			#{sigla},
 			#{descripcion},
-			#{fecRegistro},
-			#{tipoServicio}
+			#{codigoRubro}
+		)
+	</insert>
+	
+	<insert id="addCargo" parameterType="map" >
+		INSERT INTO AN_CARGO (
+			C_CODCAR,
+			T_NOMBRE,
+			T_SIGLA,
+			T_DESCRIPCION,
+			T_VIGENTE
+		) VALUES (
+			#{codigoCargo},
+			#{nombrecargo},
+			#{sigla},
+			#{descripcion},
+			#{vigente}
 		)
 	</insert>
 	
@@ -436,7 +477,56 @@
 		)
 	</insert>
 	
+	<insert id="addEjerce" parameterType="map" >
+		INSERT INTO AN_EJERCE (
+			C_CODEJERCE,
+			D_FECOPE,
+			D_FECREG,
+			N_JERARQUIA,
+			T_ACTIVO,
+			C_CODRUBRO,
+			C_TITULAR
+		) VALUES (
+			#{codigoEjerce},
+			#{fechaEjerceDesde},
+			#{fechaRegistro},
+			#{jerarquia},
+			#{activoEjercer},
+			#{codigoRubro},
+			#{codigotitular}
+		)
+	</insert>
+	
+	<insert id="addServiciosActivos" parameterType="map" >
+		INSERT INTO AN_SERVICIOS_ACTIVOS (
+			C_CODSERACT,
+			N_JERARQUIA,
+			D_FECMODIF,
+			T_ACTIVO,
+			C_CODSER,
+			C_TITULAR,
+			C_CODEJERCE
+		) VALUES (
+			#{codigoServicioActivo},
+			#{jerarquia},
+			#{fechaModificacion},
+			#{activoTitular},
+			#{codigoServicio},
+			#{codigoTitular},
+			#{codigoEjerce}
+		)
+	</insert>
+	
 	<!-- UPDATEs -->
+	<update id="updateRubro" parameterType="map" >
+		UPDATE AN_RUBRO
+		SET N_PRIORIDAD = #{prioridad},
+			D_FECOPE = #{fecDesdeOpera},
+			T_ACTIVO = #{activo}
+		WHERE C_CODEMP = #{codigoEmpresa}
+		AND C_CODSER = #{codigoServicio}
+	</update>
+	
 	<update id="updateServicio" parameterType="map" >
 		UPDATE AN_SERVICIO
 		SET T_NOMBRE = #{nombre},
@@ -445,6 +535,15 @@
 			T_DESCRIPCION = #{descripcion},
 			C_TIPSER = #{tipoServicio}
 		WHERE C_CODSER = #{codigoServicio}
+	</update>
+	
+	<update id="updateCargo" parameterType="map" >
+		UPDATE AN_CARGO
+		SET T_NOMBRE = #{nombrecargo},
+			T_SIGLA = #{sigla},
+			T_DESCRIPCION = #{descripcion},
+			T_VIGENTE = #{vigente}
+		WHERE C_CODCAR = #{codigoCargo}
 	</update>
 	
 	<update id="updateTransaccion" parameterType="map" >

@@ -2,7 +2,6 @@ package com.auctionnow.data.usuario;
 
 import java.util.List;
 
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
@@ -11,7 +10,6 @@ import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -21,7 +19,6 @@ import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
-import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Usuario;
 import com.auctionnow.model.UsuarioWeb;
 import com.auctionnow.model.UsuarioWebTienePrivilegio;
@@ -43,8 +40,6 @@ public interface IUsuarioDAO {
 
 	Integer addEmpresa(Empresa empresa);
 
-	Integer addRubro(Rubro rubro);
-
 	Integer addGeoLocalizacion(GeoLocalizacion geoLocalizacion);
 
 	Integer addPrivilegio(Privilegio privilegio);
@@ -55,8 +50,6 @@ public interface IUsuarioDAO {
 
 	Integer addUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion);
 	
-	Integer addCargo(Cargo cargo);
-
 	// UPDATES
 	Integer actualizaClienteFicha(FichaServicioCliente fichaCliente);
 
@@ -80,14 +73,12 @@ public interface IUsuarioDAO {
 
 	Integer actualizaUsuarioWeb(UsuarioWeb usuarioWeb);
 
-	Integer actualizaRubro(Rubro rubro);
-
 	Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion, String activo);
 	
-	Integer actualizarCargo(Cargo cargo);
-
 	// GETS
 	UsuarioWeb getUsuarioWeb(FiltroUsuarioWeb filtroUsuarioWeb);
+	
+	Usuario getUsuario(FiltroCliente filtroCliente);
 
 	Proveedor getProveedor(FiltroProveedor filtroProveedor);
 
@@ -118,8 +109,6 @@ public interface IUsuarioDAO {
 	List<Privilegio> getPrivilegios(FiltroPrivilegio filtroPrivilegio);
 
 	List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
-	
-	List<Cargo> getCargos(FiltroCargo filtroCargo);
 	
 	String validateUserLogin(String userName, String password);
 

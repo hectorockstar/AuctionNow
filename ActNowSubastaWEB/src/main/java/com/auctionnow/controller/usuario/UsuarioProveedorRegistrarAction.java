@@ -56,9 +56,6 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
 		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
 		
-		FiltroCargo filtroCargo = new FiltroCargo();
-		List<Cargo> cargos = getUsuarioEjbRemote().getCargos(filtroCargo);
-		
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
 		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
@@ -70,7 +67,6 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);
 		getRequest().put("servicios", servicios);
-		getRequest().put("cargos", cargos);
 		getRequest().put("empresas", empresas);
 		getRequest().put("comunas", new ArrayList<Comuna>());
 		getRequest().put("ciudades", new ArrayList<Ciudad>());

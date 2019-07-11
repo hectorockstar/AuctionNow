@@ -1,5 +1,6 @@
 package com.auctionnow.controller.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.auctionnow.common.Constantes;
@@ -23,15 +24,13 @@ public class ContactoRegistrarAction extends AbstractControllerConfig {
 
 	public String showAddContacto() {
 		
-		//VALIDAR QUE HAYAN DIRECCIONES REGISTRADAS PARA AGREGAR CONTACTOS
-		
 		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
 		
 		List<Direccion> lstDireccionesUsuarioWeb = null;
 		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
-			lstDireccionesUsuarioWeb = usuarioWebSession.getEmpresa().getDirecciones();
+			lstDireccionesUsuarioWeb = (usuarioWebSession.getEmpresa().getDirecciones() != null ? usuarioWebSession.getEmpresa().getDirecciones() : new ArrayList<Direccion>());
 		} else {
-			lstDireccionesUsuarioWeb = usuarioWebSession.getUsuario().getDirecciones();
+			lstDireccionesUsuarioWeb = (usuarioWebSession.getUsuario().getDirecciones() != null ? usuarioWebSession.getUsuario().getDirecciones() : new ArrayList<Direccion>());
 		}
 		
 		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(lstDireccionesUsuarioWeb);

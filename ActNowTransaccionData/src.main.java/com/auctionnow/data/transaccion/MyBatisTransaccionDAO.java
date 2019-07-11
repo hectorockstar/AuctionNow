@@ -6,12 +6,15 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
+import com.auctionnow.filters.FiltroCargo;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroTransaccion;
 import com.auctionnow.model.BitacoraTransaccion;
 import com.auctionnow.model.Cargo;
 import com.auctionnow.model.MedioPago;
 import com.auctionnow.model.Negocio;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.Tarjeta;
 import com.auctionnow.model.Transaccion;
@@ -38,10 +41,9 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoServicio", servicio.getCodigoServicio());
 		parameters.put("descripcion", servicio.getDescripcion());
-		parameters.put("fecRegistro", servicio.getFechaRegistro());
 		parameters.put("nombre", servicio.getNombre());
 		parameters.put("sigla", servicio.getSigla());
-		parameters.put("tipoServicio", servicio.getTipoServicio().getId());
+		parameters.put("codigoRubro", servicio.getRubro().getCodigoRubro());
 		
 		return (Integer) getSqlSession().update("updateServicio", parameters);
 	}
@@ -86,6 +88,28 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		parameters.put("codigoTransaccion", bitacoraTransaccion.getCodigoTransaccion());
 		
 		return (Integer) getSqlSession().update("updateBitTransaccion", parameters);
+	}
+	
+	@Override
+	public Integer actualizaRubro(Rubro rubro) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoRubro", rubro.getCodigoRubro());
+		parameters.put("nombre", rubro.getNombre());
+		parameters.put("descripcion", rubro.getDescripcion());
+		parameters.put("activo", rubro.getActivo());
+
+		return (Integer) getSqlSession().update("updateRubro", parameters);
+	}
+	
+	@Override
+	public Integer actualizarCargo(Cargo cargo) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoCargo", cargo.getCodigoCargo());
+		parameters.put("nombrecargo", cargo.getNombre());
+		parameters.put("sigla", cargo.getSigla());
+		parameters.put("descripcion", cargo.getDescripcion());
+
+		return (Integer) getSqlSession().insert("updateCargo", parameters);
 	}
 	
 	@Override
@@ -155,18 +179,39 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		
 		return (Integer) getSqlSession().insert("addMedioPago", parameters);
 	}
+	
+	@Override
+	public Integer addRubro(Rubro rubro) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoRubro", rubro.getCodigoRubro());
+		parameters.put("nombre", rubro.getNombre());
+		parameters.put("descripcion", rubro.getDescripcion());
+		parameters.put("activo", rubro.getActivo());
+
+		return (Integer) getSqlSession().insert("addRubro", parameters);
+	}
 
 	@Override
 	public Integer addServicio(Servicio servicio) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoServicio", servicio.getCodigoServicio());
 		parameters.put("descripcion", servicio.getDescripcion());
-		parameters.put("fecRegistro", servicio.getFechaRegistro());
 		parameters.put("nombre", servicio.getNombre());
 		parameters.put("sigla", servicio.getSigla());
-		parameters.put("tipoServicio", servicio.getTipoServicio().getId());
+		parameters.put("codigoRubro", servicio.getRubro().getCodigoRubro());
 		
 		return (Integer) getSqlSession().insert("addServicio", parameters);
+	}
+	
+	@Override
+	public Integer addCargo(Cargo cargo) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoCargo", cargo.getCodigoCargo());
+		parameters.put("nombrecargo", cargo.getNombre());
+		parameters.put("sigla", cargo.getSigla());
+		parameters.put("descripcion", cargo.getDescripcion());
+
+		return (Integer) getSqlSession().insert("addCargo", parameters);
 	}
 
 	@Override
@@ -181,6 +226,34 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		return (Integer) getSqlSession().insert("addTarjeta", parameters);
 	}
 
+	@Override
+	public Integer addEjerce(String codigoTitular, Rubro rubro) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoEjerce", rubro.getCodigoEjerce());
+		parameters.put("fechaEjerceDesde", rubro.getFechaEjerceDesde());
+		parameters.put("fechaRegistro", rubro.getFechaRegistro());
+		parameters.put("jerarquia", rubro.getJerarquia());
+		parameters.put("activoEjercer", rubro.getActivoEjercer());
+		parameters.put("codigoRubro", rubro.getCodigoRubro());
+		parameters.put("codigotitular", codigoTitular);
+		
+		return (Integer) getSqlSession().insert("addEjerce", parameters);
+	}
+	
+	@Override
+	public Integer addServiciosActivos(String codigoTitular, Servicio servicio) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoServicioActivo", servicio.getCodigoServicioActivo());
+		parameters.put("jerarquia", servicio.getJerarquia());
+		parameters.put("fechaModificacion", servicio.getFechaModificacion());
+		parameters.put("activoTitular", servicio.getActivoTitular());
+		parameters.put("codigoServicio", servicio.getCodigoServicio());
+		parameters.put("codigoTitular", codigoTitular);
+		parameters.put("codigoEjerce", servicio.getRubro().getCodigoEjerce());
+		
+		return (Integer) getSqlSession().insert("addServiciosActivos", parameters);
+	}
+	
 	@Override
 	public Integer addTransaccion(Transaccion transaccion) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -197,6 +270,14 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		
 		return (Integer) getSqlSession().insert("addTransaccion", parameters);
 	}
+	
+	@Override
+	public Integer getRubroUltimaJerarquia(String codigoTitular) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoTitular", codigoTitular);
+		
+		return (Integer) getSqlSession().insert("getRubroUltimaJerarquia", parameters);
+	}
 
 	@Override
 	public List<Cargo> getCargos() {
@@ -204,8 +285,18 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 	}
 
 	@Override
-	public List<Cargo> getCargosByServicio(FiltroServicio filtroServicio) {
-		return (List<Cargo>)getSqlSession().selectList("getCargosByServicio", filtroServicio);
+	public List<Cargo> getCargosByServicio(FiltroCargo filtroCargo) {
+		return (List<Cargo>)getSqlSession().selectList("getCargosByServicio", filtroCargo);
+	}
+	
+	@Override
+	public List<Rubro> getRubros(FiltroRubro filtroRubro) {
+		return (List<Rubro>) getSqlSession().selectList("getRubros", filtroRubro);
+	}
+	
+	@Override
+	public Rubro getRubro(FiltroRubro filtroRubro) {
+		return (Rubro) getSqlSession().selectOne("getRubro", filtroRubro);
 	}
 
 	

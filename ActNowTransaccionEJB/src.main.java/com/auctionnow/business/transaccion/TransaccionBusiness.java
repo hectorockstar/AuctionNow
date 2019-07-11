@@ -1,5 +1,6 @@
 package com.auctionnow.business.transaccion;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +14,16 @@ import com.auctionnow.common.Constantes;
 import com.auctionnow.common.Tupla;
 import com.auctionnow.data.transaccion.ITransaccionDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
+import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCatalogo;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroTransaccion;
 import com.auctionnow.model.BitacoraTransaccion;
 import com.auctionnow.model.Cargo;
+import com.auctionnow.model.Empresa;
 import com.auctionnow.model.MedioPago;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.Subasta;
 import com.auctionnow.model.Tarjeta;
@@ -43,7 +48,6 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		filtroCatalogo.setKey(Constantes.SECUENCIA_SERVICIO);
 		servicio.setCodigoServicio(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		
-		servicio.setFechaRegistro(new Date());
 		
 		Integer registrarServicio = transaccionDAO.addServicio(servicio);
 		return registrarServicio;
@@ -60,7 +64,20 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 	}
 
 	public List<Servicio> getServicios(FiltroServicio filtroServicio) {
-		List<Servicio> lstServicios = transaccionDAO.getServicios(filtroServicio);
+		
+		List<Servicio> getDAOServicios = transaccionDAO.getServicios(filtroServicio);
+		List<Servicio> lstServicios = new ArrayList<Servicio>();
+		
+		for (Servicio servicio : getDAOServicios) {
+			FiltroCargo filtroCargo = new FiltroCargo();
+			filtroCargo.setCodigoServicio(servicio.getCodigoServicio());
+			List<Cargo> lstCargos = transaccionDAO.getCargosByServicio(filtroCargo);
+			
+			servicio.setCargos(lstCargos);
+			
+			lstServicios.add(servicio);
+		}
+		
 		return lstServicios;
 	}
 
@@ -187,10 +204,71 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		return transaccionDAO.getCargos();
 	}
 
-	public List<Cargo> getCargosByServicio(FiltroServicio filtroServicio) {
-		return transaccionDAO.getCargosByServicio(filtroServicio);
+	public List<Cargo> getCargosByServicio(FiltroCargo filtroCargo) {
+		return transaccionDAO.getCargosByServicio(filtroCargo);
 	}
 	
+	public Rubro getRubro(FiltroRubro filtroRubro){
+		return transaccionDAO.getRubro(filtroRubro);
+	}
 	
+	public List<Rubro> getRubros(FiltroRubro filtroRubro){
+		return transaccionDAO.getRubros(filtroRubro);
+	}
+	
+	public Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios) {
+		
+//		Date fechaActual = getCommonEjbRemote().getFechaActual();
+		Date fechaActual = new Date();
+				
+		Rubro rubroServicios = rubro;
+		
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+		filtroCatalogo.setKey(Constantes.SECUENCIA_EJERCE_RUBRO);
+		
+		rubro.setCodigoEjerce(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+//		rubro.setFechaEjerceDesde(fechaEjerceDesde);
+		rubro.setFechaRegistro(fechaActual);
+		
+		Integer jerarquia = transaccionDAO.getRubroUltimaJerarquia(codigoTitular);
+		rubro.setJerarquia((jerarquia == null ? new Integer(0): jerarquia) + 1);
+		rubro.setActivoEjercer(Constantes.ACTIVA);
+		
+		Integer resultadoServiciosActivos = 1;
+		Integer resultadoEjerce = transaccionDAO.addEjerce(codigoTitular, rubroServicios);
+		
+		List<Servicio> lstServicio = new ArrayList<Servicio>();
+		for (int index = 0; index < estadosServicios.length ;index++) {
+			String codigoServicio = String.valueOf(estadosServicios[index].split(":")[0]);
+			String estadoServicio = String.valueOf(estadosServicios[index].split(":")[1]);
+			
+			Servicio servicio = new Servicio();
+			
+			filtroCatalogo = new FiltroCatalogo();
+			filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+			filtroCatalogo.setKey(Constantes.SECUENCIA_SERVICIO_ACTIVO);
+			
+			servicio.setCodigoServicioActivo(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+			servicio.setCodigoServicio(codigoServicio);
+			servicio.setActivoTitular(estadoServicio);
+			servicio.setJerarquia(index + 1);
+			servicio.setFechaModificacion(fechaActual);
+			servicio.setRubro(rubroServicios);
+			
+			lstServicio.add(servicio);
+			
+			resultadoServiciosActivos = transaccionDAO.addServiciosActivos(codigoTitular, servicio);
+		}
+		rubroServicios.setServicios(lstServicio);
+		
+		Integer resultado = resultadoEjerce * resultadoServiciosActivos;
+		
+		if(resultado == 0) {
+			System.out.println("RESULTADO EXITOSO");
+		}
+		
+		return rubroServicios;
+	}
 
 }

@@ -35,14 +35,12 @@ public class ServicioActualizarAction extends AbstractControllerConfig {
 		servicio = new Servicio();
 		servicio.setCodigoServicio("SER006");
 		servicio.setDescripcion("Tabiqueria");
-		servicio.setFechaRegistro(new Date());
 		servicio.setNombre("Tabiqueria");
 		servicio.setSigla("TAB");
 
 		Tupla tipoServicio = new Tupla();
 		tipoServicio.setId("1");
 		tipoServicio.setDescripcion("CONSTRUCCION");
-		servicio.setTipoServicio(tipoServicio);
 		/////////////
 
 		Integer resRegServicio = getTransaccionEjbRemote().actualizaServicio(servicio);

@@ -55,6 +55,7 @@ public class LoginUserAction extends AbstractControllerConfig {
 			} else if (Constantes.TIPOUSUARIO_ADMINISTRADOR.equalsIgnoreCase(tipoUsuarioWeb)) {
 				
 				// TODO
+				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebAdministradorData(filtroUsuarioWeb);
 				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_ADMINISTRADOR);
 			} else if (Constantes.TIPOUSUARIO_EMPRESA.equalsIgnoreCase(tipoUsuarioWeb)) {
 				

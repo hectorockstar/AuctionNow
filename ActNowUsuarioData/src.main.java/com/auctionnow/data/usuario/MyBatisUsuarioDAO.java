@@ -15,6 +15,7 @@ import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroUsuarioWeb;
 import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
@@ -208,19 +209,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer actualizaRubro(Rubro rubro) {
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", rubro.getEmpresa().getCodigoEmpresa());
-		parameters.put("codigoServicio", rubro.getServicio().getCodigoServicio());
-		parameters.put("activo", rubro.getActivo());
-
-		return (Integer) getSqlSession().update("updateRubro", parameters);
-	}
-
-	@Override
-	public Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion,
-			String activo) {
+	public Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion, String activo) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoPrivilegio", privilegio.getCodigoPrivilegio());
 		parameters.put("codigoUsuarioWeb", usuarioWeb.getCodigoUsuarioWeb());
@@ -228,17 +217,6 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("descripcion", descripcion);
 
 		return (Integer) getSqlSession().update("updateUsuarioPrivilegio", parameters);
-	}
-
-	@Override
-	public Integer actualizarCargo(Cargo cargo) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoCargo", cargo.getCodigoCargo());
-		parameters.put("nombrecargo", cargo.getNombre());
-		parameters.put("sigla", cargo.getSigla());
-		parameters.put("descripcion", cargo.getDescripcion());
-
-		return (Integer) getSqlSession().insert("updateCargo", parameters);
 	}
 
 	@Override
@@ -295,8 +273,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer addUsuarioProveedor(Proveedor proveedor) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoProveedor", proveedor.getCodigoProveedor());
-		parameters.put("codigoFichaProv",
-				proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
+		parameters.put("codigoFichaProv", proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
 		parameters.put("codigoEmpresa", proveedor.getEmpresa().getCodigoEmpresa());
 		parameters.put("codigoServicio", proveedor.getServicio().getCodigoServicio());
 		parameters.put("codigoCargo", proveedor.getCargo().getCodigoCargo());
@@ -355,17 +332,6 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("rutDV", empresa.getRutDV());
 
 		return (Integer) getSqlSession().insert("addEmpresa", parameters);
-	}
-
-	@Override
-	public Integer addRubro(Rubro rubro) {
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", rubro.getEmpresa().getCodigoEmpresa());
-		parameters.put("codigoServicio", rubro.getServicio().getCodigoServicio());
-		parameters.put("activo", rubro.getActivo());
-
-		return (Integer) getSqlSession().insert("addRubro", parameters);
 	}
 
 	@Override
@@ -443,19 +409,13 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer addCargo(Cargo cargo) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoCargo", cargo.getCodigoCargo());
-		parameters.put("nombrecargo", cargo.getNombre());
-		parameters.put("sigla", cargo.getSigla());
-		parameters.put("descripcion", cargo.getDescripcion());
-
-		return (Integer) getSqlSession().insert("addCargo", parameters);
-	}
-
-	@Override
 	public UsuarioWeb getUsuarioWeb(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (UsuarioWeb) getSqlSession().selectOne("getUsuarioWeb", filtroUsuarioWeb);
+	}
+	
+	@Override
+	public Usuario getUsuario(FiltroCliente filtroCliente) {
+		return (Usuario) getSqlSession().selectOne("getUsuario", filtroCliente);
 	}
 
 	@Override
@@ -531,12 +491,6 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	@Override
 	public List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (List<UsuarioWebTienePrivilegio>) getSqlSession().selectList("getPrivilegiosUsuario", filtroUsuarioWeb);
-	}
-
-	@Override
-	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
-
-		return (List<Cargo>) getSqlSession().selectList("getCargos", filtroCargo);
 	}
 
 	@Override

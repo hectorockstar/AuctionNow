@@ -50,7 +50,6 @@ public class EmpresaOperaServicioActualizarAction extends AbstractControllerConf
 
 		empresa.setServicio(servicio);
 
-		Integer resUpdServicioEmpresa = getUsuarioEjbRemote().actualizaOperacionEmpresa(empresa);
 
 		return Constantes.SUCCESS;
 	}

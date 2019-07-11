@@ -1,5 +1,6 @@
 package com.auctionnow.controller.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.auctionnow.common.Constantes;
@@ -31,7 +32,10 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 			lstDireccionesUsuarioWeb = usuarioWebSession.getUsuario().getDirecciones();
 		}
 		
-		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(lstDireccionesUsuarioWeb);
+		List<Direccion> direcciones = new ArrayList<Direccion>();
+		if (lstDireccionesUsuarioWeb!=null) {
+			direcciones = getUsuarioEjbRemote().asignarComunaDireccion(lstDireccionesUsuarioWeb);
+		}
 		
 		List<Contacto> contactos = (usuarioWebSession.getEmpresa() != null ? usuarioWebSession.getEmpresa().getContactos() : usuarioWebSession.getUsuario().getContactos());
 

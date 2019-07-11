@@ -16,14 +16,23 @@ public class Cargo implements Serializable {
 	private String nombre;
 	private String sigla;
 	private String descripcion;
-	private String vigente;
+	private String activo;
+	private Servicio servicio;
 
-	public String getVigente() {
-		return vigente;
+	public String getActivo() {
+		return activo;
 	}
 
-	public void setVigente(String vigente) {
-		this.vigente = vigente;
+	public void setActivo(String activo) {
+		this.activo = activo;
+	}
+
+	public Servicio getServicio() {
+		return servicio;
+	}
+
+	public void setServicio(Servicio servicio) {
+		this.servicio = servicio;
 	}
 
 	public String getCodigoCargo() {

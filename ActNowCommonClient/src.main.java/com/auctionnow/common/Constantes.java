@@ -40,6 +40,9 @@ public class Constantes {
 	public static final String SECUENCIA_BITTRANSACCION = "BITTRA";
 	public static final String SECUENCIA_MEDIOPAGO = "MEDPAG";
 	public static final String SECUENCIA_TARJETA = "TAR";
+	public static final String SECUENCIA_RUBRO = "RUB";
+	public static final String SECUENCIA_EJERCE_RUBRO = "EJR";
+	public static final String SECUENCIA_SERVICIO_ACTIVO = "SAC";
 
 	// MAILS
 	public static final String MAIL_NOTIFICA_NUEVASOLICITUD = "NUEVA_SOLICITUD";

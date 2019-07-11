@@ -10,7 +10,6 @@ import com.auctionnow.common.Tupla;
 import com.auctionnow.data.usuario.IUsuarioDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
 import com.auctionnow.exception.AuctionNowServiceException;
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
@@ -21,7 +20,6 @@ import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -366,6 +364,23 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 
 		return usuarioWeb;
 	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public UsuarioWeb getUsuarioWebAdministradorData(FiltroUsuarioWeb filtroUsuarioWeb) {
+		UsuarioWeb usuarioWeb = usuarioDAO.getUsuarioWeb(filtroUsuarioWeb);
+		
+		FiltroCliente filtroAdminstrador = new FiltroCliente();
+		filtroAdminstrador.setCodigoUsuario(usuarioWeb.getUsuario().getCodigoUsuario());
+		Usuario usuarioAdministrador = usuarioDAO.getUsuario(filtroAdminstrador);
+
+		FiltroContacto filtroContacto = new FiltroContacto();
+		filtroContacto.setCodigoTitular(usuarioAdministrador.getCodigoUsuario());
+		usuarioAdministrador.setContactos(usuarioDAO.getContactos(filtroContacto));
+		
+		usuarioWeb.setUsuario(usuarioAdministrador);
+		
+		return usuarioWeb;
+	}
 
 	public Empresa getEmpresa(FiltroEmpresa filtroEmpresa) {
 		Empresa empresa = usuarioDAO.getEmpresa(filtroEmpresa);
@@ -386,11 +401,6 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	}
 	
 	
-	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
-		List<Cargo> lstCargos = usuarioDAO.getCargos(filtroCargo);
-		return lstCargos;
-	}
-
 	public List<UsuarioWeb> getUsuariosWebCliente(FiltroUsuarioWeb filtroUsuarioWeb) {
 		// TODO Auto-generated method stub
 		return null;
@@ -426,7 +436,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public Cliente getCliente(FiltroCliente filtroCliente) {
 		return usuarioDAO.getCliente(filtroCliente);
 	}
-
+	
 	public FichaServicioCliente getClienteFicha(FiltroCliente filtroCliente) {
 		return usuarioDAO.getClienteFicha(filtroCliente);
 	}
@@ -445,10 +455,6 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 
 	public List<UsuarioWeb> getProveedores(FiltroProveedor filtroProveedor) {
 		return usuarioDAO.getProveedores(filtroProveedor);
-	}
-
-	public Integer addOperacionEmpresa(Empresa empresa) {
-		return null;
 	}
 
 	public Integer actualizaOperacionEmpresa(Empresa empresa) {

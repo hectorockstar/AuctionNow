@@ -7,41 +7,47 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.auctionnow.common.Tupla;
-
 public class Rubro implements Serializable {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private Empresa empresa;
-	private String jerarquia;
-	private Date fechaEjerceRubro;
-	private Date fechaRegistroRubro;
-	private String activo;
 	
-	private Servicio servicio;
-	private List<Empresa> empresas;
+	private String codigoRubro;
+	private String nombre;
+	private String descripcion;
+	private String activo;
 	private List<Servicio> servicios;
 	
-	private List<Proveedor> proveedores;
+	//ASIGNADO A ALGUN PROVEEDOR o EMPRESA (AN_EJERCE)
+	private String codigoEjerce;
+	private Date fechaEjerceDesde;
+	private Date fechaRegistro;
+	private Integer jerarquia;
+	private String activoEjercer;
 	
-	public Empresa getEmpresa() {
-		return empresa;
+	public String getCodigoRubro() {
+		return codigoRubro;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setCodigoRubro(String codigoRubro) {
+		this.codigoRubro = codigoRubro;
 	}
 
-	public Servicio getServicio() {
-		return servicio;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public String getActivo() {
@@ -52,14 +58,6 @@ public class Rubro implements Serializable {
 		this.activo = activo;
 	}
 
-	public List<Empresa> getEmpresas() {
-		return empresas;
-	}
-
-	public void setEmpresas(List<Empresa> empresas) {
-		this.empresas = empresas;
-	}
-
 	public List<Servicio> getServicios() {
 		return servicios;
 	}
@@ -67,33 +65,49 @@ public class Rubro implements Serializable {
 	public void setServicios(List<Servicio> servicios) {
 		this.servicios = servicios;
 	}
+	
+	public String getCodigoEjerce() {
+		return codigoEjerce;
+	}
+
+	public void setCodigoEjerce(String codigoEjerce) {
+		this.codigoEjerce = codigoEjerce;
+	}
+
+	public Date getFechaEjerceDesde() {
+		return fechaEjerceDesde;
+	}
+
+	public void setFechaEjerceDesde(Date fechaEjerceDesde) {
+		this.fechaEjerceDesde = fechaEjerceDesde;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public Integer getJerarquia() {
+		return jerarquia;
+	}
+
+	public void setJerarquia(Integer jerarquia) {
+		this.jerarquia = jerarquia;
+	}
+
+	public String getActivoEjercer() {
+		return activoEjercer;
+	}
+
+	public void setActivoEjercer(String activoEjercer) {
+		this.activoEjercer = activoEjercer;
+	}
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
-	public String getJerarquia() {
-		return jerarquia;
-	}
-
-	public void setJerarquia(String jerarquia) {
-		this.jerarquia = jerarquia;
-	}
-
-	public Date getFechaEjerceRubro() {
-		return fechaEjerceRubro;
-	}
-
-	public void setFechaEjerceRubro(Date fechaEjerceRubro) {
-		this.fechaEjerceRubro = fechaEjerceRubro;
-	}
-
-	public Date getFechaRegistroRubro() {
-		return fechaRegistroRubro;
-	}
-
-	public void setFechaRegistroRubro(Date fechaRegistroRubro) {
-		this.fechaRegistroRubro = fechaRegistroRubro;
-	}
-	
 }

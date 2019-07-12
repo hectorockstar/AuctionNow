@@ -25,9 +25,7 @@
 			<param-name>config</param-name>
 			<param-value>
 				struts-default.xml,
-				control-ingresos.xml,
-				control-transacciones.xml,
-				control-solicitudes.xml
+				control-ingresos.xml
 			</param-value>
 		</init-param>
 	</filter>

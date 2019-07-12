@@ -40,14 +40,21 @@ public class DireccionRegistrarAction extends AbstractControllerConfig {
 		getRequest().put("regiones", new ArrayList<Region>());
 		getRequest().put("paises", paises);
 		
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public String addDireccion() {
 		// TODO
 		// VALIDAR CAMPOS
+		String codigoTitular = "";
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
 		
-		String codigoTitular = ((UsuarioWeb)getSession().get("usuarioWeb")).getUsuario().getCodigoUsuario();
+		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+			codigoTitular = usuarioWebSession.getEmpresa().getCodigoEmpresa();
+		} else {
+			codigoTitular = usuarioWebSession.getUsuario().getCodigoUsuario();
+		}
+		
 		Integer resultado = getUsuarioEjbRemote().addDireccion(direccion, codigoTitular);
 		
 		// ACTUALIZAR SESSION CON ULTIMA DIRECCION REGISTRADA
@@ -55,9 +62,13 @@ public class DireccionRegistrarAction extends AbstractControllerConfig {
 		filtroDireccion.setCodigoTitular(codigoTitular);
 		List<Direccion> direcciones = getUsuarioEjbRemote().getDirecciones(filtroDireccion);
 		
-		UsuarioWeb usuWeb = (UsuarioWeb) getSession().get("usuarioWeb");
-		usuWeb.getUsuario().setDirecciones(direcciones);
-		this.getSession().put("usuarioWeb", usuWeb);
+		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+			usuarioWebSession.getEmpresa().setDirecciones(direcciones);
+		} else {
+			usuarioWebSession.getUsuario().setDirecciones(direcciones);
+		}
+		
+		this.getSession().put("usuarioWeb", usuarioWebSession);
 		
 		return Constantes.SUCCESS;
 	}

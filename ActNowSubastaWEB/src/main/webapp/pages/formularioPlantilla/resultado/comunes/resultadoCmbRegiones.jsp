@@ -23,6 +23,16 @@
 			var keyRegion = document.getElementById("region").value;
 			
 			if(keyRegion != ''){
+
+				$('#comuna')
+				    .find('option')
+				    .remove()
+				    .end()
+				    .append('<option value="">Seleccione...</option>')
+				    .val('Seleccione...')
+				;
+				$("#cmbComunas").hide();
+				
 				$.ajax({
 					type : "POST",
 					url : "getCiudadesByRegion.action",
@@ -40,7 +50,7 @@
 				    .append('<option value="">Seleccione...</option>')
 				    .val('Seleccione...')
 				;
-				$("#cmbCiudades").hide();	
+				$("#cmbCiudades").hide();
 				
 				$('#comuna')
 				    .find('option')

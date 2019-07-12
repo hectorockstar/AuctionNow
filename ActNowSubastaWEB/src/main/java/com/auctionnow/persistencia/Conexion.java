@@ -10,7 +10,7 @@ public class Conexion {
 		Connection connection = null;
 		try {
 			String driverClassName = "org.postgresql.Driver";
-			String driverUrl = "jdbc:postgresql://localhost:5432/AuctionNowDataBase";
+			String driverUrl = "jdbc:postgresql://localhost:5432/auctionnowdatabase";
 			Class.forName(driverClassName);
 			connection = DriverManager.getConnection(driverUrl, "postgres", "system");
 		} catch (SQLException e ) {

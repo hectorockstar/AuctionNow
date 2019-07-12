@@ -35,6 +35,12 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
+<!-- COMMONS CUSTOM  -->
+<link rel="stylesheet" href="../custom-styles/css/common.css">
+
+<!-- ACCORDION -->
+<link rel="stylesheet" href="../custom-styles/css/accordion.css">
+
 <style>
 	body {
 		padding-top: 70px;
@@ -53,19 +59,33 @@
     		setDatePicker('fechaFundacion');
     	});
     	$('#fechaFundacion').click();
-    	
-    	console.log('Init Config');
+
+    	$('#updateFechaNacimiento').bind('click', function (){
+    		setDatePicker('updateFechaNacimiento');
+    	});
+    	$('#updateFechaNacimiento').click();
     });
     
     function setDatePicker(inputId){
         var date_input=$('#'+inputId); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-        var options={
-          format: 'dd/mm/yyyy',
-          container: container,
-          todayHighlight: true,
-          autoclose: true,
-        };
+
+		if(inputId.includes('update')){
+			var options={
+	          format: 'dd/mm/yyyy',
+	          container: container,
+	          //todayHighlight: true,
+	          autoclose: true,
+	        };
+		} else {
+			var options={
+	          format: 'dd/mm/yyyy',
+	          container: container,
+	          todayHighlight: true,
+	          autoclose: true,
+	        };
+		}
+        
         date_input.datepicker(options);
     }
 </script>

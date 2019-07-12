@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import com.auctionnow.business.transaccion.ITransaccionBusiness;
+import com.auctionnow.filters.FiltroCargo;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroTransaccion;
 import com.auctionnow.model.BitacoraTransaccion;
 import com.auctionnow.model.Cargo;
 import com.auctionnow.model.MedioPago;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.Subasta;
 import com.auctionnow.model.Tarjeta;
@@ -100,7 +103,6 @@ public class TransaccionEjb implements ITransaccionEjbLocal, ITransaccionEjbRemo
 	public Integer addTransaccion(Subasta subasta) {
 		return transaccionBusiness.addTransaccion(subasta);
 	}
-
 	
 	public List<Servicio> getServiciosByEmpresa(FiltroServicio filtroServicio) {
 		return transaccionBusiness.getServiciosByEmpresa(filtroServicio);
@@ -110,8 +112,23 @@ public class TransaccionEjb implements ITransaccionEjbLocal, ITransaccionEjbRemo
 		return transaccionBusiness.getCargos();
 	}
 
-	public List<Cargo> getCargosByServicio(FiltroServicio filtroServicio) {
-		return transaccionBusiness.getCargosByServicio(filtroServicio);
+	public List<Cargo> getCargosByServicio(FiltroCargo filtroCargo) {
+		return transaccionBusiness.getCargosByServicio(filtroCargo);
+	}
+
+	@Override
+	public List<Rubro> getRubros(FiltroRubro filtroRubro) {
+		return transaccionBusiness.getRubros(filtroRubro);
+	}
+
+	@Override
+	public Rubro getRubro(FiltroRubro filtroRubro) {
+		return transaccionBusiness.getRubro(filtroRubro);
+	}
+
+	@Override
+	public Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios) {
+		return transaccionBusiness.asignaRubroServiciosEmpresa(codigoTitular, rubro, estadosServicios);
 	}
 
 }

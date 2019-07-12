@@ -7,8 +7,6 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.auctionnow.common.Tupla;
-
 public class Servicio implements Serializable {
 	/**
 	 * 
@@ -16,54 +14,37 @@ public class Servicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String codigoServicio;
 	private String descripcion;
-	private Date fechaRegistro;
 	private String nombre;
 	private String sigla;
-	private Tupla tipoServicio;
-
-	// Empresa a la que pertenece el Servicio
-	private Integer prioridad;
 	private String activo;
-	private Date operaServicioDesde;
-	private Empresa empresa;
-	private Date fechaRegistroWeb;
+	private Rubro rubro;
+	
+	// ASIGNADO A ALGUN PROVEEDOR o EMPRESA (AN_EJERCE)
+	private String codigoServicioActivo;
+	private Integer jerarquia;
+	private Date fechaModificacion;
+	private String activoTitular; 
 
 	// Empresas que dictan el Servicio
-	private List<Empresa> lstEmpresas;
+	private List<Empresa> empresas;
 
 	// Cantidad de cargos que ofrece el servicio
-	private List<Cargo> lstCargos;
-
-	public Date getOperaServicioDesde() {
-		return operaServicioDesde;
+	private List<Cargo> cargos;
+	
+	public List<Empresa> getEmpresas() {
+		return empresas;
 	}
 
-	public void setOperaServicioDesde(Date operaServicioDesde) {
-		this.operaServicioDesde = operaServicioDesde;
+	public void setEmpresas(List<Empresa> empresas) {
+		this.empresas = empresas;
 	}
 
-	public String getActivo() {
-		return activo;
+	public List<Cargo> getCargos() {
+		return cargos;
 	}
 
-	public void setActivo(String activo) {
-		this.activo = activo;
-	}
-
-	public Integer getPrioridad() {
-		return prioridad;
-	}
-
-	public void setPrioridad(Integer prioridad) {
-		this.prioridad = prioridad;
-	}
-
-	public List<Empresa> getLstEmpresas() {
-		return lstEmpresas;
-	}
-
-	public void setLstEmpresas(List<Empresa> lstEmpresas) {
-		this.lstEmpresas = lstEmpresas;
+	public void setCargos(List<Cargo> cargos) {
+		this.cargos = cargos;
 	}
 
 	public String getSigla() {
@@ -90,14 +71,6 @@ public class Servicio implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -106,40 +79,56 @@ public class Servicio implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Tupla getTipoServicio() {
-		return tipoServicio;
+	public String getActivo() {
+		return activo;
 	}
 
-	public void setTipoServicio(Tupla tipoServicio) {
-		this.tipoServicio = tipoServicio;
+	public void setActivo(String activo) {
+		this.activo = activo;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
+	public Rubro getRubro() {
+		return rubro;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setRubro(Rubro rubro) {
+		this.rubro = rubro;
+	}
+	
+	public String getCodigoServicioActivo() {
+		return codigoServicioActivo;
+	}
+
+	public void setCodigoServicioActivo(String codigoServicioActivo) {
+		this.codigoServicioActivo = codigoServicioActivo;
+	}
+
+	public Integer getJerarquia() {
+		return jerarquia;
+	}
+
+	public void setJerarquia(Integer jerarquia) {
+		this.jerarquia = jerarquia;
+	}
+
+	public Date getFechaModificacion() {
+		return fechaModificacion;
+	}
+
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
+
+	public String getActivoTitular() {
+		return activoTitular;
+	}
+
+	public void setActivoTitular(String activoTitular) {
+		this.activoTitular = activoTitular;
 	}
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}
-
-	public Date getFechaRegistroWeb() {
-		return fechaRegistroWeb;
-	}
-
-	public void setFechaRegistroWeb(Date fechaRegistroWeb) {
-		this.fechaRegistroWeb = fechaRegistroWeb;
-	}
-
-	public List<Cargo> getLstCargos() {
-		return lstCargos;
-	}
-
-	public void setLstCargos(List<Cargo> lstCargos) {
-		this.lstCargos = lstCargos;
 	}
 
 }

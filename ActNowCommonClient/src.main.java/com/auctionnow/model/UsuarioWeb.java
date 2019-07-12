@@ -26,6 +26,7 @@ public class UsuarioWeb implements Serializable {
 	private String estadoCuenta;
 	private Tupla tipoUsuarioWeb;
 	private Usuario usuario;
+	private Empresa empresa;
 	private List<Privilegio> privilegios;
 
 	public List<Privilegio> getPrivilegios() {
@@ -143,4 +144,14 @@ public class UsuarioWeb implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+	
+	
 }

@@ -13,7 +13,16 @@ public class FiltroCargo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String codigoCargo;
+	private String codigoServicio;
 	private String sigla;
+
+	public String getCodigoServicio() {
+		return codigoServicio;
+	}
+
+	public void setCodigoServicio(String codigoServicio) {
+		this.codigoServicio = codigoServicio;
+	}
 
 	public String getCodigoCargo() {
 		return codigoCargo;

@@ -38,6 +38,19 @@
 			value='<s:property value="usuarioWeb.usuario.apellidoMaterno"/>' >
 	</div>
 </div>
+
+<div class="form-group">
+	<label class="control-label col-sm-3" for="updateFechaNacimiento">
+		<s:text name="common.label.fecha.nacimiento" />: 
+	</label>
+	<div class="col-sm-4 campoValidado">
+		<input type="text" class="form-control" id="updateFechaNacimiento" 
+			name="cliente.fechaNacimiento" autocomplete="off"
+			placeholder="Fecha de Nacimiento" 
+			value='${fechaNacimientoFormat}' />
+	</div>
+</div>
+
 <div class="form-group">
 	<label class="control-label col-sm-3" for="rut">
 		<s:text name="common.label.rut" />: 
@@ -74,13 +87,3 @@
 	</div>
 </div>
 
-<div class="form-group date-container">
-	<label class="control-label col-sm-3" for="fecha_nacimiento">
-		<s:text name="common.label.fecha.nacimiento" />: 
-	</label>
-	<div class="col-sm-4 campoValidado">
-		<input type="text" class="form-control" id="fechaNacimiento" 
-		name="cliente.fechaNacimiento" placeholder="Fecha de Nacimiento" 
-		value='<s:property value="usuarioWeb.usuario.fechaNacimiento"/>' />
-	</div>
-</div>

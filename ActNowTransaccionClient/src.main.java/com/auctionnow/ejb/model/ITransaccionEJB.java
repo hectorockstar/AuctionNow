@@ -2,11 +2,14 @@ package com.auctionnow.ejb.model;
 
 import java.util.List;
 
+import com.auctionnow.filters.FiltroCargo;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroTransaccion;
 import com.auctionnow.model.BitacoraTransaccion;
 import com.auctionnow.model.Cargo;
 import com.auctionnow.model.MedioPago;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.Subasta;
 import com.auctionnow.model.Tarjeta;
@@ -14,46 +17,54 @@ import com.auctionnow.model.Transaccion;
 
 public interface ITransaccionEJB {
 
-	//UPDATES
-		Integer actualizaMedioPago(MedioPago medioPago);
+	// UPDATES
+	Integer actualizaMedioPago(MedioPago medioPago);
 
-		Integer actualizaServicio(Servicio servicio);
+	Integer actualizaServicio(Servicio servicio);
 
-		Integer actualizaTarjeta(Tarjeta tarjeta);
+	Integer actualizaTarjeta(Tarjeta tarjeta);
 
-		Integer actualizaTransaccion(Transaccion transaccion);
-		
-		Integer actualizaBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);
+	Integer actualizaTransaccion(Transaccion transaccion);
 
-		//SELECTS
-		List<BitacoraTransaccion> getBitacoraTransaccion(FiltroTransaccion filtroTransaccion);
+	Integer actualizaBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);
 
-		List<MedioPago> getMedioPago(FiltroTransaccion filtroTransaccion);
+	// SELECTS
+	List<BitacoraTransaccion> getBitacoraTransaccion(FiltroTransaccion filtroTransaccion);
 
-		Tarjeta getTarjeta(FiltroTransaccion filtroTransaccion);
-		
-		Transaccion getTransaccion(FiltroTransaccion filtroTransaccion);
+	List<MedioPago> getMedioPago(FiltroTransaccion filtroTransaccion);
 
-		List<Transaccion> getTransacciones(FiltroTransaccion filtroTransaccion);
+	Tarjeta getTarjeta(FiltroTransaccion filtroTransaccion);
 
-		List<Servicio> getServicios(FiltroServicio filtroServicio);
-		
-		Servicio getServicio(FiltroServicio filtroServicio);
-		
-		List<Servicio> getServiciosByEmpresa(FiltroServicio filtroServicio);
-		
-		List<Cargo> getCargos();
-		
-		List<Cargo> getCargosByServicio(FiltroServicio filtroServicio);
-		
-		//INSERTS
-		Integer addBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);
+	Transaccion getTransaccion(FiltroTransaccion filtroTransaccion);
 
-		Integer addMedioPago(MedioPago medioPago);
+	List<Transaccion> getTransacciones(FiltroTransaccion filtroTransaccion);
 
-		Integer addServicio(Servicio servicio);
+	List<Servicio> getServicios(FiltroServicio filtroServicio);
 
-		Integer addTarjeta(Tarjeta tarjeta);
+	Servicio getServicio(FiltroServicio filtroServicio);
 
-		Integer addTransaccion(Subasta subasta);
+	List<Servicio> getServiciosByEmpresa(FiltroServicio filtroServicio);
+
+	List<Cargo> getCargos();
+
+	List<Cargo> getCargosByServicio(FiltroCargo filtroCargo);
+
+	List<Rubro> getRubros(FiltroRubro filtroRubro);
+
+	Rubro getRubro(FiltroRubro filtroRubro);
+
+	// INSERTS
+	Integer addBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);
+
+	Integer addMedioPago(MedioPago medioPago);
+
+	Integer addServicio(Servicio servicio);
+
+	Integer addTarjeta(Tarjeta tarjeta);
+
+	Integer addTransaccion(Subasta subasta);
+	
+	//FUNCIONALIDADES
+	Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios);
+
 }

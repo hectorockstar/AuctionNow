@@ -1,6 +1,6 @@
 package com.auctionnow.controller.usuario;
 
-import java.util.List;
+ import java.util.List;
 
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
@@ -26,60 +26,61 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 
 	protected UsuarioWeb usuarioWeb;
 	protected Cliente cliente;
-	protected Direccion direccion;
-	protected Contacto contacto;
 
 	public String showActualizaUsuarioCliente() throws AuctionNowServiceException {
 
-		UsuarioWeb usuWeb = (UsuarioWeb) getSession().get("usuarioWeb");
-		setUsuarioWeb(usuWeb);
-
-		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(getUsuarioWeb().getUsuario().getDirecciones());
-		usuarioWeb.getUsuario().setDirecciones(direcciones);
+		UsuarioWeb usuarioWebSession = (UsuarioWeb) getSession().get("usuarioWeb");
+		
+		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(usuarioWebSession.getUsuario().getDirecciones());
+		usuarioWebSession.getUsuario().setDirecciones(direcciones);
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
-
-		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
 		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-		List<Region> regiones = getCommonEjbRemote().getRegion(filtroDivGeografica);
-		List<Ciudad> ciudades = getCommonEjbRemote().getCiudad(filtroDivGeografica);
-		List<Comuna> comunas= getCommonEjbRemote().getComuna(filtroDivGeografica);
-
-		getRequest().put("codigoTitular", usuarioWeb.getUsuario().getCodigoUsuario());
-		getRequest().put("tipsDirecciones", tipsDirecciones);
-		getRequest().put("tipsContactos", tipsContactos);
+		
+		//SE SETEA USUARIO WEB PARA DESPLEGAR INFO EN LA PAGINA JSP
+		setUsuarioWeb(usuarioWebSession);
+		
 		getRequest().put("generos", generos);
-		getRequest().put("comunas", comunas);
-		getRequest().put("ciudades", ciudades);
-		getRequest().put("regiones", regiones);
 		getRequest().put("paises", paises);
-		getRequest().put("usuarioWeb", usuarioWeb);
+		getRequest().put("fechaNacimientoFormat", this.getFechaFormat(usuarioWebSession.getUsuario().getFechaNacimiento()));
 
 		return SUCCESS;
 	}
 
 	public String actualizaUsuarioWebCliente() throws AuctionNowServiceException {
 		// VALIDAR CAMPOS
+		UsuarioWeb updateUsuarioWeb = (UsuarioWeb) getSession().get("usuarioWeb");
+		
+		updateUsuarioWeb.getUsuario().setNombre(cliente.getNombre().trim());
+		updateUsuarioWeb.getUsuario().setApellidoPaterno(cliente.getApellidoPaterno().trim());
+		updateUsuarioWeb.getUsuario().setApellidoMaterno(cliente.getApellidoMaterno().trim());
+		updateUsuarioWeb.getUsuario().setRut(cliente.getRut().trim());
+		updateUsuarioWeb.getUsuario().setRutDV(cliente.getRutDV().trim());
+		updateUsuarioWeb.getUsuario().setGenero(cliente.getGenero());
+		updateUsuarioWeb.getUsuario().setFechaNacimiento(cliente.getFechaNacimiento());
+		
+		updateUsuarioWeb.setContrasena(usuarioWeb.getContrasena().trim());
+		updateUsuarioWeb.setRespuesta1(usuarioWeb.getRespuesta1().trim());
+		updateUsuarioWeb.setRespuesta2(usuarioWeb.getRespuesta2().trim());
+		updateUsuarioWeb.setRespuesta3(usuarioWeb.getRespuesta3().trim());
+		updateUsuarioWeb.setFirmaComentario(usuarioWeb.getFirmaComentario().trim());
+		updateUsuarioWeb.setEstadoCuenta(Constantes.ACTIVA); //TODO EL ADMIN PUEDE MODIFICAR ESTE ATRIBUTO
+		
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
+		updateUsuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
-		usuarioWeb.setUsuario(cliente);
-
-		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioCliente(usuarioWeb);
+		Integer resultado = getUsuarioEjbRemote().actualizaCuentaUsuarioCliente(updateUsuarioWeb);
 		if (resultado != null && resultado != 0) {
 			getSession().remove("usuarioWeb");
-			getSession().put("usuarioWeb", getUsuarioWeb());
+			getSession().put("usuarioWeb", updateUsuarioWeb);
 		}
 
-		return "SUCCESS";
+		return SUCCESS;
 	}
 
 	public UsuarioWeb getUsuarioWeb() {
@@ -96,22 +97,6 @@ public class UsuarioClienteActualizarAction extends AbstractControllerConfig {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
@@ -14,7 +13,6 @@ import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -30,9 +28,13 @@ import com.auctionnow.model.UsuarioWebTienePrivilegio;
 public interface IUsuarioEJB {
 
 	// INSERTS
+	Integer addCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb);
+	
 	Integer addCuentaUsuarioCliente(UsuarioWeb usuarioWeb);
 
 	Integer addCuentaUsuarioProveedor(UsuarioWeb usuarioWeb);
+	
+	Integer addCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb);
 
 	Integer addEmpresa(Empresa empresa);
 
@@ -40,12 +42,14 @@ public interface IUsuarioEJB {
 
 	Integer addDireccion(Direccion direccion, String codigoTitular);
 
-	Integer addOperacionEmpresa(Empresa empresa);
-
 	// UPDATES
+	Integer actualizaCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb);
+	
 	Integer actualizaCuentaUsuarioCliente(UsuarioWeb usuarioWeb);
 
 	Integer actualizaCuentaUsuarioProveedor(UsuarioWeb usuarioWeb);
+	
+	Integer actualizaCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb);
 
 	Integer actualizaEmpresa(Empresa empresa);
 
@@ -53,12 +57,14 @@ public interface IUsuarioEJB {
 
 	Integer actualizaDireccion(Direccion direccion, String codigoTitular);
 
-	Integer actualizaOperacionEmpresa(Empresa empresa);
-
 	// GETS
 	UsuarioWeb getUsuarioWebClienteData(FiltroUsuarioWeb filtroUsuarioWeb);
 
 	UsuarioWeb getUsuarioWebProveedorData(FiltroUsuarioWeb filtroUsuarioWeb);
+	
+	UsuarioWeb getUsuarioWebEmpresaData(FiltroUsuarioWeb filtroUsuarioWeb);
+	
+	UsuarioWeb getUsuarioWebAdministradorData(FiltroUsuarioWeb filtroUsuarioWeb);
 
 	Empresa getEmpresa(FiltroEmpresa filtroEmpresa);
 
@@ -91,8 +97,6 @@ public interface IUsuarioEJB {
 	GeoLocalizacion getGeoLocalizacion(FiltroGeoLoc filtroGeoLoc);
 
 	List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
-
-	List<Cargo> getCargos(FiltroCargo filtroCargo);
 	
 	// SERVICES
 	String validateUserLogin(String userName, String password);

@@ -44,14 +44,24 @@ public class LoginUserAction extends AbstractControllerConfig {
 
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebClienteData(filtroUsuarioWeb);
 				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_CLIENTE);
+				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_CLIENTE);
 
 			} else if (Constantes.TIPOUSUARIO_PROVEEDOR.equalsIgnoreCase(tipoUsuarioWeb)) {
 
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebProveedorData(filtroUsuarioWeb);
 				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_PROVEEDOR);
+				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_PROVEEDOR);
 
 			} else if (Constantes.TIPOUSUARIO_ADMINISTRADOR.equalsIgnoreCase(tipoUsuarioWeb)) {
+				
 				// TODO
+				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebAdministradorData(filtroUsuarioWeb);
+				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_ADMINISTRADOR);
+			} else if (Constantes.TIPOUSUARIO_EMPRESA.equalsIgnoreCase(tipoUsuarioWeb)) {
+				
+				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebEmpresaData(filtroUsuarioWeb);
+				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_EMPRESA);
+				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_EMPRESA);
 			}
 
 			filtroTipoUsuario.setTipoCatalogo(Constantes.CATALOGO_USUARIOWEB_TIPO);
@@ -68,9 +78,6 @@ public class LoginUserAction extends AbstractControllerConfig {
 
 			return SUCCESS;
 		} else {
-
-//			getSession().put("errMsj",
-//					"El Usuario ingresado no existe, o quizas escribiste mal tu contraseña. Por favor intenta nuevamente.");
 			getSession().put("errMsj",true);
 			return ERROR;
 		}

@@ -15,6 +15,7 @@ import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroUsuarioWeb;
 import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
@@ -26,6 +27,7 @@ import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.TipoUsuarioWeb;
 import com.auctionnow.model.Usuario;
@@ -63,8 +65,8 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("telefonoMovil1", contacto.getMovil1());
 		parameters.put("telefonoMovil2", contacto.getMovil2());
 		parameters.put("tipoContacto", contacto.getTipoContacto().getId());
-		parameters.put("codigoTitular", codigoTitular); // codigoUsuario,
-														// codigoEmpresa
+		parameters.put("codigoDireccion", contacto.getDireccion().getCodigoDireccion()); // codigoDireccion
+		parameters.put("codigoTitular", codigoTitular); // codigoUsuario, codigoEmpresa
 
 		return (Integer) getSqlSession().update("updateContacto", parameters);
 	}
@@ -97,6 +99,8 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("fecRegistro", empresa.getFechaRegistro());
 		parameters.put("nombre", empresa.getNombreEmpresa());
 		parameters.put("vigente", empresa.getVigente());
+		parameters.put("rut", empresa.getRut());
+		parameters.put("rutDV", empresa.getRutDV());
 
 		return (Integer) getSqlSession().update("updateEmpresa", parameters);
 	}
@@ -156,7 +160,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("genero", usuario.getGenero().getId());
 		parameters.put("ocupacion", usuario.getOcupacion());
 		parameters.put("fecRegistro", usuario.getFechaRegistro());
-		//parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
+		parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
 
 		return (Integer) getSqlSession().update("updateUsuario", parameters);
 	}
@@ -165,8 +169,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer actualizaUsuarioCliente(Cliente cliente) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoCliente", cliente.getCodigoCliente());
-		parameters.put("codigoFichaCli",
-				cliente.getFichaCliente() == null ? 0 : cliente.getFichaCliente().getCodigoFicha());
+		parameters.put("codigoFichaCli", cliente.getFichaCliente() == null ? 0 : cliente.getFichaCliente().getCodigoFicha());
 		parameters.put("tipoCliente", cliente.getTipoCliente().getId());
 		parameters.put("codigoUsuario", cliente.getCodigoUsuario());
 
@@ -206,21 +209,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer actualizaOperacionEmpresa(Empresa empresa) {
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", empresa.getCodigoEmpresa());
-		parameters.put("codigoServicio", empresa.getServicio().getCodigoServicio());
-		parameters.put("prioridad", empresa.getServicio().getPrioridad());
-		parameters.put("fecDesdeOpera", empresa.getServicio().getOperaServicioDesde());
-		parameters.put("activo", empresa.getServicio().getActivo());
-
-		return (Integer) getSqlSession().update("updateEmpresaOpera", parameters);
-	}
-
-	@Override
-	public Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion,
-			String activo) {
+	public Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion, String activo) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoPrivilegio", privilegio.getCodigoPrivilegio());
 		parameters.put("codigoUsuarioWeb", usuarioWeb.getCodigoUsuarioWeb());
@@ -228,17 +217,6 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("descripcion", descripcion);
 
 		return (Integer) getSqlSession().update("updateUsuarioPrivilegio", parameters);
-	}
-
-	@Override
-	public Integer actualizarCargo(Cargo cargo) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoCargo", cargo.getCodigoCargo());
-		parameters.put("nombrecargo", cargo.getNombre());
-		parameters.put("sigla", cargo.getSigla());
-		parameters.put("descripcion", cargo.getDescripcion());
-
-		return (Integer) getSqlSession().insert("updateCargo", parameters);
 	}
 
 	@Override
@@ -274,6 +252,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("ocupacion", usuario.getOcupacion());
 		parameters.put("fecRegistro", usuario.getFechaRegistro());
 		parameters.put("tipoUsuario", usuario.getTipoUsuario().getId());
+		parameters.put("pais", usuario.getPais().getCodigoPais());
 
 		return (Integer) getSqlSession().insert("addUsuario", parameters);
 	}
@@ -294,8 +273,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer addUsuarioProveedor(Proveedor proveedor) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoProveedor", proveedor.getCodigoProveedor());
-		parameters.put("codigoFichaProv",
-				proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
+		parameters.put("codigoFichaProv", proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
 		parameters.put("codigoEmpresa", proveedor.getEmpresa().getCodigoEmpresa());
 		parameters.put("codigoServicio", proveedor.getServicio().getCodigoServicio());
 		parameters.put("codigoCargo", proveedor.getCargo().getCodigoCargo());
@@ -316,6 +294,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("telefonoMovil2", contacto.getMovil2());
 		parameters.put("tipoContacto", contacto.getTipoContacto().getId());
 		parameters.put("codigoUsuario", codigoTitular);
+		parameters.put("codigoDireccion", contacto.getDireccion().getCodigoDireccion());
 
 		return (Integer) getSqlSession().insert("addContacto", parameters);
 	}
@@ -333,8 +312,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("codigoPostal", direccion.getCodigoPostal());
 		parameters.put("tipoDireccion", direccion.getTipoDireccion().getId());
 		parameters.put("codigoComuna", direccion.getComuna().getCodigoComuna());
-		parameters.put("codigoGeoLoc",
-				direccion.getGeoLocalizacion() == null ? 0 : direccion.getGeoLocalizacion().getIdGeo());
+		parameters.put("codigoGeoLoc", direccion.getGeoLocalizacion() == null ? 0 : direccion.getGeoLocalizacion().getIdGeo());
 		parameters.put("codigoUsuario", codigoTitular);
 
 		return (Integer) getSqlSession().insert("addDireccion", parameters);
@@ -349,24 +327,11 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("fecRegistro", empresa.getFechaRegistro());
 		parameters.put("nombre", empresa.getNombreEmpresa());
 		parameters.put("vigente", empresa.getVigente());
+		parameters.put("codigoPais", empresa.getPais().getCodigoPais());
 		parameters.put("rut", empresa.getRut());
 		parameters.put("rutDV", empresa.getRutDV());
 
 		return (Integer) getSqlSession().insert("addEmpresa", parameters);
-	}
-
-	@Override
-	public Integer addOperacionEmpresa(Empresa empresa) {
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoEmpresa", empresa.getCodigoEmpresa());
-		parameters.put("codigoServicio", empresa.getServicio().getCodigoServicio());
-		parameters.put("prioridad", empresa.getServicio().getPrioridad());
-		parameters.put("fecDesdeOpera", empresa.getServicio().getOperaServicioDesde());
-		parameters.put("fecRegistro", empresa.getServicio().getFechaRegistroWeb());
-		parameters.put("activo", empresa.getServicio().getActivo());
-
-		return (Integer) getSqlSession().insert("addEmpresaOpera", parameters);
 	}
 
 	@Override
@@ -426,7 +391,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		parameters.put("respuesta3", usuarioWeb.getRespuesta3());
 		parameters.put("estadoCuenta", usuarioWeb.getEstadoCuenta());
 		parameters.put("tipoUsuWeb", usuarioWeb.getTipoUsuarioWeb().getId());
-		parameters.put("codigoUsuario", usuarioWeb.getUsuario().getCodigoUsuario());
+		parameters.put("codigoUsuario", usuarioWeb.getUsuario() == null ? usuarioWeb.getEmpresa().getCodigoEmpresa() : usuarioWeb.getUsuario().getCodigoUsuario());
 
 		return (Integer) getSqlSession().insert("addUsuarioWeb", parameters);
 	}
@@ -444,19 +409,13 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	}
 
 	@Override
-	public Integer addCargo(Cargo cargo) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("codigoCargo", cargo.getCodigoCargo());
-		parameters.put("nombrecargo", cargo.getNombre());
-		parameters.put("sigla", cargo.getSigla());
-		parameters.put("descripcion", cargo.getDescripcion());
-
-		return (Integer) getSqlSession().insert("addCargo", parameters);
-	}
-
-	@Override
 	public UsuarioWeb getUsuarioWeb(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (UsuarioWeb) getSqlSession().selectOne("getUsuarioWeb", filtroUsuarioWeb);
+	}
+	
+	@Override
+	public Usuario getUsuario(FiltroCliente filtroCliente) {
+		return (Usuario) getSqlSession().selectOne("getUsuario", filtroCliente);
 	}
 
 	@Override
@@ -532,12 +491,6 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	@Override
 	public List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (List<UsuarioWebTienePrivilegio>) getSqlSession().selectList("getPrivilegiosUsuario", filtroUsuarioWeb);
-	}
-
-	@Override
-	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
-
-		return (List<Cargo>) getSqlSession().selectList("getCargos", filtroCargo);
 	}
 
 	@Override

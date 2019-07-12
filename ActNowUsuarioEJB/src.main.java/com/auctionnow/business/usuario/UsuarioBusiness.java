@@ -10,7 +10,6 @@ import com.auctionnow.common.Tupla;
 import com.auctionnow.data.usuario.IUsuarioDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
 import com.auctionnow.exception.AuctionNowServiceException;
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
@@ -21,7 +20,6 @@ import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -31,6 +29,7 @@ import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
+import com.auctionnow.model.Usuario;
 import com.auctionnow.model.UsuarioWeb;
 import com.auctionnow.model.UsuarioWebTienePrivilegio;
 
@@ -69,17 +68,34 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public void setCommonEjbRemote(ICommonEjbRemote commonEjbRemote) {
 		this.commonEjbRemote = commonEjbRemote;
 	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer addCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb) {
+		Usuario usuarioAdm = usuarioWeb.getUsuario();
+		usuarioAdm.setFechaRegistro(new Date());
 
+		Tupla tipoUsuario = new Tupla();
+		tipoUsuario.setId(Constantes.TIPOUSUARIO_SIGLA_ADMINISTRADOR);
+		usuarioAdm.setTipoUsuario(tipoUsuario);
+
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+
+		filtroCatalogo.setKey(Constantes.SECUENCIA_USUARIO);
+		usuarioAdm.setCodigoUsuario(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		Integer registraUsuario = usuarioDAO.addUsuario(usuarioWeb.getUsuario());
+
+		filtroCatalogo.setKey(Constantes.SECUENCIA_USUARIOWEB);
+		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		Integer registraUsuarioWeb = usuarioDAO.addUsuarioWeb(usuarioWeb);
+
+		return registraUsuario * registraUsuarioWeb;
+	}
+	
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addCuentaUsuarioCliente(UsuarioWeb usuarioWeb) {
 		Cliente cliente = (Cliente) usuarioWeb.getUsuario();
-
 		cliente.setFechaRegistro(new Date());
-		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
-
-		Tupla tipoUsuarioWeb = new Tupla();
-		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
-		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
 		Tupla tipoCliente = new Tupla();
 		tipoCliente.setId(Constantes.TIPOCLIENTE_SIGLA_PERSONA);
@@ -104,39 +120,13 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		Integer registraUsuarioWeb = usuarioDAO.addUsuarioWeb(usuarioWeb);
 
-		Integer registraDireccion = 1;
-		for (Direccion direccion : cliente.getDirecciones()) {
-			direccion.setPrioridad(1);
-
-			filtroCatalogo.setKey(Constantes.SECUENCIA_DIRECCION);
-			direccion.setCodigoDireccion(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-
-			registraDireccion *= usuarioDAO.addDireccion(direccion, cliente.getCodigoUsuario());
-		}
-
-		Integer registraContacto = 1;
-		for (Contacto contacto : cliente.getContactos()) {
-			contacto.setPrioridad(1);
-
-			filtroCatalogo.setKey(Constantes.SECUENCIA_CONTACTO);
-			contacto.setCodigoContacto(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-
-			registraContacto *= usuarioDAO.addContacto(contacto, cliente.getCodigoUsuario());
-		}
-
-		return registraUsuario * registraCliente * registraUsuarioWeb * registraDireccion * registraContacto;
+		return registraUsuario * registraCliente * registraUsuarioWeb;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addCuentaUsuarioProveedor(UsuarioWeb usuarioWeb) {
 		Proveedor proveedor = (Proveedor) usuarioWeb.getUsuario();
-		
 		proveedor.setFechaRegistro(new Date());
-		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
-
-		Tupla tipoUsuarioWeb = new Tupla();
-		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR);
-		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
 		Tupla tipoUsuario = new Tupla();
 		tipoUsuario.setId(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR);
@@ -156,36 +146,33 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		Integer registraUsuarioWeb = usuarioDAO.addUsuarioWeb(usuarioWeb);
 
-		Integer registraDireccion = 1;
-		for (Direccion direccion : proveedor.getDirecciones()) {
-			direccion.setPrioridad(1);
+		return registraUsuario * registraProveedor * registraUsuarioWeb;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer addCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb) {
+		
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+		
+		Empresa empresa = usuarioWeb.getEmpresa();
+		empresa.setFechaRegistro(new Date());
+		empresa.setVigente("S");
+		
+		filtroCatalogo.setKey(Constantes.SECUENCIA_USUARIOWEB);
+		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		
+		filtroCatalogo.setKey(Constantes.SECUENCIA_EMPRESA);
+		empresa.setCodigoEmpresa(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		
+		Integer registraUsuarioWeb = usuarioDAO.addUsuarioWeb(usuarioWeb);
+		Integer registraEmpresa = usuarioDAO.addEmpresa(empresa);
 
-			filtroCatalogo.setKey(Constantes.SECUENCIA_DIRECCION);
-			direccion.setCodigoDireccion(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-
-			registraDireccion *= usuarioDAO.addDireccion(direccion, proveedor.getCodigoUsuario());
-		}
-
-		Integer registraContacto = 1;
-		for (Contacto contacto : proveedor.getContactos()) {
-			contacto.setPrioridad(1);
-
-			filtroCatalogo.setKey(Constantes.SECUENCIA_CONTACTO);
-			contacto.setCodigoContacto(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-
-			registraContacto *= usuarioDAO.addContacto(contacto, proveedor.getCodigoUsuario());
-		}
-
-		return registraUsuario * registraProveedor * registraUsuarioWeb * registraDireccion * registraContacto;
+		return registraUsuarioWeb * registraEmpresa;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addEmpresa(Empresa empresa) {
-		
-		empresa.getServicio().setActivo("N");//TODO //Hacer Pagina para gestionar Activacion
-		empresa.getServicio().setFechaRegistroWeb(new Date());
-		empresa.getServicio().setPrioridad(1);
-		empresa.getServicio().setFechaRegistro(new Date());
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
@@ -196,32 +183,8 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		filtroCatalogo.setKey(Constantes.SECUENCIA_EMPRESA);
 		empresa.setCodigoEmpresa(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		Integer registraEmpresa = usuarioDAO.addEmpresa(empresa);
-		String codigoEmpresa = empresa.getCodigoEmpresa();
 
-		Integer registraDireccion = 1;
-		for (Direccion direccion : empresa.getDirecciones()) {
-			direccion.setPrioridad(1);
-
-			filtroCatalogo.setKey(Constantes.SECUENCIA_DIRECCION);
-			direccion.setCodigoDireccion(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-			
-			registraDireccion *= usuarioDAO.addDireccion(direccion, codigoEmpresa);
-		}
-
-		Integer registraContacto = 1;
-		for (Contacto contacto : empresa.getContactos()) {
-			contacto.setPrioridad(1);
-
-			filtroCatalogo.setKey(Constantes.SECUENCIA_CONTACTO);
-			contacto.setCodigoContacto(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-			
-			registraContacto *= usuarioDAO.addContacto(contacto, codigoEmpresa);
-		}
-
-		Integer registraEmpresaOpera = usuarioDAO.addOperacionEmpresa(empresa);
-		registraEmpresaOpera *= registraEmpresaOpera;
-
-		return registraEmpresa * registraEmpresaOpera * registraDireccion * registraContacto;
+		return registraEmpresa;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -232,6 +195,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		contacto.setCodigoContacto(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		
 		Integer registraContacto = usuarioDAO.addContacto(contacto, codigoTitular);
+		
 		return registraContacto;
 	}
 
@@ -243,13 +207,28 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		direccion.setCodigoDireccion(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		
 		Integer registraDireccion = usuarioDAO.addDireccion(direccion, codigoTitular);
+		
 		return registraDireccion;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer actualizaCuentaUsuarioCliente(UsuarioWeb usuarioWeb) {
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
+		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
+		
 		Cliente cliente = (Cliente) usuarioWeb.getUsuario();
-
+		
+		Tupla tipoCliente = new Tupla();
+		tipoCliente.setId(Constantes.TIPOCLIENTE_SIGLA_PERSONA);
+		cliente.setTipoCliente(tipoCliente);
+		
+		Tupla tipoUsuario = new Tupla();
+		tipoUsuario.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
+		cliente.setTipoUsuario(tipoUsuario);
+		
+		usuarioWeb.setUsuario(cliente);
+		
 		Integer actualizaUsuario = usuarioDAO.actualizaUsuario(usuarioWeb.getUsuario());
 		Integer actualizaCliente = usuarioDAO.actualizaUsuarioCliente(cliente);
 		Integer actualizaUsuarioWeb = usuarioDAO.actualizaUsuarioWeb(usuarioWeb);
@@ -267,21 +246,42 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 
 		return actualizaUsuario * actualizaProveedor * actualizaUsuarioWeb;
 	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer actualizaCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb) {
+		Usuario usuarioAdm = usuarioWeb.getUsuario();
+		
+		Tupla tipoUsuario = new Tupla();
+		tipoUsuario.setId(Constantes.TIPOUSUARIO_SIGLA_ADMINISTRADOR);
+		usuarioAdm.setTipoUsuario(tipoUsuario);
+		
+		usuarioWeb.setUsuario(usuarioAdm);
+		
+		Integer actualizaUsuario = usuarioDAO.actualizaUsuario(usuarioWeb.getUsuario());
+		Integer actualizaUsuarioWeb = usuarioDAO.actualizaUsuarioWeb(usuarioWeb);
+
+		return actualizaUsuario * actualizaUsuarioWeb;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer actualizaCuentaUsuarioEmpresa(UsuarioWeb usuarioWeb) {
+		Usuario usuarioAdm = usuarioWeb.getUsuario();
+		
+		Tupla tipoUsuario = new Tupla();
+		tipoUsuario.setId(Constantes.TIPOUSUARIO_SIGLA_EMPRESA);
+		usuarioAdm.setTipoUsuario(tipoUsuario);
+		
+		usuarioWeb.setUsuario(usuarioAdm);
+		
+		Integer actualizaEmpresa = usuarioDAO.actualizaEmpresa(usuarioWeb.getEmpresa());
+		Integer actualizaUsuarioWeb = usuarioDAO.actualizaUsuarioWeb(usuarioWeb);
+
+		return actualizaEmpresa * actualizaUsuarioWeb;
+	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer actualizaEmpresa(Empresa empresa) {
 		Integer actualizaEmpresa = usuarioDAO.actualizaEmpresa(empresa);
-		String codigoEmpresa = empresa.getCodigoEmpresa();
-
-		Integer updateDireccion = 1;
-		for (Direccion direccion : empresa.getDirecciones()) {
-			updateDireccion *= usuarioDAO.actualizaDireccion(direccion, codigoEmpresa);
-		}
-
-		Integer updateContacto = 1;
-		for (Contacto contacto : empresa.getContactos()) {
-			updateContacto *= usuarioDAO.actualizaContacto(contacto, codigoEmpresa);
-		}
 
 		return actualizaEmpresa;
 	}
@@ -343,6 +343,44 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 
 		return usuarioWeb;
 	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public UsuarioWeb getUsuarioWebEmpresaData(FiltroUsuarioWeb filtroUsuarioWeb) {
+		UsuarioWeb usuarioWeb = usuarioDAO.getUsuarioWeb(filtroUsuarioWeb);
+
+		FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
+		filtroEmpresa.setCodigoEmpresa(usuarioWeb.getUsuario().getCodigoUsuario());
+
+		Empresa empresa = usuarioDAO.getEmpresa(filtroEmpresa);
+		usuarioWeb.setEmpresa(empresa);
+
+		FiltroContacto filtroContacto = new FiltroContacto();
+		filtroContacto.setCodigoTitular(empresa.getCodigoEmpresa());
+		empresa.setContactos(usuarioDAO.getContactos(filtroContacto));
+
+		FiltroDireccion filtroDireccion = new FiltroDireccion();
+		filtroDireccion.setCodigoTitular(empresa.getCodigoEmpresa());
+		empresa.setDirecciones(usuarioDAO.getDirecciones(filtroDireccion));
+
+		return usuarioWeb;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public UsuarioWeb getUsuarioWebAdministradorData(FiltroUsuarioWeb filtroUsuarioWeb) {
+		UsuarioWeb usuarioWeb = usuarioDAO.getUsuarioWeb(filtroUsuarioWeb);
+		
+		FiltroCliente filtroAdminstrador = new FiltroCliente();
+		filtroAdminstrador.setCodigoUsuario(usuarioWeb.getUsuario().getCodigoUsuario());
+		Usuario usuarioAdministrador = usuarioDAO.getUsuario(filtroAdminstrador);
+
+		FiltroContacto filtroContacto = new FiltroContacto();
+		filtroContacto.setCodigoTitular(usuarioAdministrador.getCodigoUsuario());
+		usuarioAdministrador.setContactos(usuarioDAO.getContactos(filtroContacto));
+		
+		usuarioWeb.setUsuario(usuarioAdministrador);
+		
+		return usuarioWeb;
+	}
 
 	public Empresa getEmpresa(FiltroEmpresa filtroEmpresa) {
 		Empresa empresa = usuarioDAO.getEmpresa(filtroEmpresa);
@@ -363,11 +401,6 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	}
 	
 	
-	public List<Cargo> getCargos(FiltroCargo filtroCargo) {
-		List<Cargo> lstCargos = usuarioDAO.getCargos(filtroCargo);
-		return lstCargos;
-	}
-
 	public List<UsuarioWeb> getUsuariosWebCliente(FiltroUsuarioWeb filtroUsuarioWeb) {
 		// TODO Auto-generated method stub
 		return null;
@@ -403,7 +436,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public Cliente getCliente(FiltroCliente filtroCliente) {
 		return usuarioDAO.getCliente(filtroCliente);
 	}
-
+	
 	public FichaServicioCliente getClienteFicha(FiltroCliente filtroCliente) {
 		return usuarioDAO.getClienteFicha(filtroCliente);
 	}
@@ -424,13 +457,8 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		return usuarioDAO.getProveedores(filtroProveedor);
 	}
 
-	public Integer addOperacionEmpresa(Empresa empresa) {
-		empresa.getServicio().setFechaRegistroWeb(new Date());
-		return usuarioDAO.addOperacionEmpresa(empresa);
-	}
-
 	public Integer actualizaOperacionEmpresa(Empresa empresa) {
-		return usuarioDAO.actualizaOperacionEmpresa(empresa);
+		return null;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -542,9 +570,4 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		transport.close();
 	}
 
-	
-
-	
-	
-	
 }

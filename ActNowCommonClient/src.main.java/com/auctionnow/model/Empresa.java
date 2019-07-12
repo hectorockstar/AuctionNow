@@ -8,22 +8,26 @@ import java.util.Map;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.auctionnow.common.Pais;
+
 public class Empresa implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codigoEmpresa;
-	private List<Contacto> contactos;
 	private String descripcion;
-	private List<Direccion> direcciones;
 	private Date fechaOperaDesde;
 	private Date fechaRegistro;
 	private String nombreEmpresa;
 	private String rut;
 	private String rutDV;
-	private Map<Integer, Servicio> servicios;
 	private String vigente;
+	private Pais pais;
+	private Map<Integer, Servicio> servicios;
+	private List<Contacto> contactos;
+	private List<Direccion> direcciones;
+	private List<Rubro> rubros;
 	
 	private Servicio servicio;
 	
@@ -114,6 +118,14 @@ public class Empresa implements Serializable {
 	public void setNombreEmpresa(String nombreEmpresa) {
 		this.nombreEmpresa = nombreEmpresa;
 	}
+	
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
+	}
 
 	public Map<Integer, Servicio> getServicios() {
 		return servicios;
@@ -121,6 +133,14 @@ public class Empresa implements Serializable {
 
 	public void setServicios(Map<Integer, Servicio> servicios) {
 		this.servicios = servicios;
+	}
+
+	public List<Rubro> getRubros() {
+		return rubros;
+	}
+
+	public void setRubros(List<Rubro> rubros) {
+		this.rubros = rubros;
 	}
 
 	public String toString() {

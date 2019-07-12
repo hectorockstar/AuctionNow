@@ -7,12 +7,16 @@
 <br>
 
 <div class="form-group">
-	<label class="control-label col-sm-3">
+	<label class="control-label col-sm-3" for="nombreUsuario">
 		<s:text name="common.label.nombre.usuario"/>: 
 	</label>
-	<label class="control-label">
-		<s:property value="usuarioWeb.nombreUsuario"/>
-	</label>
+	<div class="col-sm-9 campoValidado">
+		<input type="text" class="form-control" 
+			id="nombreUsuario"
+			name="usuarioWeb.nombreUsuario" 
+			value='<s:property value="usuarioWeb.nombreUsuario"/>'
+			disabled >
+	</div>
 </div>
 <div class="form-group">
 	<label class="control-label col-sm-3" for="pwd">

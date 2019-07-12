@@ -33,8 +33,7 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 
 	protected UsuarioWeb usuarioWeb;
 	protected Cliente cliente;
-	protected Direccion direccion;
-	protected Contacto contacto;
+	protected Pais pais;
 
 	@Transactional(rollbackFor = AuctionNowServiceException.class)
 	public String showRegistarUsuarioCliente() {
@@ -53,7 +52,7 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
-
+		
 		getRequest().put("tipsDirecciones", tipsDirecciones);
 		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);
@@ -68,15 +67,14 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 	@Transactional(rollbackFor = AuctionNowServiceException.class)
 	public String addUsuarioWebCliente() throws AuctionNowServiceException {
 
-		List<Contacto> contactos = new ArrayList<Contacto>();
-		contactos.add(contacto);
-		cliente.setContactos(contactos);
-
-		List<Direccion> direcciones = new ArrayList<Direccion>();
-		direcciones.add(direccion);
-		cliente.setDirecciones(direcciones);
-
+		cliente.setPais(pais);
+		
 		usuarioWeb.setUsuario(cliente);
+		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
+
+		Tupla tipoUsuarioWeb = new Tupla();
+		tipoUsuarioWeb.setId(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
+		usuarioWeb.setTipoUsuarioWeb(tipoUsuarioWeb);
 
 		// VALIDAR CAMPOS
 		boolean validador = validateFields(usuarioWeb);
@@ -109,28 +107,20 @@ public class UsuarioClienteRegistrarAction extends AbstractControllerConfig {
 		this.usuarioWeb = usuarioWeb;
 	}
 
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 }

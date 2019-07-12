@@ -17,9 +17,26 @@
 		<result property="respuesta2"                       column="UW_RES2" />
 		<result property="respuesta3"                       column="UW_RES3" />
 		<result property="estadoCuenta"                     column="UW_ESTADOCTA" />
-		<result property="tipoUsuarioWeb.id"                column="UW_USUWEBID" />
-		<result property="tipoUsuarioWeb.descripcion"       column="UW_USUWEBDESC" />
+		<result property="tipoUsuarioWeb.id"                column="UW_TIPOUSUWEBID" />
+		<result property="tipoUsuarioWeb.descripcion"       column="UW_TIPOUSUWEBDESC" />
 		<result property="usuario.codigoUsuario"            column="UW_CODUSUARIO" />
+		<result property="empresa.codigoEmpresa"            column="UW_CODEMPRESA" />
+	</resultMap>
+	
+	<resultMap id="usuario-mapping" type="com.auctionnow.model.Usuario">
+		<result property="codigoUsuario"            column="U_CODUSUARIO" />
+		<result property="fechaNacimiento"          column="U_FECHANACIMIENTO" />
+		<result property="fechaRegistro"            column="U_FECHAREGISTRO" />
+		<result property="genero.id"                column="U_GENERO" />
+		<result property="nombre"                   column="U_NOMBRES" />
+		<result property="apellidoPaterno"          column="U_APEPAT" />
+		<result property="apellidoMaterno"          column="U_APEMAT" />
+		<result property="rut"                      column="U_RUT" />
+		<result property="rutDV"                    column="U_RUTDV" />
+		<result property="ocupacion"                column="U_OCUPACION" />
+		<result property="pais.codigoPais"          column="U_CODIGOPAIS" />
+		<result property="tipoUsuario.id"           column="U_TIPOUSUARIOID" />
+		<result property="tipoUsuario.descripcion"  column="U_TIPOUSUARIODESC" />
 	</resultMap>
 	
 	<resultMap id="cliente-mapping" type="com.auctionnow.model.Cliente">
@@ -33,10 +50,10 @@
 		<result property="rut"                      column="C_RUT" />
 		<result property="rutDV"                    column="C_RUTDV" />
 		<result property="ocupacion"                column="C_OCUPACION" />
+		<result property="pais.codigoPais"          column="C_CODIGOPAIS" />
 		<result property="tipoUsuario.id"           column="C_TIPOUSUARIOID" />
 		<result property="tipoUsuario.descripcion"  column="C_TIPOUSUARIODESC" />
 		<result property="codigoCliente"            column="C_CODCLIENTE" />
-		<result property="ocupacion"                column="C_OCUPACION" />
 		<result property="tipoCliente.id"           column="C_TIPOCLIENTEID" />
 		<result property="tipoCliente.descripcion"  column="C_TIPOCLIENTEDESC" />
 		<result property="fichaCliente.codigoFicha" column="C_CODIGOFICHA" />
@@ -53,6 +70,7 @@
 		<result property="rut"                        column="P_RUT" />
 		<result property="rutDV"                      column="P_RUTDV" />
 		<result property="ocupacion"                  column="P_OCUPACION" />
+		<result property="pais.codigoPais"            column="P_CODIGOPAIS" />
 		<result property="tipoUsuario.id"             column="P_TIPOUSUARIOID" />
 		<result property="tipoUsuario.descripcion"    column="P_TIPOUSUARIODESC" />
 		<result property="codigoProveedor"            column="P_CODPROVEEDOR" />
@@ -77,24 +95,27 @@
 	<resultMap id="empresa-mapping" type="com.auctionnow.model.Empresa" >
 		<result property="codigoEmpresa"   column="E_CODEMPRESA" />
 		<result property="descripcion"     column="E_DESCRIPCION" />
-		<result property="fechaOperaDesde" column="E_FECHAREGISTRO" />
+		<result property="fechaOperaDesde" column="E_FECHAFUNDACION" />
 		<result property="fechaRegistro"   column="E_FECHAREGISTRO" />
 		<result property="nombreEmpresa"   column="E_NOMBRE" />
 		<result property="rut"   		   column="E_RUT" />
 		<result property="rutDV"           column="E_RUTDV" />
+		<result property="pais.codigoPais"      column="E_CODIGOPAIS" />
 		<result property="vigente"         column="E_VIGENTE" />
 	</resultMap>
 	
 	<resultMap id="contacto-mapping" type="com.auctionnow.model.Contacto" >
-		<result property="codigoContacto"           column="C_CODCONTACTO" />
-		<result property="email"                    column="C_EMAIL" />
-		<result property="prioridad"                column="C_PRIORIDAD" />
-		<result property="telefono1"                column="C_TELFIJ1" />
-		<result property="telefono2"                column="C_TELFIJ2" />
-		<result property="movil1"                   column="C_TELMOV1" />
-		<result property="movil2"                   column="C_TELMOV2" />
-		<result property="tipoContacto.id"          column="C_TIPOCONTACTOID" />
-		<result property="tipoContacto.descripcion" column="C_TIPOCONTACTODESC" />
+		<result property="codigoContacto"            column="C_CODCONTACTO" />
+		<result property="email"                     column="C_EMAIL" />
+		<result property="prioridad"                 column="C_PRIORIDAD" />
+		<result property="telefono1"                 column="C_TELFIJ1" />
+		<result property="telefono2"                 column="C_TELFIJ2" />
+		<result property="movil1"                    column="C_TELMOV1" />
+		<result property="movil2"                    column="C_TELMOV2" />
+		<result property="tipoContacto.id"           column="C_TIPOCONTACTOID" />
+		<result property="tipoContacto.descripcion"  column="C_TIPOCONTACTODESC" />
+		<result property="codigoTitular" 			 column="C_CODTITULAR" />
+		<result property="direccion.codigoDireccion" column="C_CODDIRECCION" />
 	</resultMap>
 	
 	<resultMap id="direccion-mapping" type="com.auctionnow.model.Direccion" >
@@ -150,16 +171,6 @@
 		<result property="cantidadEvaluaciones" column="FP_CANTEVAL" />
 	</resultMap>
 	
-	<resultMap id="opera-servicio-mapping" type="com.auctionnow.model.Servicio" >
-		<result property="codigoServicio"           column="S_CODSERVICIO" />
-		<result property="descripcion"              column="S_DESCRIPCION" />
-		<result property="fechaRegistro"            column="S_FECHAREGISTRO" />
-		<result property="nombre"                   column="S_NOMBRE" />
-		<result property="sigla"                    column="S_SIGLA" />
-		<result property="tipoServicio.id"          column="S_TIPOSERVICIOID" />
-		<result property="tipoServicio.descripcion" column="S_TIPOSERVICIODESC" />
-	</resultMap>
-	
 	<resultMap id="privilegio-mapping" type="com.auctionnow.model.Privilegio" >
 		<result property="codigoPrivilegio"           column="P_CODIGOPRIVILEGIO" />
 		<result property="descPrivilegio"             column="P_DESCRIPCION" />
@@ -205,15 +216,6 @@
 		</collection>
 	</resultMap>
 	
-	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
-		<result property="codigoCargo"  column="CAR_CODIGO" />
-		<result property="nombre"       column="CAR_NOMBRE" />
-		<result property="sigla"        column="CAR_SIGLA" />
-		<result property="descripcion"  column="CAR_DESC" />
-		<result property="vigente"  	column="CAR_VIGEN" />
-	</resultMap>
-	
-	
 	<!-- SELECTs -->
 	<select id="getUsuarioWeb" resultMap="usuarioWeb-mapping" parameterType="com.auctionnow.filters.FiltroUsuarioWeb">
 		SELECT 
@@ -233,11 +235,40 @@
 			USUWEB.C_CODUSU         AS UW_CODUSUARIO
 			
 		FROM AN_USUARIOWEB USUWEB
-		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
-		
+		INNER JOIN AN_CATALOGO TIPUSUWEB 
+			ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+			AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+			
 		WHERE T_NOMUSU = #{nombreUsuario}
 		AND T_PASSWORD = #{contrasena}
-		AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+		
+	</select>
+	
+	<select id="getUsuario" resultMap="usuario-mapping" parameterType="com.auctionnow.filters.FiltroCliente">
+		SELECT 
+		    USU.C_CODUSU         AS U_CODUSUARIO,
+			USU.T_RUT            AS U_RUT,
+			USU.T_RUTDV          AS U_RUTDV,
+			USU.T_NOMBRES        AS U_NOMBRES,
+			USU.T_APEPAT         AS U_APEPAT,
+			USU.T_APEMAT         AS U_APEMAT,
+			USU.D_FECNAC         AS U_FECHANACIMIENTO,
+			USU.T_GENERO         AS U_GENERO,
+			USU.T_OCUPACION      AS U_OCUPACION,
+			USU.D_FECREG         AS U_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS U_CODIGOPAIS,
+			TIPUSU.C_TIPCATAL    AS U_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION AS U_TIPOUSUARIODESC
+		
+		FROM AN_USUARIO USU
+		INNER JOIN AN_CATALOGO TIPUSU 
+			ON USU.C_TIPUSU = TIPUSU.C_TIPCATAL
+		
+		WHERE TIPUSU.C_CATALOGO = 'C_TIPUSU'
+		
+		<if test="codigoUsuario != null and codigoUsuario != ''">
+			AND USU.C_CODUSU = #{codigoUsuario}
+		</if>
 	</select>
 	
 	<select id="getCliente" resultMap="cliente-mapping" parameterType="com.auctionnow.filters.FiltroCliente">
@@ -252,6 +283,7 @@
 			USU.T_GENERO         AS C_GENERO,
 			USU.T_OCUPACION      AS C_OCUPACION,
 			USU.D_FECREG         AS C_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS C_CODIGOPAIS,
 			TIPUSU.C_TIPCATAL    AS C_TIPOUSUARIOID,
 			TIPUSU.T_DESCRIPCION AS C_TIPOUSUARIODESC,
 			CLI.C_CODCLI         AS C_CODCLIENTE,
@@ -288,6 +320,7 @@
 			USU.T_GENERO         AS P_GENERO,
 			USU.T_OCUPACION      AS P_OCUPACION,
 			USU.D_FECREG         AS P_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS P_CODIGOPAIS,
 			TIPUSU.C_TIPCATAL    AS P_TIPOUSUARIOID,
 			TIPUSU.T_DESCRIPCION AS P_TIPOUSUARIODESC,
 			PROV.C_CODPROV       AS P_CODPROVEEDOR,
@@ -431,11 +464,15 @@
 			FICHPRO.N_TIMESERV      AS FP_TIEMPOSERVICIO,
 			FICHPRO.T_DESCRIPCION   AS FP_DESCRIPCION,
 			
-			EMP.C_CODEMP            AS E_CODEMPRESA,
-			EMP.T_DESCRIPCION       AS E_DESCRIPCION,
-			EMP.D_FECFUN            AS E_FECHAFUNDACION,
-			EMP.D_FECREG            AS E_FECHAREGISTRO,
-			EMP.T_NOMBRE            AS E_NOMBRE
+			EMP.C_CODEMP      		AS E_CODEMPRESA,
+			EMP.T_DESCRIPCION 		AS E_DESCRIPCION,
+			EMP.D_FECFUN      		AS E_FECHAFUNDACION,
+			EMP.D_FECREG      		AS E_FECHAREGISTRO,
+			EMP.T_NOMBRE      		AS E_NOMBRE,
+			EMP.T_RUT		  		AS E_RUT,
+			EMP.T_RUTDV		  		AS E_RUTDV,
+			EMP.C_CODPAIS     		AS E_CODIGOPAIS,
+			EMP.T_VIGENTE     		AS E_VIGENTE
 		
 		FROM AN_USUARIO USU
 		
@@ -448,13 +485,13 @@
 		INNER JOIN AN_FICHAPROVEEDOR FICHPRO ON PROV.C_FICHPROV = FICHPRO.C_FICHPROV
 		
 		INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
-		INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+		INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		
 		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
 		AND TIPUSU.C_CATALOGO = 'C_TIPUSU'
 		
 		<if test="tipoServicio != null and tipoServicio != ''">
-			AND OPERA.C_CODSER = #{tipoServicio}
+			AND RUB.C_CODSER = #{tipoServicio}
 		</if>
 		
 	</select>
@@ -468,6 +505,7 @@
 			EMP.T_NOMBRE      AS E_NOMBRE,
 			EMP.T_RUT		  AS E_RUT,
 			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.C_CODPAIS     AS E_CODIGOPAIS,
 			EMP.T_VIGENTE     AS E_VIGENTE
 			
 		FROM AN_EMPRESA EMP
@@ -484,6 +522,7 @@
 			EMP.T_NOMBRE      AS E_NOMBRE,
 			EMP.T_RUT		  AS E_RUT,
 			EMP.T_RUTDV		  AS E_RUTDV,
+			EMP.C_CODPAIS     AS E_CODIGOPAIS,
 			EMP.T_VIGENTE     AS E_VIGENTE
 			
 		FROM AN_EMPRESA EMP
@@ -502,7 +541,9 @@
 			CON.N_TELMOV1        AS C_TELMOV1,
 			CON.N_TELMOV2        AS C_TELMOV2,
 			TIPCON.C_TIPCATAL    AS C_TIPOCONTACTOID,
-			TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC
+			TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC,
+			CON.C_TITULAR        AS C_CODTITULAR,
+			CON.C_CODDIR         AS C_CODDIRECCION
 			
 		FROM AN_CONTACTO CON
 		INNER JOIN AN_CATALOGO TIPCON ON CON.C_TIPCON = TIPCON.C_TIPCATAL
@@ -511,7 +552,7 @@
 			INNER JOIN AN_USUARIO USU ON CON.C_TITULAR = USU.C_CODUSU
 			INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
 			INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
-			INNER JOIN AN_EMPRESA_OP_SERVICIO OPERA ON EMP.C_CODEMP = OPERA.C_CODEMP
+			INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		</if>
 		
 		WHERE TIPCON.C_CATALOGO = 'C_TIPCON'
@@ -525,8 +566,8 @@
 		</if>
 		
 		<if test="codigoServicio != null and codigoServicio != ''">
-			AND OPERA.C_CODSER = #{codigoServicio}
-			AND OPERA.T_ACTIVO = 'S'
+			AND RUB.C_CODSER = #{codigoServicio}
+			AND RUB.T_ACTIVO = 'S'
 			AND USU.C_TIPUSU = 'P'
 			AND CON.N_PRIOR IN (1, 2)
 		</if>
@@ -560,7 +601,7 @@
 			AND DIR.C_CODDIR = #{codigoDireccion}
 		</if>
 	</select>
-
+	
 	<select id="getGeoLocalizacion" resultMap="geo-loc-mapping" parameterType="com.auctionnow.filters.FiltroGeoLoc" >
 		SELECT 
 			GEO.C_CODGEOLOC         AS G_CODGEOLOC,
@@ -710,7 +751,7 @@
 	
 	<select id="getValidateLogin" resultType="java.lang.String" parameterType="map" >
 		SELECT 
-		TIPUSUWEB.T_DESCRIPCION
+			TIPUSUWEB.T_DESCRIPCION
 		
 		FROM AN_USUARIOWEB USUWEB
 		INNER JOIN AN_CATALOGO TIPUSUWEB ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
@@ -720,22 +761,6 @@
 		AND USUWEB.T_PASSWORD = #{password}
 	</select>
 	
-	<select id="getCargos" resultMap="cargo-mapping" parameterType="map" >
-		SELECT
-			CAR.C_CODCAR      AS CAR_CODIGO,
-			CAR.T_NOMBRE      AS CAR_NOMBRE,
-			CAR.T_SIGLA       AS CAR_SIGLA,
-			CAR.T_DESCRIPCION AS CAR_DESC,
-			CAR.T_VIGENTE     AS CAR_VIGEN
-			
-		FROM AN_CARGO CAR
-		
-		<if test="codigoCargo != null and codigoCargo != ''">
-			WHERE CAR.C_CODCAR = #{codigoCargo}
-		</if>
-	</select>
-	
-
 	<!-- INSERTs -->
 	<insert id="addUsuario" parameterType="map" >
 		INSERT INTO AN_USUARIO (
@@ -749,6 +774,7 @@
 			T_GENERO,
 			T_OCUPACION,
 			D_FECREG,
+			C_CODPAIS,
 			C_TIPUSU
 		) VALUES (
 			#{codigoUsuario},
@@ -761,6 +787,7 @@
 			#{genero},
 			#{ocupacion},
 			#{fecRegistro},
+			#{pais},
 			#{tipoUsuario}
 		)
 	</insert>
@@ -869,7 +896,8 @@
 			N_TELMOV1,
 			N_TELMOV2,
 			C_TIPCON,
-			C_TITULAR
+			C_TITULAR,
+			C_CODDIR
 		) VALUES (
 			#{codigoContacto},
 			#{email},
@@ -879,7 +907,8 @@
 			#{telefonoMovil1},
 			#{telefonoMovil2},
 			#{tipoContacto},
-			#{codigoUsuario}
+			#{codigoUsuario},
+			#{codigoDireccion}
 		)
 	</insert>
 	
@@ -892,6 +921,7 @@
 			T_NOMBRE,
 			T_RUT,
 			T_RUTDV,
+			C_CODPAIS,
 			T_VIGENTE
 		) VALUES (
 			#{codigoEmpresa},
@@ -901,25 +931,8 @@
 			#{nombre},
 			#{rut},
 			#{rutDV},
+			#{codigoPais},
 			#{vigente}
-		)
-	</insert>
-	
-	<insert id="addEmpresaOpera" parameterType="map" >
-		INSERT INTO AN_EMPRESA_OP_SERVICIO (
-			C_CODEMP,
-			C_CODSER,
-			N_PRIORIDAD,
-			D_FECOPE,
-			D_FECREG,
-			T_ACTIVO
-		) VALUES (
-			#{codigoEmpresa},
-			#{codigoServicio},
-			#{prioridad},
-			#{fecDesdeOpera},
-			#{fecRegistro},
-			#{activo}
 		)
 	</insert>
 	
@@ -1023,22 +1036,6 @@
 		)
 	</insert>
 	
-	<insert id="addCargo" parameterType="map" >
-		INSERT INTO AN_CARGO (
-			C_CODCAR,
-			T_NOMBRE,
-			T_SIGLA,
-			T_DESCRIPCION,
-			T_VIGENTE
-		) VALUES (
-			#{codigoCargo},
-			#{nombrecargo},
-			#{sigla},
-			#{descripcion},
-			#{vigente}
-		)
-	</insert>
-	
 	<!-- UPDATEs -->
 	<update id="updateUsuario" parameterType="map" >
 		UPDATE AN_USUARIO
@@ -1096,7 +1093,8 @@
 			N_TELFIJO2 = #{telefonoFijo2},
 			N_TELMOV1 = #{telefonoMovil1},
 			N_TELMOV2 = #{telefonoMovil2},
-			C_TIPCON = #{tipoContacto}
+			C_TIPCON = #{tipoContacto},
+			C_CODDIR = #{codigoDireccion}
 		WHERE C_CODCON = #{codigoContacto}
 		AND C_TITULAR = #{codigoTitular}
 	</update>
@@ -1123,17 +1121,10 @@
 			D_FECFUN = #{fecFundacion},
 			D_FECREG = #{fecRegistro},
 			T_NOMBRE = #{nombre},
-			T_VIGENTE = #{vigente}
+			T_VIGENTE = #{vigente},
+			T_RUT = #{rut},
+			T_RUTDV = #{rutDV}
 		WHERE C_CODEMP = #{codigoEmpresa}
-	</update>
-	
-	<update id="updateEmpresaOpera" parameterType="map" >
-		UPDATE AN_EMPRESA_OP_SERVICIO
-		SET N_PRIORIDAD = #{prioridad},
-			D_FECOPE = #{fecDesdeOpera},
-			T_ACTIVO = #{activo}
-		WHERE C_CODEMP = #{codigoEmpresa}
-		AND C_CODSER = #{codigoServicio}
 	</update>
 	
 	<update id="updateGeoLocalizacion" parameterType="map" >
@@ -1192,12 +1183,4 @@
 		AND C_CODUSUWEB = #{codigoUsuarioWeb}
 	</update>
 	
-	<update id="updateCargo" parameterType="map" >
-		UPDATE AN_CARGO
-		SET T_NOMBRE = #{nombrecargo},
-			T_SIGLA = #{sigla},
-			T_DESCRIPCION = #{descripcion},
-			T_VIGENTE = #{vigente}
-		WHERE C_CODCAR = #{codigoCargo}
-	</update>
 </mapper>

@@ -7,6 +7,11 @@
 	<constant name="struts.action.excludePattern" value="/cargaMenuUsuario" />
 	
 	<package name="default" extends="struts-default">			
+	<result-types> 
+             <result-type name="json" class="com.googlecode.jsonplugin.JSONResult" /> 
+         </result-types> 
+	
+	
 		<action name="loginUser" class="com.auctionnow.controller.usuario.LoginUserAction" 
 			method="loginUser">
 			<result name="SUCCESS">/index.jsp</result>
@@ -18,6 +23,29 @@
 			method="logoutUser">
 			<result name="SUCCESS">/index.jsp</result>
 			<result name="ERROR">/index.jsp</result>		
+		</action>
+		
+		<!-- Usuario Administrador -->
+		<action name="showRegistarUsuarioAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorRegistrarAction"
+			method="showRegistarUsuarioAdministrador">
+			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
+			<result name="SUCCESS">/pages/formularios/registro/usuario/registrarUsuarioAdministrador.jsp</result>
+		</action>
+
+		<action name="addUsuarioWebAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorRegistrarAction"
+			method="addUsuarioWebAdministrador">
+			<result name="ERROR">ERROR</result>
+			<result name="SUCCESS">/pages/ingresar.jsp</result>
+		</action>
+
+		<action name="showActualizaUsuarioAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorActualizarAction"
+			method="showActualizaUsuarioAdministrador">
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaUsuarioCliente.jsp</result>
+		</action>
+
+		<action name="actualizaUsuarioWebAdministrador" class="com.auctionnow.controller.usuario.UsuarioAdministradorActualizarAction"
+			method="actualizaUsuarioWebAdministrador">
+			<result name="SUCCESS">/WEB-INF/views/usuario/exitoformularios.jsp</result>
 		</action>
 
 
@@ -86,7 +114,7 @@
 		<action name="showActualizaDireccion" class="com.auctionnow.controller.usuario.DireccionActualizarAction"
 			method="showActualizaDireccion">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaDireccion.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaDirecciones.jsp</result>
 		</action>
 		
 		<action name="actualizaDireccion" class="com.auctionnow.controller.usuario.DireccionActualizarAction"
@@ -112,7 +140,7 @@
 		<action name="showActualizaContacto" class="com.auctionnow.controller.usuario.ContactoActualizarAction"
 			method="showActualizaContacto">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaContacto.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaContactos.jsp</result>
 		</action>
 		
 		<action name="actualizaContacto" class="com.auctionnow.controller.usuario.ContactoActualizarAction"
@@ -123,63 +151,64 @@
 		
 		
 		<!-- Empresa -->
-		<action name="showAddEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="showAddEmpresa">
+		<action name="showAddUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
+			method="showAddUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularios/registro/usuario/registrarEmpresa.jsp</result>
 		</action>
 		
-		<action name="addEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="addEmpresa">
+		<action name="addUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
+			method="addUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/WEB-INF/views/usuario/addEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="getServiciosByCategoria" class="com.auctionnow.controller.usuario.EmpresaRegistrarAction"
-			method="getServiciosByCategoria">
-			<result name="SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroServicioPorCategoria2.jsp</result>
-		</action>
-		
-		<action name="showActualizaEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
-			method="showActualizaEmpresa">
+		<action name="showActualizaUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
+			method="showActualizaUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/showActualizaEmpresa.jsp</result>
+			<result name="SUCCESS">/pages/formularios/actualiza/usuario/actualizaUsuarioEmpresa.jsp</result>
 		</action>
 		
-		<action name="actualizaEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
-			method="actualizaEmpresa">
+		<action name="actualizaUsuarioWebEmpresa" class="com.auctionnow.controller.usuario.EmpresaActualizarAction"
+			method="actualizaUsuarioWebEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="showAddServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
-			method="showAddServicioEmpresa">
+		<action name="getServiciosByRubro" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="getServiciosByRubro">
+			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
+		</action>
+		
+		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="showAddRubroEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularios/registro/servicio/asignarServicioEmpresa.jsp</result>
 		</action>
 		
-		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServiciosEmpresa">
-			<result name= "SUCCESS">/pages/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
 		</action>
 		
-		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServiciosByEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa2.jsp</result>
 		</action>
 		
-		<action name="getCargosByServicio" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="getCargosByServicio" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getCargosByServicio">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa3.jsp</result>
 		</action>
 		
-		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
+		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
 			method="getServicios">
-			<result name= "SUCCESS">/pages/resultado/servicio/resultadoServicios.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServicios.jsp</result>
 		</action>
 		
-		<action name="addServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioRegistrarAction"
-			method="addServicioEmpresa">
+		<action name="asignaRubroServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+			method="asignaRubroServiciosEmpresa">
+			<result name= "SUCCESS"></result>
 		</action>
 		
 		<action name="showActualizaServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioActualizarAction"
@@ -315,32 +344,38 @@
 		<!-- COMMON -->
 		<action name="getRegionesByPais" class="com.auctionnow.controller.common.CommonController"
 			method="getRegionesByPais">
-			<result name= "SUCCESS">/pages/resultado/comunes/resultadoCmbRegiones.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoCmbRegiones.jsp</result>
 		</action>
 		
 		<action name="getCiudadesByRegion" class="com.auctionnow.controller.common.CommonController"
 			method="getCiudadesByRegion">
-			<result name= "SUCCESS">/pages/resultado/comunes/resultadoCmbCiudades.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoCmbCiudades.jsp</result>
 		</action>
 		
 		<action name="getComunaByCiudad" class="com.auctionnow.controller.common.CommonController"
 			method="getComunaByCiudad">
-			<result name= "SUCCESS">/pages/resultado/comunes/resultadoCmbComunas.jsp</result>
+			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/comunes/resultadoCmbComunas.jsp</result>
 		</action>
 		
 		<action name="getRegionesByPaisForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getRegionesByPais">
-			<result name= "SUCCESS">/pages/formularioPlantilla/actualiza/comunes/resultadoCmbActualizaRegiones.jsp</result>
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="getCiudadesByRegionForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getCiudadesByRegion">
-			<result name= "SUCCESS">/pages/formularioPlantilla/actualiza/comunes/resultadoCmbActualizaCiudades.jsp</result>
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="getComunaByCiudadForUpdate" class="com.auctionnow.controller.common.CommonController"
 			method="getComunaByCiudad">
-			<result name= "SUCCESS">/pages/formularioPlantilla/actualiza/comunes/resultadoCmbActualizaComunas.jsp</result>
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 	</package>
 </struts>

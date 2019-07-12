@@ -2,7 +2,6 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 <div class="panel panel-default">
 	<div class="panel-body">
-
 		<!--Inicio contenido dinámico-->
 		<div class="container">
 			<div class="row well">
@@ -11,12 +10,10 @@
 					<br>
 					<div id="formulario_servicio">
 
-						<form action="addEmpresa" class="form-horizontal" id="formulario_registro_empresa" method="POST">
+						<form action="addUsuarioWebEmpresa" class="form-horizontal" id="formulario_registro_empresa" method="POST">
 
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroEmpresa.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroContacto.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroDireccion.jsp" />
-							<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroServicioPorCategoria1.jsp" />
+							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />
 							
 							<div class="clearfix "></div>
 							<div class="form-group">
@@ -35,5 +32,4 @@
 </div>
 <br>
 <br>
-
 <jsp:include page="../../../../estructura/footer-content.jsp" />

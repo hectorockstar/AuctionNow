@@ -16,28 +16,32 @@
 
 
 <ul>
+<!-- Usuario Administracdro -->
+<li><a href="<s:url action="showRegistarUsuarioAdministrador"/>">Registrar Administrador</a></li>
+<li><a href="<s:url action="showActualizaUsuarioAdministrador"/>">Actualizar Administrador</a> (Iniciar Sesion Antes como usuario Administrador)</li>
+
 <!-- Usuario Cliente -->
 <li><a href="<s:url action="showRegistarUsuarioCliente"/>">Registrar Cliente</a></li>
 <li><a href="<s:url action="showActualizaUsuarioCliente"/>">Actualizar Cliente</a> (Iniciar Sesion Antes)</li>
 
 <!-- Usuario Proveedor -->
 <li><a href="<s:url action="showRegistrarUsuarioProveedor"/>">Registra Proveedor</a></li>
-<li><li><a href="<s:url action="showActualizaUsuarioProveedor"/>">Actualiza Proveedor</a> (Iniciar Sesion Antes)</li>
+<li><a href="<s:url action="showActualizaUsuarioProveedor"/>">Actualiza Proveedor</a> (Iniciar Sesion Antes)</li>
 
 <!-- Direccion -->
-<a href="<s:url action="showAddDireccion"/>">Registra Direccion</a> (Iniciar Sesion Antes)</li>
+<li><a href="<s:url action="showAddDireccion"/>">Registra Direccion</a> (Iniciar Sesion Antes)</li>
 <li><a href="<s:url action="showActualizaDireccion"/>">Actualiza Direccion</a> (Iniciar Sesion Antes)</li>
-<li>
+
 <!-- Contacto -->
-<a href="<s:url action="showAddContacto"/>">Registra Contacto</a> (Iniciar Sesion Antes)</li>
+<li><a href="<s:url action="showAddContacto"/>">Registra Contacto</a> (Iniciar Sesion Antes)</li>
 <li><a href="<s:url action="showActualizaContacto"/>">Actualiza Contacto</a> (Iniciar Sesion Antes)</li>
 
 <!-- Empresa -->
-<li><a href="<s:url action="showAddEmpresa"/>">Registra Empresa</a></li>
-<li><a href="<s:url action="showActualizaEmpresa"/>">Actualiza Empresa</a></li>
+<li><a href="<s:url action="showAddUsuarioWebEmpresa"/>">Registra Empresa</a></li>
+<li><a href="<s:url action="showActualizaUsuarioWebEmpresa"/>">Actualiza Empresa</a></li>
 
 <!-- Servicio Empresa -->
-<li><a href="<s:url action="showAddServicioEmpresa"/>">Registra Servicio a Empresa</a></li>
+<li><a href="<s:url action="showAddRubroEmpresa"/>">Registra Servicio a Empresa</a></li>
 <li><a href="<s:url action="showServiciosEmpresa"/>">Ver Detalle Servicios de Empresa</a></li>
 <li><a href="<s:url action="showActualizaServicioEmpresa"/>">Actualiza Servicio a Empresa</a></li>
 

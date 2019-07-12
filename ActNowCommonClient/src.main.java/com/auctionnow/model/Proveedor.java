@@ -11,10 +11,16 @@ public class Proveedor extends Usuario implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codigoProveedor;
+	private FichaServicioProveedor fichaProveedor;
+	
+	//proveedor dependiente
 	private Empresa empresa;
 	private Servicio servicio;
 	private Cargo cargo;
-	private FichaServicioProveedor fichaProveedor;
+	
+	//proveedor independiente
+	
+	
 
 	public Servicio getServicio() {
 		return servicio;

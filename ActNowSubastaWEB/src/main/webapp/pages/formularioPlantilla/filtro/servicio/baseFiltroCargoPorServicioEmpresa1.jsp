@@ -1,68 +1,207 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 
-<br>
 <h3>
-	<ins>
-		<s:text name="title.label.filtro.cargo.servicio.empresa" />
-	</ins>
+	<s:text name="title.label.filtro.cargo.servicio.empresa" />
 </h3>
 
-<br>
 <div class="form-group">
-	<label class="control-label col-sm-3" for="empresaProveedor"> <s:text
+	<label class="control-label col-sm-3" for="empresa"> <s:text
 			name="control.label.seleccione.empresa" />:
 	</label>
-	<div class="col-sm-4 campoValidado">
-		<s:select class="form-control" id="empresaProveedor"
-			name="empresa.codigoEmpresa" list="#request.empresas" headerKey=""
-			headerValue="Selecccione..." listKey="codigoEmpresa"
+	<div class="col-sm-3 campoValidado">
+		<s:select class="form-control" id="empresa"
+			name="empresa.codigoEmpresa" 
+			list="#request.empresas" 
+			headerKey=""
+			headerValue="Selecccione..." 
+			listKey="codigoEmpresa"
 			listValue="nombreEmpresa" />
+	</div>
+
+	<label class="control-label col-sm-3" for="rubrosEmpresaubro"> 
+		<s:text name="control.label.seleccione.rubro" />:
+	</label>
+	<div class="col-sm-3 campoValidado">
+		<s:select class="form-control" id="rubrosEmpresa"
+			name="rubro.codigoRubro" 
+			list="#request.rubrosEmpresa" 
+			headerKey=""
+			headerValue="Selecccione..." 
+			listKey="codigoCargo"
+			listValue="nombre" />
 	</div>
 </div>
 
-<div id="cmbServiciosByEmpresa"></div>
+<div class="form-group">
+	<label class="control-label col-sm-3" for="serviciosActivosEmpresa"> 
+		<s:text name="control.label.seleccione.servicio" />:
+	</label>
+	<div class="col-sm-3 campoValidado">
+		<s:select class="form-control" id="serviciosActivosEmpresa"
+			name="servicio.codigoServicio" 
+			list="#request.serviciosActivosEmpresa" 
+			headerKey=""
+			headerValue="Selecccione..." 
+			listKey="codigoServicio"
+			listValue="nombre" />
+	</div>
 
-<div id="cmbCargosByServicio"></div>
-
-<br>
+	<label class="control-label col-sm-3" for="cargosServicio"> 
+		<s:text name="control.label.seleccione.cargo" />:
+	</label>
+	<div class="col-sm-3 campoValidado">
+		<s:select class="form-control" id="cargosServicio"
+			name="cargo.codigoCargo" 
+			list="#request.cargosServicio" 
+			headerKey=""
+			headerValue="Selecccione..." 
+			listKey="codigoCargo"
+			listValue="nombre" />
+	</div>
+</div>
 
 <script type="text/javascript">
-	$(function() {
-		$("#empresaProveedor").change(function() {
-			var formName = $(this).closest('form').attr('id');
-			var formData = $('#' + formName).serialize(); //get all data from form
-			var keyServicio = document.getElementById("empresaProveedor").value;
+$("#empresa").change(function() {
+	var formName = $(this).closest('form').attr('id');
+	var formData = $('#'+formName).serialize(); // get all data from from
+	var keyEmpresa = document.getElementById('empresa').value;
+	
+	if(keyEmpresa != ''){
+		$.ajax({
+			type : "POST",
+			url : "/ActNowSubastaWEB/pages/Desarrollo.jsp",
+			data : formData,
+			success : function(response) {
 
-			if (keyServicio != '') {
-				$.ajax({
-					type : "POST",
-					url : "getServiciosByEmpresa.action",
-					data : formData,
-					success : function(response) {
-						$("#cmbServiciosByEmpresa").html(
-								response);
-						$("#cmbServiciosByEmpresa").show();
-					}
-				});
-			} else {
-				$('#cargosServicio')
-				.find('option')
-				.remove()
-				.end()
-				.append(
-						'<option value="">Seleccione...</option>')
-				.val('Seleccione...');
-				$("#cmbCargosByServicio").hide();
+				console.log(response);
 				
-				$('#serviciosEmpresa')
-						.find('option')
-						.remove()
-						.end()
-						.append(
-								'<option value="">Seleccione...</option>')
-						.val('Seleccione...');
-				$("#cmbServiciosByEmpresa").hide();
+				$("#rubrosEmpresa")
+			    .find('option')
+			    .remove()
+			    .end()
+			    .append('<option value="">Seleccione...</option>');
+				
+				var rubrosEmpresa = JSON.parse(response);
+				for(var i = 0 ;i < regiones.length; i++){
+                    $("#rubrosEmpresa").append($('<option>').text(rubrosEmpresa[i].nombre).attr('value', rubrosEmpresa[i].codigoRubro));
+                }
+
+				$("#rubrosEmpresa").focus();
 			}
 		});
-	});
+	} else {
+		$("#rubrosEmpresa")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+		
+		$("#serviciosActivosEmpresa")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+		
+		$("#cargosServicio")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+	}
+});
+
+$("#rubrosEmpresa").change(function() {
+	var formName = $(this).closest('form').attr('id');
+	var formData = $('#'+formName).serialize(); // get all data from from
+	var keyRubro = document.getElementById('rubrosEmpresa').value;
+	
+	if(keyRubro != ''){
+
+		$("#cargosServicio")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+		
+		$.ajax({
+			type : "POST",
+			url : "getServiciosActivosByRubroEmpresa.action",
+			data : formData,
+			success : function(response) {
+				$("#serviciosActivosEmpresa")
+			    .find('option')
+			    .remove()
+			    .end()
+			    .append('<option value="">Seleccione...</option>');
+				
+				var servicios = JSON.parse(response);
+				for(var i = 0 ;i < ciudades.length; i++){
+                    $("serviciosActivosEmpresa").append($('<option>').text(servicios[i].nombre).attr('value', servicios[i].codigoServicio));
+                }
+
+				$("#serviciosActivosEmpresa").focus();
+			}
+		});
+	} else {
+		$("#serviciosActivosEmpresa")
+	    .find('option')
+	    .remove()
+	    .end()
+	    .append('<option value="">Seleccione...</option>')
+	    .val('')
+		;
+		
+		$("#cargosServicio")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+	}
+});
+
+$("#serviciosActivosEmpresa").change(function() {
+	var formName = $(this).closest('form').attr('id');
+	var formData = $('#'+formName).serialize(); // get all data from
+	var keyServicio = document.getElementById("serviciosActivosEmpresa").value;
+	
+	if(keyServicio != ''){
+		$.ajax({
+			type : "POST",
+			url : "getCargosByServicio.action",
+			data : formData,
+			success : function(response) {
+				$("#cargosServicio")
+			    .find('option')
+			    .remove()
+			    .end()
+			    .append('<option value="">Seleccione...</option>');
+			    
+				var comunas = JSON.parse(response);
+				for(var i = 0 ;i < comunas.length; i++){
+                    $("#cargosServicio").append($('<option>').text(comunas[i].nombre).attr('value', comunas[i].codigoComuna));
+                }
+
+				$("#cargosServicio").focus();
+			}
+		});
+	} else {
+		$("#cargosServicio")
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="">Seleccione...</option>')
+		    .val('')
+		;
+	}
+});
 </script>

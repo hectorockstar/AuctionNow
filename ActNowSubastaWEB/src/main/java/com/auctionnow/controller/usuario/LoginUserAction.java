@@ -43,30 +43,31 @@ public class LoginUserAction extends AbstractControllerConfig {
 			if (Constantes.TIPOUSUARIO_CLIENTE.equalsIgnoreCase(tipoUsuarioWeb)) {
 
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebClienteData(filtroUsuarioWeb);
-				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_CLIENTE);
+				filtroTipoUsuario.setKey(Constantes.TIPOUSUARIO_SIGLA_CLIENTE);
 				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_CLIENTE);
 
 			} else if (Constantes.TIPOUSUARIO_PROVEEDOR.equalsIgnoreCase(tipoUsuarioWeb)) {
 
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebProveedorData(filtroUsuarioWeb);
-				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_PROVEEDOR);
+				filtroTipoUsuario.setKey(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR);
 				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_PROVEEDOR);
 
 			} else if (Constantes.TIPOUSUARIO_ADMINISTRADOR.equalsIgnoreCase(tipoUsuarioWeb)) {
 				
 				// TODO
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebAdministradorData(filtroUsuarioWeb);
+				filtroTipoUsuario.setKey(Constantes.TIPOUSUARIO_SIGLA_ADMINISTRADOR);
 				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_ADMINISTRADOR);
 			} else if (Constantes.TIPOUSUARIO_EMPRESA.equalsIgnoreCase(tipoUsuarioWeb)) {
 				
 				usuarioWeb = getUsuarioEjbRemote().getUsuarioWebEmpresaData(filtroUsuarioWeb);
-				filtroTipoUsuario.setValue(Constantes.TIPOUSUARIO_EMPRESA);
+				filtroTipoUsuario.setKey(Constantes.TIPOUSUARIO_SIGLA_EMPRESA);
 				getSession().put("tipoUsuarioWEB", Constantes.TIPOUSUARIO_EMPRESA);
 			}
 
 			filtroTipoUsuario.setTipoCatalogo(Constantes.CATALOGO_USUARIOWEB_TIPO);
 
-			Tupla tupla = getCommonEjbRemote().getParameter(filtroTipoUsuario).get(VALOR_NUMERICO_0);
+			Tupla tupla = getCommonEjbRemote().getParameter(filtroTipoUsuario);
 			filtroPrivilegio.setTipoUsuario(tupla.getId());
 
 			lstPrivilegios = getUsuarioEjbRemote().getPrivilegios(filtroPrivilegio);

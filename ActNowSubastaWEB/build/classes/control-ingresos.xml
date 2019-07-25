@@ -7,7 +7,7 @@
 	<constant name="struts.action.excludePattern" value="/cargaMenuUsuario" />
 	
 	<package name="default" extends="struts-default">			
-	<result-types> 
+	<result-types>  
              <result-type name="json" class="com.googlecode.jsonplugin.JSONResult" /> 
          </result-types> 
 	
@@ -175,38 +175,45 @@
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="getServiciosByRubro" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="getServiciosByRubro" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getServiciosByRubro">
 			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
 		</action>
 		
-		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="showAddRubroEmpresa">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularios/registro/servicio/asignarServicioEmpresa.jsp</result>
 		</action>
 		
-		<action name="showServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="getRubrosByEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
+			method="getRubrosByEmpresa">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
+		</action>
+		
+		<action name="showServiciosEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getServiciosEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
 		</action>
 		
-		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getServiciosByEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa2.jsp</result>
 		</action>
 		
-		<action name="getCargosByServicio" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="getCargosByServicio" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getCargosByServicio">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa3.jsp</result>
 		</action>
 		
-		<action name="showServicios" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="showServicios" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getServicios">
 			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServicios.jsp</result>
 		</action>
 		
-		<action name="asignaRubroServiciosEmpresa" class="com.auctionnow.controller.usuario.EmpresaAsignarRubroAction"
+		<action name="asignaRubroServiciosEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="asignaRubroServiciosEmpresa">
 			<result name= "SUCCESS"></result>
 		</action>

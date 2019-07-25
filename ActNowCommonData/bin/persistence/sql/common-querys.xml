@@ -169,7 +169,7 @@
 		WHERE COM.C_CODCOM = #{codigoComuna}
 	</select>
 	
-	<select id="getParameter" resultMap="parameter-mapping" parameterType="com.auctionnow.filters.FiltroCatalogo">
+	<select id="getParameters" resultMap="parameter-mapping" parameterType="com.auctionnow.filters.FiltroCatalogo">
 		SELECT 
 			CA.C_TIPCATAL    AS C_CODIGO,
 			CA.T_DESCRIPCION AS C_VALOR
@@ -189,6 +189,18 @@
 		<if test="vigente != null and vigente != ''">
 			AND CA.T_VIGENTE = #{vigente}
 		</if>
+	</select>
+	
+	<select id="getParameter" resultMap="parameter-mapping" parameterType="com.auctionnow.filters.FiltroCatalogo">
+		SELECT 
+			CA.C_TIPCATAL    AS C_CODIGO,
+			CA.T_DESCRIPCION AS C_VALOR
+		
+		FROM AN_CATALOGO CA
+		
+		WHERE CA.C_CATALOGO = #{tipoCatalogo}
+		AND CA.C_TIPCATAL = #{key}
+		AND CA.T_VIGENTE = 'S'
 	</select>
 	
 	<select id="getMailMessage" resultMap="mail-mapping" parameterType="java.lang.String" >

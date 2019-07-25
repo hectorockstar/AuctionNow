@@ -5,30 +5,23 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.auctionnow.common.Tupla;
+
 public class Proveedor extends Usuario implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codigoProveedor;
+	private Tupla tipoProveedor;
 	private FichaServicioProveedor fichaProveedor;
+	private Cargo cargo;
 	
 	//proveedor dependiente
 	private Empresa empresa;
-	private Servicio servicio;
-	private Cargo cargo;
+	
 	
 	//proveedor independiente
-	
-	
-
-	public Servicio getServicio() {
-		return servicio;
-	}
-
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
-	}
 
 	public String getCodigoProveedor() {
 		return codigoProveedor;
@@ -65,4 +58,13 @@ public class Proveedor extends Usuario implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
+	public Tupla getTipoProveedor() {
+		return tipoProveedor;
+	}
+
+	public void setTipoProveedor(Tupla tipoProveedor) {
+		this.tipoProveedor = tipoProveedor;
+	}
+	
 }

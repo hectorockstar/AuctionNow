@@ -9,6 +9,7 @@ import com.auctionnow.common.Mail;
 import com.auctionnow.common.Tupla;
 import com.auctionnow.data.usuario.IUsuarioDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
+import com.auctionnow.ejb.ITransaccionEjbRemote;
 import com.auctionnow.exception.AuctionNowServiceException;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroCliente;
@@ -19,6 +20,7 @@ import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroUsuarioWeb;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
@@ -56,17 +58,15 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	@EJB
 	private ICommonEjbRemote commonEjbRemote;
 	
-	public UsuarioBusiness(IUsuarioDAO usuarioDAO, ICommonEjbRemote commonEjbRemote) throws AuctionNowServiceException {
+	@EJB
+	private ITransaccionEjbRemote transaccionEjbRemote;
+	
+	public UsuarioBusiness(IUsuarioDAO usuarioDAO, 
+			ICommonEjbRemote commonEjbRemote,
+			ITransaccionEjbRemote transaccionEjbRemote) throws AuctionNowServiceException {
 		this.usuarioDAO = usuarioDAO;
 		this.commonEjbRemote = commonEjbRemote;
-	}
-	
-	public ICommonEjbRemote getCommonEjbRemote() {
-		return commonEjbRemote;
-	}
-	
-	public void setCommonEjbRemote(ICommonEjbRemote commonEjbRemote) {
-		this.commonEjbRemote = commonEjbRemote;
+		this.transaccionEjbRemote = transaccionEjbRemote;
 	}
 	
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -361,6 +361,10 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		FiltroDireccion filtroDireccion = new FiltroDireccion();
 		filtroDireccion.setCodigoTitular(empresa.getCodigoEmpresa());
 		empresa.setDirecciones(usuarioDAO.getDirecciones(filtroDireccion));
+		
+		FiltroRubro filtroEjerceRubro = new FiltroRubro();
+		filtroEjerceRubro.setCodigoTitular(empresa.getCodigoEmpresa());
+		empresa.setRubros(getTransaccionEjbRemote().getRubrosByTitular(filtroEjerceRubro));
 
 		return usuarioWeb;
 	}
@@ -568,6 +572,22 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		transport.connect("smtp.gmail.com", mailFrom, password);
 		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
 		transport.close();
+	}
+	
+	public ICommonEjbRemote getCommonEjbRemote() {
+		return commonEjbRemote;
+	}
+	
+	public void setCommonEjbRemote(ICommonEjbRemote commonEjbRemote) {
+		this.commonEjbRemote = commonEjbRemote;
+	}
+
+	public ITransaccionEjbRemote getTransaccionEjbRemote() {
+		return transaccionEjbRemote;
+	}
+
+	public void setTransaccionEjbRemote(ITransaccionEjbRemote transaccionEjbRemote) {
+		this.transaccionEjbRemote = transaccionEjbRemote;
 	}
 
 }

@@ -21,7 +21,6 @@ import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroTransaccion;
 import com.auctionnow.model.BitacoraTransaccion;
 import com.auctionnow.model.Cargo;
-import com.auctionnow.model.Empresa;
 import com.auctionnow.model.MedioPago;
 import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
@@ -216,6 +215,28 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		return transaccionDAO.getRubros(filtroRubro);
 	}
 	
+	public List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro){
+		List<Rubro> lstRubrosDAO = transaccionDAO.getRubrosByTitular(filtroRubro);
+		List<Rubro> lstRubros = null;
+		if(lstRubrosDAO != null && !lstRubrosDAO.isEmpty()) {
+			
+			lstRubros = new ArrayList<Rubro>();
+			
+			FiltroServicio filtroServicio = new FiltroServicio();
+			filtroServicio.setCodigoTitular(filtroRubro.getCodigoTitular());
+			for (Rubro rubro : lstRubrosDAO) {
+				filtroServicio.setCodigoRubro(rubro.getCodigoRubro());
+				filtroServicio.setCodigoEjerce(rubro.getCodigoEjerce());
+				
+				List<Servicio> servicios = transaccionDAO.getServiciosByTitular(filtroServicio);
+				rubro.setServicios(servicios);
+				lstRubros.add(rubro);
+			}
+		}
+		
+		return lstRubros;
+	}
+	
 	public Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios) {
 		
 //		Date fechaActual = getCommonEjbRemote().getFechaActual();
@@ -228,11 +249,11 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		filtroCatalogo.setKey(Constantes.SECUENCIA_EJERCE_RUBRO);
 		
 		rubro.setCodigoEjerce(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-//		rubro.setFechaEjerceDesde(fechaEjerceDesde);
+		rubro.setFechaEjerceDesde(rubro.getFechaEjerceDesde());
 		rubro.setFechaRegistro(fechaActual);
 		
 		Integer jerarquia = transaccionDAO.getRubroUltimaJerarquia(codigoTitular);
-		rubro.setJerarquia((jerarquia == null ? new Integer(0): jerarquia) + 1);
+		rubro.setJerarquia((jerarquia == null ? new Integer(1): jerarquia) + 1);
 		rubro.setActivoEjercer(Constantes.ACTIVA);
 		
 		Integer resultadoServiciosActivos = 1;
@@ -241,7 +262,7 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		List<Servicio> lstServicio = new ArrayList<Servicio>();
 		for (int index = 0; index < estadosServicios.length ;index++) {
 			String codigoServicio = String.valueOf(estadosServicios[index].split(":")[0]);
-			String estadoServicio = String.valueOf(estadosServicios[index].split(":")[1]);
+			String estadoServicio = String.valueOf(Boolean.parseBoolean(estadosServicios[index].split(":")[1]) ? "A" : "NA");
 			
 			Servicio servicio = new Servicio();
 			
@@ -264,7 +285,7 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		
 		Integer resultado = resultadoEjerce * resultadoServiciosActivos;
 		
-		if(resultado == 0) {
+		if(resultado == 1) {
 			System.out.println("RESULTADO EXITOSO");
 		}
 		

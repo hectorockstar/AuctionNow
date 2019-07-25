@@ -43,7 +43,7 @@ public class DireccionActualizarAction extends AbstractControllerConfig {
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameters(filtroCatalogo);
 		
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
 		

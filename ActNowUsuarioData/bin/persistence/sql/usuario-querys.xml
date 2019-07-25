@@ -39,44 +39,19 @@
 		<result property="tipoUsuario.descripcion"  column="U_TIPOUSUARIODESC" />
 	</resultMap>
 	
-	<resultMap id="cliente-mapping" type="com.auctionnow.model.Cliente">
-		<result property="codigoUsuario"            column="C_CODUSUARIO" />
-		<result property="fechaNacimiento"          column="C_FECHANACIMIENTO" />
-		<result property="fechaRegistro"            column="C_FECHAREGISTRO" />
-		<result property="genero.id"                column="C_GENERO" />
-		<result property="nombre"                   column="C_NOMBRES" />
-		<result property="apellidoPaterno"          column="C_APEPAT" />
-		<result property="apellidoMaterno"          column="C_APEMAT" />
-		<result property="rut"                      column="C_RUT" />
-		<result property="rutDV"                    column="C_RUTDV" />
-		<result property="ocupacion"                column="C_OCUPACION" />
-		<result property="pais.codigoPais"          column="C_CODIGOPAIS" />
-		<result property="tipoUsuario.id"           column="C_TIPOUSUARIOID" />
-		<result property="tipoUsuario.descripcion"  column="C_TIPOUSUARIODESC" />
+	<resultMap id="cliente-mapping" type="com.auctionnow.model.Cliente" extends="usuario-mapping" >
 		<result property="codigoCliente"            column="C_CODCLIENTE" />
 		<result property="tipoCliente.id"           column="C_TIPOCLIENTEID" />
 		<result property="tipoCliente.descripcion"  column="C_TIPOCLIENTEDESC" />
-		<result property="fichaCliente.codigoFicha" column="C_CODIGOFICHA" />
+		<result property="fichaCliente.codigoFicha" column="C_CODFICHACLIENTE" />
 	</resultMap>
 	
-	<resultMap id="proveedor-mapping" type="com.auctionnow.model.Proveedor">
-		<result property="codigoUsuario"              column="P_CODUSUARIO" />
-		<result property="fechaNacimiento"            column="P_FECHANACIMIENTO" />
-		<result property="fechaRegistro"              column="P_FECHAREGISTRO" />
-		<result property="genero.id"                  column="P_GENERO" />
-		<result property="nombre"                     column="P_NOMBRES" />
-		<result property="apellidoPaterno"            column="P_APEPAT" />
-		<result property="apellidoMaterno"            column="P_APEMAT" />
-		<result property="rut"                        column="P_RUT" />
-		<result property="rutDV"                      column="P_RUTDV" />
-		<result property="ocupacion"                  column="P_OCUPACION" />
-		<result property="pais.codigoPais"            column="P_CODIGOPAIS" />
-		<result property="tipoUsuario.id"             column="P_TIPOUSUARIOID" />
-		<result property="tipoUsuario.descripcion"    column="P_TIPOUSUARIODESC" />
+	<resultMap id="proveedor-mapping" type="com.auctionnow.model.Proveedor" extends="usuario-mapping" >
 		<result property="codigoProveedor"            column="P_CODPROVEEDOR" />
-		<!-- <result property="cargo"                      column="TRANUM" />  -->
+		<result property="tipoProveedor"              column="P_TIPOPROVEEDOR" />
+		<result property="fichaProveedor.codigoFicha" column="P_CODFICHAPROVEEDOR" />
+		<result property="cargo.codigoCargo"          column="P_CODCARGO" />
 		<result property="empresa.codigoEmpresa"      column="P_CODEMPRESA" />
-		<result property="fichaProveedor.codigoFicha" column="P_CODFICHA" />
 	</resultMap>
 	
 	<resultMap id="usuarioWebClienteComplete-mapping" type="com.auctionnow.model.UsuarioWeb" extends="usuarioWeb-mapping">
@@ -100,7 +75,7 @@
 		<result property="nombreEmpresa"   column="E_NOMBRE" />
 		<result property="rut"   		   column="E_RUT" />
 		<result property="rutDV"           column="E_RUTDV" />
-		<result property="pais.codigoPais"      column="E_CODIGOPAIS" />
+		<result property="pais.codigoPais" column="E_CODIGOPAIS" />
 		<result property="vigente"         column="E_VIGENTE" />
 	</resultMap>
 	
@@ -273,20 +248,21 @@
 	
 	<select id="getCliente" resultMap="cliente-mapping" parameterType="com.auctionnow.filters.FiltroCliente">
 		SELECT 
-		    USU.C_CODUSU         AS C_CODUSUARIO,
-			USU.T_RUT            AS C_RUT,
-			USU.T_RUTDV          AS C_RUTDV,
-			USU.T_NOMBRES        AS C_NOMBRES,
-			USU.T_APEPAT         AS C_APEPAT,
-			USU.T_APEMAT         AS C_APEMAT,
-			USU.D_FECNAC         AS C_FECHANACIMIENTO,
-			USU.T_GENERO         AS C_GENERO,
-			USU.T_OCUPACION      AS C_OCUPACION,
-			USU.D_FECREG         AS C_FECHAREGISTRO,
-			USU.C_CODPAIS		 AS C_CODIGOPAIS,
-			TIPUSU.C_TIPCATAL    AS C_TIPOUSUARIOID,
-			TIPUSU.T_DESCRIPCION AS C_TIPOUSUARIODESC,
+		    USU.C_CODUSU         AS U_CODUSUARIO,
+			USU.T_RUT            AS U_RUT,
+			USU.T_RUTDV          AS U_RUTDV,
+			USU.T_NOMBRES        AS U_NOMBRES,
+			USU.T_APEPAT         AS U_APEPAT,
+			USU.T_APEMAT         AS U_APEMAT,
+			USU.D_FECNAC         AS U_FECHANACIMIENTO,
+			USU.T_GENERO         AS U_GENERO,
+			USU.T_OCUPACION      AS U_OCUPACION,
+			USU.D_FECREG         AS U_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS U_CODIGOPAIS,
+			TIPUSU.C_TIPCATAL    AS U_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION AS U_TIPOUSUARIODESC,
 			CLI.C_CODCLI         AS C_CODCLIENTE,
+			CLI.C_FICHCLI        AS C_CODFICHACLIENTE,
 			TIPCLI.C_TIPCATAL    AS C_TIPOCLIENTEID,
 			TIPCLI.T_DESCRIPCION AS C_TIPOCLIENTEDESC
 		
@@ -310,22 +286,24 @@
 	
 	<select id="getProveedor" resultMap="proveedor-mapping" parameterType="com.auctionnow.filters.FiltroProveedor" >
 		SELECT 
-		    USU.C_CODUSU         AS P_CODUSUARIO,
-			USU.T_RUT            AS P_RUT,
-			USU.T_RUTDV          AS P_RUTDV,
-			USU.T_NOMBRES        AS P_NOMBRES,
-			USU.T_APEPAT         AS P_APEPAT,
-			USU.T_APEMAT         AS P_APEMAT,
-			USU.D_FECNAC         AS P_FECHANACIMIENTO,
-			USU.T_GENERO         AS P_GENERO,
-			USU.T_OCUPACION      AS P_OCUPACION,
-			USU.D_FECREG         AS P_FECHAREGISTRO,
-			USU.C_CODPAIS		 AS P_CODIGOPAIS,
-			TIPUSU.C_TIPCATAL    AS P_TIPOUSUARIOID,
-			TIPUSU.T_DESCRIPCION AS P_TIPOUSUARIODESC,
+		    USU.C_CODUSU         AS U_CODUSUARIO,
+			USU.T_RUT            AS U_RUT,
+			USU.T_RUTDV          AS U_RUTDV,
+			USU.T_NOMBRES        AS U_NOMBRES,
+			USU.T_APEPAT         AS U_APEPAT,
+			USU.T_APEMAT         AS U_APEMAT,
+			USU.D_FECNAC         AS U_FECHANACIMIENTO,
+			USU.T_GENERO         AS U_GENERO,
+			USU.T_OCUPACION      AS U_OCUPACION,
+			USU.D_FECREG         AS U_FECHAREGISTRO,
+			USU.C_CODPAIS		 AS U_CODIGOPAIS,
+			TIPUSU.C_TIPCATAL    AS U_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION AS U_TIPOUSUARIODESC,
 			PROV.C_CODPROV       AS P_CODPROVEEDOR,
-			PROV.C_FICHPROV      AS P_CODFICHA,
-			PROV.C_EMPRESA       AS P_CODEMPRESA
+			PROV.C_TIPPROV       AS P_TIPOPROVEEDOR,
+			PROV.C_FICHPROV      AS P_CODFICHAPROVEEDOR,
+			PROV.C_CODCAR        AS P_CODCARGO,
+			PROV.C_CODEMP        AS P_CODEMPRESA
 		
 		FROM AN_USUARIO USU
 		INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
@@ -345,18 +323,18 @@
 	
 	<select id="getClientes" resultMap="usuarioWebClienteComplete-mapping" parameterType="com.auctionnow.filters.FiltroCliente" >
 		SELECT 
-		    USU.C_CODUSU            AS C_CODUSUARIO,
-			USU.T_RUT               AS C_RUT,
-			USU.T_RUTDV             AS C_RUTDV,
-			USU.T_NOMBRES           AS C_NOMBRES,
-			USU.T_APEPAT            AS C_APEPAT,
-			USU.T_APEMAT            AS C_APEMAT,
-			USU.D_FECNAC            AS C_FECHANACIMIENTO,
-			USU.T_GENERO            AS C_GENERO,
-			USU.T_OCUPACION         AS C_OCUPACION,
-			USU.D_FECREG            AS C_FECHAREGISTRO,
-			TIPUSU.C_TIPCATAL       AS C_TIPOUSUARIOID,
-			TIPUSU.T_DESCRIPCION    AS C_TIPOUSUARIODESC,
+		    USU.C_CODUSU            AS U_CODUSUARIO,
+			USU.T_RUT               AS U_RUT,
+			USU.T_RUTDV             AS U_RUTDV,
+			USU.T_NOMBRES           AS U_NOMBRES,
+			USU.T_APEPAT            AS U_APEPAT,
+			USU.T_APEMAT            AS U_APEMAT,
+			USU.D_FECNAC            AS U_FECHANACIMIENTO,
+			USU.T_GENERO            AS U_GENERO,
+			USU.T_OCUPACION         AS U_OCUPACION,
+			USU.D_FECREG            AS U_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL       AS U_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION    AS U_TIPOUSUARIODESC,
 			
 			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
 			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
@@ -422,18 +400,18 @@
 	
 	<select id="getProveedores" resultMap="usuarioWebProveedorComplete-mapping" parameterType="com.auctionnow.filters.FiltroProveedor" >
 		SELECT 
-		    USU.C_CODUSU            AS C_CODUSUARIO,
-			USU.T_RUT               AS C_RUT,
-			USU.T_RUTDV             AS C_RUTDV,
-			USU.T_NOMBRES           AS C_NOMBRES,
-			USU.T_APEPAT            AS C_APEPAT,
-			USU.T_APEMAT            AS C_APEMAT,
-			USU.D_FECNAC            AS C_FECHANACIMIENTO,
-			USU.T_GENERO            AS C_GENERO,
-			USU.T_OCUPACION         AS C_OCUPACION,
-			USU.D_FECREG            AS C_FECHAREGISTRO,
-			TIPUSU.C_TIPCATAL       AS C_TIPOUSUARIOID,
-			TIPUSU.T_DESCRIPCION    AS C_TIPOUSUARIODESC,
+		    USU.C_CODUSU            AS U_CODUSUARIO,
+			USU.T_RUT               AS U_RUT,
+			USU.T_RUTDV             AS U_RUTDV,
+			USU.T_NOMBRES           AS U_NOMBRES,
+			USU.T_APEPAT            AS U_APEPAT,
+			USU.T_APEMAT            AS U_APEMAT,
+			USU.D_FECNAC            AS U_FECHANACIMIENTO,
+			USU.T_GENERO            AS U_GENERO,
+			USU.T_OCUPACION         AS U_OCUPACION,
+			USU.D_FECREG            AS U_FECHAREGISTRO,
+			TIPUSU.C_TIPCATAL       AS U_TIPOUSUARIOID,
+			TIPUSU.T_DESCRIPCION    AS U_TIPOUSUARIODESC,
 			
 			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
 			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
@@ -452,7 +430,7 @@
 			
 			PROV.C_CODPROV          AS P_CODPROVEEDOR,
 			PROV.C_FICHPROV         AS P_CODFICHA,
-			PROV.C_EMPRESA          AS P_CODEMPRESA,
+			PROV.C_CODEMP          AS P_CODEMPRESA,
 			
 			FICHPRO.C_FICHPROV      AS FP_CODIGOFICHA,
 			FICHPRO.N_ATENCION      AS FP_ATENCION,
@@ -484,7 +462,7 @@
 		
 		INNER JOIN AN_FICHAPROVEEDOR FICHPRO ON PROV.C_FICHPROV = FICHPRO.C_FICHPROV
 		
-		INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
+		INNER JOIN AN_EMPRESA EMP ON PROV.C_CODEMP = EMP.C_CODEMP
 		INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		
 		WHERE TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
@@ -551,7 +529,7 @@
 		<if test="codigoServicio != null and codigoServicio != ''">
 			INNER JOIN AN_USUARIO USU ON CON.C_TITULAR = USU.C_CODUSU
 			INNER JOIN AN_PROVEEDOR PROV ON USU.C_CODUSU = PROV.C_CODUSU
-			INNER JOIN AN_EMPRESA EMP ON PROV.C_EMPRESA = EMP.C_CODEMP
+			INNER JOIN AN_EMPRESA EMP ON PROV.C_CODEMP = EMP.C_CODEMP
 			INNER JOIN AN_RUBRO RUB ON EMP.C_CODEMP = RUB.C_CODEMP
 		</if>
 		
@@ -827,17 +805,17 @@
 	<insert id="addProveedor" parameterType="map" >
 		INSERT INTO AN_PROVEEDOR (
 			C_CODPROV,
+			C_TIPPROV,
 			C_FICHPROV,
-			C_EMPRESA,
-			C_CODSER,
 			C_CODCAR,
+			C_CODEMP,
 			C_CODUSU
 		) VALUES (
 			#{codigoProveedor},
+			#{tipoProveedor},
 			#{codigoFichaProv},
-			#{codigoEmpresa},
-			#{codigoServicio},
 			#{codigoCargo},
+			#{codigoEmpresa},
 			#{codigoUsuario}
 		)
 	</insert>
@@ -1025,7 +1003,7 @@
 			C_CODPRIV,
 			C_CODUSUWEB,
 			T_ACTIVO, 
-			D_FECASIG
+			D_FECASIG,
 			T_DESCRIPCION
 		) VALUES (
 			#{codigoPrivilegio},
@@ -1062,8 +1040,10 @@
 	
 	<update id="updateProveedor" parameterType="map" >
 		UPDATE AN_PROVEEDOR
-		SET C_FICHPROV = #{codigoFichaProv},
-			C_EMPRESA = #{codigoEmpresa}
+		SET C_TIPPROV = #{tipoProveedor},
+			C_FICHPROV = #{codigoFichaProv},
+			C_CODEMP = #{codigoEmpresa},
+			C_CODCAR = #{codigoCargo}
 		WHERE C_CODUSU = #{codigoUsuario}
 		AND C_CODPROV = #{codigoProveedor}
 	</update>

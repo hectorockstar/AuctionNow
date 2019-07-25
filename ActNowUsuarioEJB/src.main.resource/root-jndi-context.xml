@@ -17,6 +17,11 @@
 		<constructor-arg index="1" value="ActNowCommonService/ActNowCommonEJB/CommonEjb!com.auctionnow.ejb.ICommonEjbRemote" />
 	</bean>
 	
+	<bean id="transaccionEjbRemote" class="com.auctionnow.utils.AuctionNowUsuarioGetEJB" factory-method="getInstanceEJB" >
+		<constructor-arg index="0" value="com.auctionnow.ejb.ITransaccionEjbRemote" />	
+		<constructor-arg index="1" value="ActNowTransaccionService/ActNowTransaccionEJB/TransaccionEjb!com.auctionnow.ejb.ITransaccionEjbRemote" />
+	</bean>
+	
 	<!-- Enable Annotation based Declarative Transaction Management -->
 	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
 

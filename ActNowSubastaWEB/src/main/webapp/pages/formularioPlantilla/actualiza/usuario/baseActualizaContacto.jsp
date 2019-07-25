@@ -1,9 +1,7 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 
 <button class="accordion">
-	<label class="control-label col-sm-2"> <s:property
-			value="calle" /> <s:property value="numeracion" />
-	</label>
+	<s:property value="email"/> 
 </button>
 <div class="panelAccordion">
 	<div class="containAddressAccordion">
@@ -14,10 +12,10 @@
 			<s:hidden value="%{codigoContacto}" name="contacto.codigoContacto" id="h_codigoContacto%{codigoContacto}" />
 			
 			<div class="form-group">
-				<label class="control-label col-sm-3" for="contacto"> 
+				<label class="control-label col-sm-2" for="contacto"> 
 					<s:text name="common.label.seleccione.direccion" />:
 				</label>
-				<div class="col-sm-9 campoValidado">
+				<div class="col-sm-8 campoValidado">
 					<s:select class="form-control" id="tipoContacto"
 						name="contacto.direccion.codigoDireccion" list="#request.direcciones"
 						headerKey="" headerValue="Seleccione Dirección..." listKey="codigoDireccion"

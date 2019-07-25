@@ -1,12 +1,14 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 
+
+
 <s:iterator value="#request.servicios" var="ser">
-<div class="col-xs-1">
+<div class="col-xs-1 header-row-resultadoServicio">
 	<s:checkbox id="activo%{#ser.codigoServicio}" name="" value="false"  />
 	<s:hidden id="h_activo%{#ser.codigoServicio}" value="%{#ser.codigoServicio}:false" name="estadosServicios" />
 </div>
-<div class="col-xs-11">
-	<input id="accordionButton<s:property value='#ser.codigoServicio' />" type="button" class="accordion" value="<s:property value='#ser.nombre' />" >
+<div class="col-xs-11 body-row-resultadoServicio">
+	<input id="accordionButton<s:property value='#ser.codigoServicio' />" type="button" class="accordion accordionServicios" value="<s:property value='#ser.nombre' />" >
 	<div class="panelAccordion">
 		<div class="containAddressAccordion">
 			
@@ -33,20 +35,7 @@
 				</s:iterator>
 				
 			</div>
-		
-			<%-- <div class="form-group">
-				<label class="control-label col-sm-3" for="cargo"> 
-					<s:text name="common.label.seleccione.cargo" />:
-				</label>
-				<div class="col-sm-9 campoValidado">
-					<s:select class="form-control" id="cargo"
-						name="" list="%{#ser.cargos}"
-						headerKey="" headerValue="Seleccione Dirección..." listKey="codigoCargo"
-						listValue="nombre" 
-						/>
-				</div>
-			</div> --%>
-				
+			
 		</div>
 	</div>
 	
@@ -79,3 +68,27 @@
 	</script>
 </div>	
 </s:iterator>
+
+<div class="form-group">
+	<input id="btnAsignarRubro"
+		type="button" 
+		class="btn btn-success btn-asignarRubro"
+		value='<s:text name="button.label.asignar.rubro" />' />
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		$("#btnAsignarRubro").click(function() {
+			var formData = $("#rubroEmpresaData").serialize(); //get all data from form
+
+			$.ajax({
+				type : "POST",
+				url : "asignaRubroServiciosEmpresa.action",
+				data : formData,
+				success : function(response) {
+					
+				}
+			});
+		});
+	});
+</script>

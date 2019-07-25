@@ -59,13 +59,19 @@ public class CommonEJBMockito implements ICommonEjbLocal, ICommonEjbRemote{
 	}
 
 	@Override
-	public List<Tupla> getParameter(FiltroCatalogo filtroCatalogo) {
+	public Mail getMailMessage(String codigoMail) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Mail getMailMessage(String codigoMail) {
+	public List<Tupla> getParameters(FiltroCatalogo filtroCatalogo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Tupla getParameter(FiltroCatalogo filtroCatalogo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

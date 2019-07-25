@@ -46,7 +46,11 @@ public class CommonBusiness implements ICommonBusiness {
 		return commonDAO.getDivGeo(filtroDivGeografica);
 	}
 
-	public List<Tupla> getParameter(FiltroCatalogo filtroCatalogo) {
+	public List<Tupla> getParameters(FiltroCatalogo filtroCatalogo) {
+		return commonDAO.getParameters(filtroCatalogo);
+	}
+	
+	public Tupla getParameter(FiltroCatalogo filtroCatalogo) {
 		return commonDAO.getParameter(filtroCatalogo);
 	}
 

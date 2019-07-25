@@ -52,6 +52,8 @@ public interface ITransaccionEJB {
 	List<Rubro> getRubros(FiltroRubro filtroRubro);
 
 	Rubro getRubro(FiltroRubro filtroRubro);
+	
+	List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro);
 
 	// INSERTS
 	Integer addBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);

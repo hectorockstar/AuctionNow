@@ -41,7 +41,7 @@ public class ContactoActualizarAction extends AbstractControllerConfig {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> lstTipContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> lstTipContactos = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		getRequest().put("direcciones", direcciones);
 		getRequest().put("contactos", contactos);

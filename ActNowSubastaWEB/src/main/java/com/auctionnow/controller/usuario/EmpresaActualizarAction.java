@@ -26,7 +26,7 @@ public class EmpresaActualizarAction extends AbstractControllerConfig {
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_VIGENTE);
-		List<Tupla> vigencias = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> vigencias = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);

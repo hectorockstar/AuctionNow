@@ -23,7 +23,9 @@ public interface ICommonDAO {
 
 	Comuna getDivGeo(FiltroDivGeografica filtroDivGeografica);
 
-	List<Tupla> getParameter(FiltroCatalogo filtroCatalogo);
+	List<Tupla> getParameters(FiltroCatalogo filtroCatalogo);
+	
+	Tupla getParameter(FiltroCatalogo filtroCatalogo);
 	
 	Tupla getSecuenciaRegistro(FiltroCatalogo filtroCatalogo);
 

@@ -57,6 +57,10 @@ public interface ITransaccionDAO {
 	
 	Integer getRubroUltimaJerarquia(String codigoTitular);
 	
+	List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro);
+	
+	List<Servicio> getServiciosByTitular(FiltroServicio filtroServicio);
+	
 	//INSERTS
 	Integer addBitacoraTransaccion(BitacoraTransaccion bitacoraTransaccion);
 

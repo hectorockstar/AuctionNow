@@ -130,5 +130,10 @@ public class TransaccionEjb implements ITransaccionEjbLocal, ITransaccionEjbRemo
 	public Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios) {
 		return transaccionBusiness.asignaRubroServiciosEmpresa(codigoTitular, rubro, estadosServicios);
 	}
+	
+	@Override
+	public List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro) {
+		return transaccionBusiness.getRubrosByTitular(filtroRubro);
+	}
 
 }

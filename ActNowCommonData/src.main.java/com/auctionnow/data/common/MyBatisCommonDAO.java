@@ -44,8 +44,13 @@ public class MyBatisCommonDAO extends SqlSessionDaoSupport implements ICommonDAO
 	}
 
 	@Override
-	public List<Tupla> getParameter(FiltroCatalogo filtroCatalogo) {
-		 return (List<Tupla>)getSqlSession().selectList("getParameter", filtroCatalogo);
+	public List<Tupla> getParameters(FiltroCatalogo filtroCatalogo) {
+		 return (List<Tupla>)getSqlSession().selectList("getParameters", filtroCatalogo);
+	}
+	
+	@Override
+	public Tupla getParameter(FiltroCatalogo filtroCatalogo) {
+		 return (Tupla)getSqlSession().selectOne("getParameter", filtroCatalogo);
 	}
 
 	@Override

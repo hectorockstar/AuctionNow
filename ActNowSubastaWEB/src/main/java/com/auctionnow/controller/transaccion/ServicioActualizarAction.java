@@ -22,7 +22,7 @@ public class ServicioActualizarAction extends AbstractControllerConfig {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SERVICIO_TIPO);
-		List<Tupla> lstTipServicios = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> lstTipServicios = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		getRequest().put("tiposServicios", lstTipServicios);
 

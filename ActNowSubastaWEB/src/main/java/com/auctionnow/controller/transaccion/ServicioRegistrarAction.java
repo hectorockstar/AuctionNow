@@ -21,7 +21,7 @@ public class ServicioRegistrarAction extends AbstractControllerConfig {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SERVICIO_TIPO);
-		List<Tupla> tipsServicios = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsServicios = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		getRequest().put("tipsServicios", tipsServicios);
 

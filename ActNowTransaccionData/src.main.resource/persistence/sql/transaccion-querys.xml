@@ -5,10 +5,18 @@
 <mapper namespace="com.auctionnow.data.transaccion">
 
 	<resultMap id="rubro-mapping" type="com.auctionnow.model.Rubro" >
-		<result property="codigoRubro" column="R_CODIGORUBRO" />
-		<result property="nombre"      column="R_NOMBRE" />
-		<result property="descripcion" column="R_DESCRIPCION" />
-		<result property="activo"  	   column="R_ACTIVO" />
+		<result property="codigoRubro"      column="R_CODIGORUBRO" />
+		<result property="nombre"           column="R_NOMBRERUBRO" />
+		<result property="descripcion"      column="R_DESCRUBRO" />
+		<result property="activo"  	        column="R_ACTIVO" />
+	</resultMap>
+	
+	<resultMap id="ejerce-rubro-mapping" type="com.auctionnow.model.Rubro" extends="rubro-mapping" >
+		<result property="activoEjercer"    column="EJ_ACTIVOEJERCER" />
+		<result property="fechaRegistro"  	column="EJ_FECHAREGISTRO" />
+		<result property="fechaEjerceDesde" column="EJ_FECHAEJERCEDESDE" />
+		<result property="jerarquia"  	    column="EJ_JERARQUIA" />
+		<result property="codigoEjerce"  	column="EJ_CODIGOEJERCE" />
 	</resultMap>
 	
 	<resultMap id="servicio-mapping" type="com.auctionnow.model.Servicio" >
@@ -17,6 +25,13 @@
 		<result property="nombre"            column="S_NOMBRE" />
 		<result property="sigla"             column="S_SIGLA" />
 		<result property="rubro.codigoRubro" column="S_CODIGORUBRO" />
+	</resultMap>
+	
+	<resultMap id="activo-servicio-mapping" type="com.auctionnow.model.Servicio" extends="servicio-mapping" >
+		<result property="codigoServicioActivo" column="SACT_CODIGOSERVICIOACTIVO" />
+		<result property="jerarquia"            column="SACT_JERARQUIA" />
+		<result property="fechaModificacion"    column="SACT_FECHAMODIFICACION" />
+		<result property="activoTitular"        column="SACT_ACTIVO" />
 	</resultMap>
 	
 	<resultMap id="cargo-mapping" type="com.auctionnow.model.Cargo" >
@@ -117,16 +132,24 @@
 	<select id="getRubros" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro" >
 		SELECT
 		    RUBRO.C_CODRUBRO    AS R_CODIGORUBRO,
-		    RUBRO.T_NOMBRE      AS R_NOMBRE,
+		    RUBRO.T_NOMBRE      AS R_NOMBRERUBRO,
 		    RUBRO.T_DESCRIPCION AS R_DESCRIPCION,
 		    RUBRO.T_ACTIVO      AS R_ACTIVO
 		FROM AN_RUBRO RUBRO
+		
+		<if test="rubros != null">
+			WHERE RUBRO.C_CODRUBRO NOT IN 
+			<foreach item="rubro" index="index" collection="rubros"
+	      		open="(" separator="," close=")">
+		        #{rubro.codigoRubro}
+			</foreach>
+		</if>
 	</select>
 	
 	<select id="getRubro" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro" >
 		SELECT
 		    RUBRO.C_CODRUBRO    AS R_CODIGORUBRO,
-		    RUBRO.T_NOMBRE      AS R_NOMBRE,
+		    RUBRO.T_NOMBRE      AS R_NOMBRERUBRO,
 		    RUBRO.T_DESCRIPCION AS R_DESCRIPCION,
 		    RUBRO.T_ACTIVO      AS R_ACTIVO
 		FROM AN_RUBRO RUBRO
@@ -160,19 +183,48 @@
 		WHERE SER.C_CODSER = #{codigoServicio}
 	</select>
 	
-	<select id="getRubrosByEmpresa" resultMap="rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro">
+	<select id="getRubrosByTitular" resultMap="ejerce-rubro-mapping" parameterType="com.auctionnow.filters.FiltroRubro">
 		SELECT 
-			RUB.C_RUBRO			 AS R_CODIGORUBRO,
-			RUB.T_RUBDESC		 AS R_DESCRIPCIONRUBRO,
-			RUB.C_CODEMP         AS R_CODIGOEMPRESA,
-		    RUB.C_CODSER         AS R_CODIGOSERVICIO,
-		    RUB.N_PRIORIDAD      AS R_PRIORIDAD,
-		    RUB.D_FECOPE         AS R_FECHAEMPOPERA,
-		    RUB.D_FECREG         AS R_FECHAREGISTRO,
-	    	RUB.T_ACTIVO         AS R_ACTIVO
+			RUB.C_CODRUBRO		 AS R_CODIGORUBRO,
+			RUB.T_NOMBRE		 AS R_NOMBRERUBRO,
+			RUB.T_DESCRIPCION    AS R_DESCRUBRO,
+		    RUB.T_ACTIVO         AS R_ACTIVO,
+		    EJERRUB.C_CODEJERCE  AS EJ_CODIGOEJERCE,
+		    EJERRUB.D_FECREG     AS EJ_FECHAREGISTRO,
+		    EJERRUB.D_FECOPE     AS EJ_FECHAEJERCEDESDE,
+		    EJERRUB.N_JERARQUIA  AS EJ_JERARQUIA,
+		    EJERRUB.T_ACTIVO     AS EJ_ACTIVOEJERCER,
+	    	EJERRUB.C_CODRUBRO   AS EJ_CODIGORUBRO
 		FROM AN_RUBRO RUB
+		INNER JOIN AN_EJERCE EJERRUB
+			ON RUB.C_CODRUBRO = EJERRUB.C_CODRUBRO
 		
-		WHERE RUB.C_CODEMP = #{codigoEmpresa}
+		WHERE EJERRUB.C_TITULAR = #{codigoTitular}
+	</select>
+	
+	<select id="getServiciosByTitular" resultMap="activo-servicio-mapping" parameterType="com.auctionnow.filters.FiltroServicio" > 
+		SELECT 
+    		SERACT.C_CODSERACT AS SACT_CODIGOSERVICIOACTIVO, 
+		    SERACT.N_JERARQUIA AS SACT_JERARQUIA, 
+		    SERACT.D_FECMODIF  AS SACT_FECHAMODIFICACION, 
+		    SERACT.T_ACTIVO    AS SACT_ACTIVO, 
+		    SERACT.C_CODSER    AS SACT_CODIGOSERVICIO,  
+		    SERACT.C_TITULAR   AS SACT_CODIGOTITULAR, 
+		    SERACT.C_CODEJERCE AS SACT_CODIGOEJERCE,
+
+			SER.C_CODSER       AS S_CODSERVICIO,
+			SER.T_NOMBRE       AS S_NOMBRE,
+			SER.T_SIGLA        AS S_SIGLA,
+			SER.T_DESCRIPCION  AS S_DESCRIPCION,
+			SER.C_CODRUBRO	   AS S_CODIGORUBRO
+			
+		FROM AN_SERVICIO SER
+		INNER JOIN AN_SERVICIOS_ACTIVOS SERACT
+			ON SER.C_CODSER = SERACT.C_CODSER
+		
+		WHERE SERACT.C_TITULAR = #{codigoTitular}
+		AND SERACT.C_CODEJERCE = #{codigoEjerce}
+		AND SER.C_CODRUBRO = #{codigoRubro}
 	</select>
 	
 	<select id="getCargos" resultMap="cargo-mapping" parameterType="map" >

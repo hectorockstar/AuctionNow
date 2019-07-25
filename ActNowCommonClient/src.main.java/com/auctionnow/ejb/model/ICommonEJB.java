@@ -26,7 +26,9 @@ public interface ICommonEJB {
 	
 	Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo);
 
-	List<Tupla> getParameter(FiltroCatalogo filtroCatalogo);
+	List<Tupla> getParameters(FiltroCatalogo filtroCatalogo);
+	
+	Tupla getParameter(FiltroCatalogo filtroCatalogo);
 
 	Mail getMailMessage (String codigoMail);
 }

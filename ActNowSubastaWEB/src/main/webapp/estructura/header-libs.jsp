@@ -60,6 +60,11 @@
     	});
     	$('#fechaFundacion').click();
 
+    	$('#fechaEjerceDesde').bind('click', function (){
+    		setDatePicker('fechaEjerceDesde');
+    	});
+    	$('#fechaEjerceDesde').click();
+
     	$('#updateFechaNacimiento').bind('click', function (){
     		setDatePicker('updateFechaNacimiento');
     	});

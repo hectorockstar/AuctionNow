@@ -40,10 +40,10 @@ public class SolicitudRegistrarAction extends AbstractControllerConfig {
 
 		// filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SERVICIO_TIPO);
-		List<Tupla> tipsServicios = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsServicios = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_NIVEL_PRIORIDAD);
-		List<Tupla> prioridades = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> prioridades = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		getRequest().put("tipsServicios", tipsServicios);
 		getRequest().put("prioridades", prioridades);

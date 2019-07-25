@@ -43,31 +43,41 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public String showRegistrarUsuarioProveedor() throws AuctionNowServiceException {
 		
+		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
+		
 		FiltroServicio filtroServicio = new FiltroServicio();
 		List<Servicio> servicios = getTransaccionEjbRemote().getServicios(filtroServicio);
 		
-		FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
-		List<Empresa> empresas = getUsuarioEjbRemote().getEmpresas(filtroEmpresa);
-		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsContactos = getCommonEjbRemote().getParameters(filtroCatalogo);
 		
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
-		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> generos = getCommonEjbRemote().getParameters(filtroCatalogo);
 		
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
 
+		List<Empresa> empresas = null;
+		if(usuarioWebSession != null && Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
+			FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
+			filtroEmpresa.setCodigoEmpresa(usuarioWebSession.getEmpresa().getCodigoEmpresa());
+			empresas = getUsuarioEjbRemote().getEmpresas(filtroEmpresa);
+			
+			getRequest().put("rubrosEmpresa", new ArrayList<Comuna>());
+			getRequest().put("serviciosActivosEmpresa", new ArrayList<Ciudad>());
+			getRequest().put("cargosServicio", new ArrayList<Region>());
+		}
+		
+		getRequest().put("empresas", empresas);
 		getRequest().put("tipsDirecciones", tipsDirecciones);
 		getRequest().put("tipsContactos", tipsContactos);
 		getRequest().put("generos", generos);
 		getRequest().put("servicios", servicios);
-		getRequest().put("empresas", empresas);
 		getRequest().put("comunas", new ArrayList<Comuna>());
 		getRequest().put("ciudades", new ArrayList<Ciudad>());
 		getRequest().put("regiones", new ArrayList<Region>());
@@ -78,10 +88,22 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public String addUsuarioWebProveedor() throws AuctionNowServiceException {
 		// VALIDAR CAMPOS
+		
+		Tupla tipoProveedor = new Tupla();
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_PROVEEDOR_TIPO);
+		if(empresa != null) {
+			proveedor.setEmpresa(empresa);
+			proveedor.setCargo(cargo);
+			filtroCatalogo.setKey(Constantes.TIPOPROVEEDOR_DEPENDIENTE);
+		} else {
+			filtroCatalogo.setKey(Constantes.TIPOPROVEEDOR_INDEPENDIENTE);
+		}
+		
+		tipoProveedor = getCommonEjbRemote().getParameter(filtroCatalogo);
+		
+		proveedor.setTipoProveedor(tipoProveedor);
 		proveedor.setPais(pais);
-		proveedor.setEmpresa(empresa);
-		proveedor.setServicio(servicio);
-		proveedor.setCargo(cargo);
 		
 		usuarioWeb.setUsuario(proveedor);
 		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);

@@ -20,6 +20,7 @@
 	<bean id="usuarioBusiness" class="com.auctionnow.business.usuario.UsuarioBusiness" >
 		<constructor-arg ref="usuarioDAO" />
 		<constructor-arg ref="commonEjbRemote" />
+		<constructor-arg ref="transaccionEjbRemote" />
 	</bean>
 		
 		

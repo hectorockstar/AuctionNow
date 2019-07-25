@@ -180,9 +180,10 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer actualizaUsuarioProveedor(Proveedor proveedor) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoProveedor", proveedor.getCodigoProveedor());
-		parameters.put("codigoFichaProv",
-				proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
-		parameters.put("codigoEmpresa", proveedor.getEmpresa().getCodigoEmpresa());
+		parameters.put("tipoProveedor", proveedor.getTipoProveedor().getId());
+		parameters.put("codigoFichaProv", proveedor.getFichaProveedor() != null ? proveedor.getFichaProveedor().getCodigoFicha() : "");
+		parameters.put("codigoEmpresa", proveedor.getEmpresa() != null ? proveedor.getEmpresa().getCodigoEmpresa() : "");
+		parameters.put("codigoCargo", proveedor.getCargo() != null ? proveedor.getCargo().getCodigoCargo() : "");
 		parameters.put("codigoUsuario", proveedor.getCodigoUsuario());
 
 		return (Integer) getSqlSession().update("updateProveedor", parameters);
@@ -273,10 +274,10 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer addUsuarioProveedor(Proveedor proveedor) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoProveedor", proveedor.getCodigoProveedor());
-		parameters.put("codigoFichaProv", proveedor.getFichaProveedor() == null ? 0 : proveedor.getFichaProveedor().getCodigoFicha());
-		parameters.put("codigoEmpresa", proveedor.getEmpresa().getCodigoEmpresa());
-		parameters.put("codigoServicio", proveedor.getServicio().getCodigoServicio());
-		parameters.put("codigoCargo", proveedor.getCargo().getCodigoCargo());
+		parameters.put("tipoProveedor", proveedor.getTipoProveedor().getId());
+		parameters.put("codigoFichaProv", proveedor.getFichaProveedor() != null ? proveedor.getFichaProveedor().getCodigoFicha() : "");
+		parameters.put("codigoEmpresa", proveedor.getEmpresa() != null ? proveedor.getEmpresa().getCodigoEmpresa() : "");
+		parameters.put("codigoCargo", proveedor.getCargo() != null ? proveedor.getCargo().getCodigoCargo() : "");
 		parameters.put("codigoUsuario", proveedor.getCodigoUsuario());
 
 		return (Integer) getSqlSession().insert("addProveedor", parameters);

@@ -31,7 +31,7 @@ public class UsuarioAdministradorRegistrarAction extends AbstractControllerConfi
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_GENERO);
-		List<Tupla> generos = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> generos = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);

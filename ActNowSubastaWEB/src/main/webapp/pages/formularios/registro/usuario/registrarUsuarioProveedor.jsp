@@ -10,13 +10,15 @@
 					<h2>
 						<s:text name="title.label.formulario.registro.proveedor" />
 					</h2>
-					<br>
 					<div id="formulario_proveedor">
 
 						<form action="addUsuarioWebProveedor" class="form-horizontal"
 							id="formulario_registro_proveedor" method="POST">
 
-							<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa1.jsp" />
+							<s:if test="%{request.empresas != null}">
+								<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa1.jsp" />
+							</s:if>
+							
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalProveedor.jsp" />
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoUsuarioWeb.jsp" />
 

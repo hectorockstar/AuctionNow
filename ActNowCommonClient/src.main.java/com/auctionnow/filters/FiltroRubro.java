@@ -1,6 +1,9 @@
 package com.auctionnow.filters;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.auctionnow.model.Rubro;
 
 public class FiltroRubro implements Serializable {
 
@@ -9,14 +12,23 @@ public class FiltroRubro implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String codigoEmpresa;
+	private String codigoTitular;
+	private List<Rubro> rubros;
 
-	public String getCodigoEmpresa() {
-		return codigoEmpresa;
+	public String getCodigoTitular() {
+		return codigoTitular;
 	}
 
-	public void setCodigoEmpresa(String codigoEmpresa) {
-		this.codigoEmpresa = codigoEmpresa;
+	public void setCodigoTitular(String codigoTitular) {
+		this.codigoTitular = codigoTitular;
 	}
 
+	public List<Rubro> getRubros() {
+		return rubros;
+	}
+
+	public void setRubros(List<Rubro> rubros) {
+		this.rubros = rubros;
+	}
+	
 }

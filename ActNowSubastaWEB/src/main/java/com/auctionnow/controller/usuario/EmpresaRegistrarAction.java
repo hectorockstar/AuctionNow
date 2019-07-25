@@ -37,17 +37,17 @@ public class EmpresaRegistrarAction extends AbstractControllerConfig {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_DIRECCION_TIPO);
-		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsDirecciones = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_CONTACTO_TIPO);
-		List<Tupla> tipsContactos = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsContactos = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		FiltroDivGeografica filtroDivGeografica = new FiltroDivGeografica();
 		List<Pais> paises = getCommonEjbRemote().getPais(filtroDivGeografica);
 		
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SERVICIO_TIPO);
-		List<Tupla> tipsServicios = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsServicios = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		getRequest().put("tipsServicios", tipsServicios);
 		getRequest().put("tipsDirecciones", tipsDirecciones);

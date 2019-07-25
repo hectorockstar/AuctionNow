@@ -1,7 +1,23 @@
-.btn-modificarDireccion{
+.header-row-resultadoServicio {
+	text-align: center;
+    width: 3%;
+}
+
+.body-row-resultadoServicio {
+    width: 97%;
+}
+
+.btn-modificarDireccion {
 	float:  right;
 }
 
-.containAddressAccordion{
+.containAddressAccordion {
 	margin-top: 13px;
 }
+
+.btn-asignarRubro {
+	float: right;
+    margin-right: 30px;
+    margin-top: 14px;
+}
+

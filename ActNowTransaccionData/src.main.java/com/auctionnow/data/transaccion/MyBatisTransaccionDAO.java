@@ -291,7 +291,10 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 	
 	@Override
 	public List<Rubro> getRubros(FiltroRubro filtroRubro) {
-		return (List<Rubro>) getSqlSession().selectList("getRubros", filtroRubro);
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("rubros", filtroRubro.getRubros());
+		
+		return (List<Rubro>) getSqlSession().selectList("getRubros", parameters);
 	}
 	
 	@Override
@@ -299,8 +302,14 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		return (Rubro) getSqlSession().selectOne("getRubro", filtroRubro);
 	}
 
+	@Override
+	public List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro) {
+		return (List<Rubro>) getSqlSession().selectList("getRubrosByTitular", filtroRubro);
+	}
 	
-
-	
+	@Override
+	public List<Servicio> getServiciosByTitular(FiltroServicio filtroServicio) {
+		return (List<Servicio>) getSqlSession().selectList("getServiciosByTitular", filtroServicio);
+	}
 
 }

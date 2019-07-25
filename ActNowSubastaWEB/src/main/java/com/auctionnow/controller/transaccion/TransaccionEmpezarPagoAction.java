@@ -63,19 +63,19 @@ public class TransaccionEmpezarPagoAction extends AbstractControllerConfig {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_VIAPAGO_TIPO);
-		List<Tupla> tipsViaPago = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsViaPago = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_MONEDA_TIPO);
-		List<Tupla> tipsMoneda = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsMoneda = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_TARJETA_TIPO);
-		List<Tupla> tipsTarjeta = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsTarjeta = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_ENTIDAD_COMERCIAL);
-		List<Tupla> tipsEntidad = getCommonEjbRemote().getParameter(filtroCatalogo);
+		List<Tupla> tipsEntidad = getCommonEjbRemote().getParameters(filtroCatalogo);
 
 		FiltroTransaccion filtroTransaccion = new FiltroTransaccion();
 		filtroTransaccion.setCodigoTransaccion(codigoTransaccion);

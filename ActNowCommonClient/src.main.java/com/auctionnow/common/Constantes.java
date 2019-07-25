@@ -15,6 +15,7 @@ public class Constantes {
 	public static final String CATALOGO_TARJETA_TIPO = "C_TIPTAR";
 	public static final String CATALOGO_GENERO = "C_GENERO";
 	public static final String CATALOGO_NIVEL_PRIORIDAD = "C_PRIORIDAD";
+	public static final String CATALOGO_PROVEEDOR_TIPO = "C_TIPPROV";
 	public static final String CATALOGO_VIGENTE = "T_VIGENTE";
 	
 	public static final String CATALOGO_ENTIDAD_COMERCIAL = "ENTIDAD_COMERCIAL";
@@ -80,5 +81,10 @@ public class Constantes {
 	public static final Integer UPDATE_FAIL = 0;
 	public static final Integer REGISTER_DONE = 1;
 	public static final Integer REGISTER_FAIL = 0;
+	
+	// TIPO PROVEEDOR 
+	public static final String TIPOPROVEEDOR_INDEPENDIENTE = "IND";
+	public static final String TIPOPROVEEDOR_DEPENDIENTE = "DEP";
+	
 
 }

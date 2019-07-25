@@ -48,7 +48,11 @@ public class CommonEjb implements ICommonEjbLocal, ICommonEjbRemote{
 		return commonBusiness.getComuna(filtroDivGeografica);
 	}
 
-	public List<Tupla> getParameter(FiltroCatalogo filtroCatalogo) {
+	public List<Tupla> getParameters(FiltroCatalogo filtroCatalogo) {
+		return commonBusiness.getParameters(filtroCatalogo);
+	}
+	
+	public Tupla getParameter(FiltroCatalogo filtroCatalogo) {
 		return commonBusiness.getParameter(filtroCatalogo);
 	}
 

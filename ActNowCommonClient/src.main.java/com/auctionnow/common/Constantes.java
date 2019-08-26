@@ -76,6 +76,9 @@ public class Constantes {
 	public static final String ACTIVA = "A";
 	public static final String NO_ACTIVA = "NA";
 	
+	// ESTADO SERVICIO EJERCE
+	public static final String ACTIVO = "A";
+	
 	// SERVICE RESPONCES
 	public static final Integer UPDATE_DONE = 1;
 	public static final Integer UPDATE_FAIL = 0;

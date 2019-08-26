@@ -12,6 +12,7 @@
 	</resultMap>
 	
 	<resultMap id="ejerce-rubro-mapping" type="com.auctionnow.model.Rubro" extends="rubro-mapping" >
+		<result property="descripcionEjerce" column="EJ_DESCRIPCION" />
 		<result property="activoEjercer"    column="EJ_ACTIVOEJERCER" />
 		<result property="fechaRegistro"  	column="EJ_FECHAREGISTRO" />
 		<result property="fechaEjerceDesde" column="EJ_FECHAEJERCEDESDE" />
@@ -193,6 +194,7 @@
 		    EJERRUB.D_FECREG     AS EJ_FECHAREGISTRO,
 		    EJERRUB.D_FECOPE     AS EJ_FECHAEJERCEDESDE,
 		    EJERRUB.N_JERARQUIA  AS EJ_JERARQUIA,
+		    EJERRUB.T_DESCRIPCION AS EJ_DESCRIPCION,
 		    EJERRUB.T_ACTIVO     AS EJ_ACTIVOEJERCER,
 	    	EJERRUB.C_CODRUBRO   AS EJ_CODIGORUBRO
 		FROM AN_RUBRO RUB
@@ -223,8 +225,15 @@
 			ON SER.C_CODSER = SERACT.C_CODSER
 		
 		WHERE SERACT.C_TITULAR = #{codigoTitular}
-		AND SERACT.C_CODEJERCE = #{codigoEjerce}
 		AND SER.C_CODRUBRO = #{codigoRubro}
+		
+		<if test="activoEjercer != null and activoEjercer != ''">
+			AND SERACT.T_ACTIVO = #{activoEjercer}
+		</if>
+		
+		<if test="codigoEjerce != null and codigoEjerce != ''">
+			AND SERACT.C_CODEJERCE = #{codigoEjerce}
+		</if>
 	</select>
 	
 	<select id="getCargos" resultMap="cargo-mapping" parameterType="map" >
@@ -255,6 +264,7 @@
 			
 		FROM AN_CARGO CAR
 		WHERE CAR.C_CODSER = #{codigoServicio}
+		AND CAR.T_ACTIVO = #{activo}
 	</select>
 	
 	<select id="getTransaccion" resultMap="transaccion-mapping" parameterType="com.auctionnow.filters.FiltroTransaccion" >
@@ -535,6 +545,7 @@
 			D_FECOPE,
 			D_FECREG,
 			N_JERARQUIA,
+			T_DESCRIPCION,
 			T_ACTIVO,
 			C_CODRUBRO,
 			C_TITULAR
@@ -543,6 +554,7 @@
 			#{fechaEjerceDesde},
 			#{fechaRegistro},
 			#{jerarquia},
+			#{descripcionEjerce},
 			#{activoEjercer},
 			#{codigoRubro},
 			#{codigotitular}

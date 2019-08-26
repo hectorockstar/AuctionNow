@@ -3,7 +3,9 @@ package com.auctionnow.controller.transaccion;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.auctionnow.common.Constantes;
 import com.auctionnow.controller.AbstractControllerConfig;
+import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.model.Cargo;
@@ -48,7 +50,7 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 	
-	public String getServiciosByRubro() {
+	public String getServiciosPorRubro() {
 		
 		FiltroServicio filtroServicio = new FiltroServicio();
 		filtroServicio.setCodigoRubro(rubro.getCodigoRubro());
@@ -60,11 +62,8 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 	}
 	
 	public String asignaRubroServiciosEmpresa() {
-		
 		UsuarioWeb usuarioWebSession = ((UsuarioWeb)getSession().get("usuarioWeb"));
-		
 		Empresa empresa = usuarioWebSession.getEmpresa();
-		
 		Rubro rubroAsignado = getTransaccionEjbRemote().asignaRubroServiciosEmpresa(empresa.getCodigoEmpresa(), rubro, estadosServicios);
 		
 		List<Rubro> rubros = empresa.getRubros();
@@ -79,20 +78,6 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 
-	public String getServiciosEmpresa() {
-		List<Servicio> serviciosEmpresa = getTransaccionEjbRemote().getServiciosByEmpresa(filtroServicio);
-		if (serviciosEmpresa != null && serviciosEmpresa.size() > 0) {
-
-			this.getRequest().put("countServicios", serviciosEmpresa.size());
-			this.getRequest().put("serviciosEmpresa", serviciosEmpresa);
-			this.getRequest().put("verResultadosFiltro", 1);
-		} else {
-			// TODO
-			/// Arrojar mensaje que no hay resultados!!
-		}
-		return SUCCESS;
-	}
-	
 	public String getServiciosByEmpresa() {
 
 		filtroServicio = new FiltroServicio();
@@ -115,11 +100,33 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 	
-	public String getCargosByServicio() {
-
+	public String getServiciosActivosByRubroEmpresa() {
+		FiltroServicio filtroServicio = new FiltroServicio();
+		filtroServicio.setCodigoRubro(rubro.getCodigoRubro());
+		filtroServicio.setCodigoTitular(empresa.getCodigoEmpresa());
+		filtroServicio.setCodigoEjerce(rubro.getCodigoEjerce());
+		filtroServicio.setActivoEjercer(Constantes.ACTIVA);
+		
+		List<Servicio> lstServiciosByRubro = getTransaccionEjbRemote().getServiciosByRubroTitular(filtroServicio);
+		this.getRequest().put("serviciosActivosRubro", lstServiciosByRubro);
+		
+		this.jsonFormatResult(lstServiciosByRubro);
 
 		return SUCCESS;
 	}
+	
+	public String getCargosByServicio() {
+		FiltroCargo filtroCargo = new FiltroCargo();
+		filtroCargo.setCodigoServicio(servicio.getCodigoServicio());
+		filtroCargo.setActivo(Constantes.ACTIVO);
+		
+		List<Cargo> lstCargosByServicio = getTransaccionEjbRemote().getCargosByServicio(filtroCargo);
+		this.getRequest().put("cargosServicio", lstCargosByServicio);
+		
+		this.jsonFormatResult(lstCargosByServicio);
+
+		return SUCCESS;
+	}	
 	
 	public String getServicios() {
 		
@@ -137,10 +144,6 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 
-	public void addServicioEmpresa() {
-
-	}
-	
 	public UsuarioWeb getUsuarioWeb() {
 		return usuarioWeb;
 	}
@@ -196,4 +199,5 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
+
 }

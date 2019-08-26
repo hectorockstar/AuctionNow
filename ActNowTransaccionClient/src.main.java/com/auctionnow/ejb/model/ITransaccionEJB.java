@@ -44,6 +44,8 @@ public interface ITransaccionEJB {
 	Servicio getServicio(FiltroServicio filtroServicio);
 
 	List<Servicio> getServiciosByEmpresa(FiltroServicio filtroServicio);
+	
+	List<Servicio> getServiciosByRubroTitular(FiltroServicio filtroServicio);
 
 	List<Cargo> getCargos();
 

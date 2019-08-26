@@ -233,6 +233,7 @@ public class MyBatisTransaccionDAO extends SqlSessionDaoSupport implements ITran
 		parameters.put("fechaEjerceDesde", rubro.getFechaEjerceDesde());
 		parameters.put("fechaRegistro", rubro.getFechaRegistro());
 		parameters.put("jerarquia", rubro.getJerarquia());
+		parameters.put("descripcionEjerce", rubro.getDescripcionEjerce());
 		parameters.put("activoEjercer", rubro.getActivoEjercer());
 		parameters.put("codigoRubro", rubro.getCodigoRubro());
 		parameters.put("codigotitular", codigoTitular);

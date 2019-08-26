@@ -70,6 +70,7 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		for (Servicio servicio : getDAOServicios) {
 			FiltroCargo filtroCargo = new FiltroCargo();
 			filtroCargo.setCodigoServicio(servicio.getCodigoServicio());
+			filtroCargo.setActivo(Constantes.ACTIVO);
 			List<Cargo> lstCargos = transaccionDAO.getCargosByServicio(filtroCargo);
 			
 			servicio.setCargos(lstCargos);
@@ -78,6 +79,12 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		}
 		
 		return lstServicios;
+	}
+	
+	public List<Servicio> getServiciosByRubroTitular(FiltroServicio filtroServicio){
+		List<Servicio> lstServiciosByRubroTitular = getTransaccionDAO().getServiciosByTitular(filtroServicio);
+		
+		return lstServiciosByRubroTitular;
 	}
 
 	public Integer actualizaMedioPago(MedioPago medioPago) {

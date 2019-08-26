@@ -20,7 +20,7 @@
 				name="solicitud.prioridad" 
 				list="#request.prioridades" 
 				headerKey=""
-				headerValue="Selecccione..." 
+				headerValue="Seleccione..." 
 				listKey="id" 
 				listValue="descripcion" />
 		</div>
@@ -36,7 +36,7 @@
 				name="direccion.codigoDireccion" 
 				list="#request.direcciones" 
 				headerKey=""
-				headerValue="Selecccione..." 
+				headerValue="Seleccione..." 
 				listKey="codigoDireccion" 
 				listValue="calle+' '+numeracion+', '+comuna.nombre+' - '+comuna.ciudad.nombre" />
 		</div>

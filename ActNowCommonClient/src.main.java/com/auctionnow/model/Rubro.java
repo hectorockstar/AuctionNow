@@ -20,6 +20,7 @@ public class Rubro implements Serializable {
 	private List<Servicio> servicios;
 	
 	//ASIGNADO A ALGUN PROVEEDOR o EMPRESA (AN_EJERCE)
+	private String descripcionEjerce;
 	private String codigoEjerce;
 	private Date fechaEjerceDesde;
 	private Date fechaRegistro;
@@ -108,6 +109,14 @@ public class Rubro implements Serializable {
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	public String getDescripcionEjerce() {
+		return descripcionEjerce;
+	}
+
+	public void setDescripcionEjerce(String descripcionEjerce) {
+		this.descripcionEjerce = descripcionEjerce;
 	}
 
 }

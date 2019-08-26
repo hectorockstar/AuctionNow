@@ -175,10 +175,7 @@
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
 		
-		<action name="getServiciosByRubro" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
-			method="getServiciosByRubro">
-			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
-		</action>
+		
 		
 		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="showAddRubroEmpresa">
@@ -193,19 +190,29 @@
 		    </result>
 		</action>
 		
-		<action name="showServiciosEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
-			method="getServiciosEmpresa">
-			<result name= "SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosEmpresa.jsp</result>
+		<action name="getServiciosActivosByRubroEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
+			method="getServiciosActivosByRubroEmpresa">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
+		</action>
+		
+		<action name="getServiciosByRubro" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
+			method="getServiciosPorRubro">
+			<result name="ERROR">/WEB-INF/views/error.jsp</result>
+			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
+		</action>
+		
+		<action name="getCargosByServicio" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
+			method="getCargosByServicio">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="getServiciosByEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="getServiciosByEmpresa">
 			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa2.jsp</result>
-		</action>
-		
-		<action name="getCargosByServicio" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
-			method="getCargosByServicio">
-			<result name= "SUCCESS">/pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa3.jsp</result>
 		</action>
 		
 		<action name="showServicios" class="com.auctionnow.controller.transaccion.AsignarRubroAction"

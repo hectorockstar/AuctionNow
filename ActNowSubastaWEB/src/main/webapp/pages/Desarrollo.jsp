@@ -41,7 +41,7 @@
 <li><a href="<s:url action="showActualizaUsuarioWebEmpresa"/>">Actualiza Empresa</a></li>
 
 <!-- Servicio Empresa -->
-<li><a href="<s:url action="showAddRubroEmpresa"/>">Agregar Rubro a Empresa</a></li>
+<li><a href="<s:url action="showAddRubroEmpresa"/>">Asignar Rubro a Empresa</a></li>
 <li><a href="<s:url action="showServiciosEmpresa"/>">Ver Detalle Servicios de Empresa</a></li>
 <li><a href="<s:url action="showActualizaServicioEmpresa"/>">Actualiza Servicio a Empresa</a></li>
 

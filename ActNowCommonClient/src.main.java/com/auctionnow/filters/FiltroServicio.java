@@ -15,7 +15,16 @@ public class FiltroServicio implements Serializable {
 	private String codigoRubro;
 	private String codigoTitular;
 	private String codigoEjerce;
+	private String activoEjercer;
 	
+	public String getActivoEjercer() {
+		return activoEjercer;
+	}
+
+	public void setActivoEjercer(String activoEjercer) {
+		this.activoEjercer = activoEjercer;
+	}
+
 	public String getCodigoEjerce() {
 		return codigoEjerce;
 	}

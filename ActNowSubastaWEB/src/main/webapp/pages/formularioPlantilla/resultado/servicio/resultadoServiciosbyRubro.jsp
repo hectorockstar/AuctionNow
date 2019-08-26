@@ -1,7 +1,5 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
 
-
-
 <s:iterator value="#request.servicios" var="ser">
 <div class="col-xs-1 header-row-resultadoServicio">
 	<s:checkbox id="activo%{#ser.codigoServicio}" name="" value="false"  />
@@ -56,7 +54,7 @@
 						}
 					});
 				}
-			});
+			}); 
 		});
 
 		$(function() {

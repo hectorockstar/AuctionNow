@@ -14,6 +14,7 @@ public class FiltroCargo implements Serializable {
 
 	private String codigoCargo;
 	private String codigoServicio;
+	private String activo;
 	private String sigla;
 
 	public String getCodigoServicio() {
@@ -42,6 +43,14 @@ public class FiltroCargo implements Serializable {
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
+
+	public String getActivo() {
+		return activo;
+	}
+
+	public void setActivo(String activo) {
+		this.activo = activo;
 	}
 
 }

@@ -61,18 +61,18 @@
 			name="proveedor.genero.id"
 			list="#request.generos" 
 			headerKey="" 
-			headerValue="Selecccione..."
+			headerValue="Seleccione..."
 			listKey="id" 
 			listValue="descripcion" />
 	</div>
 </div>
 
 <div class="form-group date-container">
-	<label class="control-label col-sm-3" for="fecha_nacimiento">
+	<label class="control-label col-sm-3" for="fechaNacimiento">
 		<s:text name="common.label.fecha.nacimiento" />: 
 	</label>
 	<div class="col-sm-4 campoValidado">
-		<input type="text" class="form-control" id="fecha_nacimiento"
+		<input type="text" class="form-control" id="fechaNacimiento" autocomplete="off"
 			name="proveedor.fechaNacimiento" placeholder="Fecha nacimiento">
 	</div>
 </div>

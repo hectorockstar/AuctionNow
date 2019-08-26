@@ -107,6 +107,10 @@ public class TransaccionEjb implements ITransaccionEjbLocal, ITransaccionEjbRemo
 	public List<Servicio> getServiciosByEmpresa(FiltroServicio filtroServicio) {
 		return transaccionBusiness.getServiciosByEmpresa(filtroServicio);
 	}
+	
+	public List<Servicio> getServiciosByRubroTitular(FiltroServicio filtroServicio) {
+		return transaccionBusiness.getServiciosByRubroTitular(filtroServicio);
+	}
 
 	public List<Cargo> getCargos() {
 		return transaccionBusiness.getCargos();

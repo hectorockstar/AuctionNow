@@ -13,7 +13,7 @@
 			name="empresa.codigoEmpresa" 
 			list="#request.empresas" 
 			headerKey=""
-			headerValue="Selecccione..." 
+			headerValue="Seleccione..." 
 			listKey="codigoEmpresa"
 			listValue="nombreEmpresa" />
 	</div>
@@ -26,7 +26,7 @@
 			name="rubro.codigoRubro" 
 			list="#request.rubrosEmpresa" 
 			headerKey=""
-			headerValue="Selecccione..." 
+			headerValue="Seleccione..." 
 			listKey="codigoCargo"
 			listValue="nombre" />
 	</div>
@@ -41,7 +41,7 @@
 			name="servicio.codigoServicio" 
 			list="#request.serviciosActivosEmpresa" 
 			headerKey=""
-			headerValue="Selecccione..." 
+			headerValue="Seleccione..." 
 			listKey="codigoServicio"
 			listValue="nombre" />
 	</div>
@@ -54,10 +54,13 @@
 			name="cargo.codigoCargo" 
 			list="#request.cargosServicio" 
 			headerKey=""
-			headerValue="Selecccione..." 
+			headerValue="Seleccione..." 
 			listKey="codigoCargo"
 			listValue="nombre" />
 	</div>
+	
+	<s:hidden id="codigoEjerce" name="rubro.codigoEjerce" />
+	
 </div>
 
 <script type="text/javascript">
@@ -69,11 +72,9 @@ $("#empresa").change(function() {
 	if(keyEmpresa != ''){
 		$.ajax({
 			type : "POST",
-			url : "/ActNowSubastaWEB/pages/Desarrollo.jsp",
+			url : "getRubrosByEmpresa.action",
 			data : formData,
 			success : function(response) {
-
-				console.log(response);
 				
 				$("#rubrosEmpresa")
 			    .find('option')
@@ -82,8 +83,14 @@ $("#empresa").change(function() {
 			    .append('<option value="">Seleccione...</option>');
 				
 				var rubrosEmpresa = JSON.parse(response);
-				for(var i = 0 ;i < regiones.length; i++){
+				for(var i = 0 ;i < rubrosEmpresa.length; i++){
                     $("#rubrosEmpresa").append($('<option>').text(rubrosEmpresa[i].nombre).attr('value', rubrosEmpresa[i].codigoRubro));
+
+                    var newInput = document.createElement("input");
+                    newInput.setAttribute("type", "hidden");
+                    newInput.setAttribute("id", rubrosEmpresa[i].codigoRubro);
+                    newInput.setAttribute("value", rubrosEmpresa[i].codigoEjerce);
+                    $("#"+formName).after(newInput);
                 }
 
 				$("#rubrosEmpresa").focus();
@@ -118,8 +125,11 @@ $("#empresa").change(function() {
 
 $("#rubrosEmpresa").change(function() {
 	var formName = $(this).closest('form').attr('id');
-	var formData = $('#'+formName).serialize(); // get all data from from
 	var keyRubro = document.getElementById('rubrosEmpresa').value;
+	$("#codigoEjerce").val($("#"+keyRubro).val());
+	
+	var formData = $('#'+formName).serialize(); // get all data from from
+	
 	
 	if(keyRubro != ''){
 
@@ -143,8 +153,8 @@ $("#rubrosEmpresa").change(function() {
 			    .append('<option value="">Seleccione...</option>');
 				
 				var servicios = JSON.parse(response);
-				for(var i = 0 ;i < ciudades.length; i++){
-                    $("serviciosActivosEmpresa").append($('<option>').text(servicios[i].nombre).attr('value', servicios[i].codigoServicio));
+				for(var i = 0 ;i < servicios.length; i++){
+                    $("#serviciosActivosEmpresa").append($('<option>').text(servicios[i].nombre).attr('value', servicios[i].codigoServicio));
                 }
 
 				$("#serviciosActivosEmpresa").focus();
@@ -186,9 +196,9 @@ $("#serviciosActivosEmpresa").change(function() {
 			    .end()
 			    .append('<option value="">Seleccione...</option>');
 			    
-				var comunas = JSON.parse(response);
-				for(var i = 0 ;i < comunas.length; i++){
-                    $("#cargosServicio").append($('<option>').text(comunas[i].nombre).attr('value', comunas[i].codigoComuna));
+				var cargosServicio = JSON.parse(response);
+				for(var i = 0 ;i < cargosServicio.length; i++){
+                    $("#cargosServicio").append($('<option>').text(cargosServicio[i].nombre).attr('value', cargosServicio[i].codigoCargo));
                 }
 
 				$("#cargosServicio").focus();

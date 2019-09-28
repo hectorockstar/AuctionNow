@@ -20,6 +20,7 @@
 	<bean id="solicitudBusiness" class="com.auctionnow.business.solicitud.SolicitudBusiness" >
 		<constructor-arg ref="solicitudDAO" />
 		<constructor-arg ref="usuarioEjbRemote" />
+		<constructor-arg ref="commonEjbRemote" />
 	</bean>	
 		
 </beans>

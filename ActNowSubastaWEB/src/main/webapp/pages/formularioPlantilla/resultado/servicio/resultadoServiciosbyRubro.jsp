@@ -26,7 +26,8 @@
 				<label class="col-sm-7"><s:text name="common.label.descripcion" /></label>
 				
 				<s:iterator value="%{#ser.cargos}" var="car">
-					<div class="col-sm-1"><s:checkbox id="activo" name="activo" fieldValue="true" /></div>
+					<div class="col-sm-1"><s:checkbox id="activo%{#car.codigoCargo}" name="" value="true" disabled="true" /></div>
+					<s:hidden id="h_activo%{#car.codigoCargo}" value="%{#car.codigoCargo}:true" name="" />
 					<label class="col-sm-1"><s:property value='#car.sigla' /></label>
 					<label class="col-sm-3"><s:property value='#car.nombre' /></label>
 					<label class="col-sm-7"><s:property value='#car.descripcion' /></label>
@@ -84,7 +85,8 @@
 				url : "asignaRubroServiciosEmpresa.action",
 				data : formData,
 				success : function(response) {
-					
+					console.log('SE HA ASIGNADO RUBRO CORRECTAMENTE');
+					location.replace(window.location.href);
 				}
 			});
 		});

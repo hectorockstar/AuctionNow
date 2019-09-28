@@ -15,6 +15,7 @@ public class Constantes {
 	public static final String CATALOGO_TARJETA_TIPO = "C_TIPTAR";
 	public static final String CATALOGO_GENERO = "C_GENERO";
 	public static final String CATALOGO_NIVEL_PRIORIDAD = "C_PRIORIDAD";
+	public static final String CATALOGO_TIPO_FECHA = "C_TIPOFECHA";
 	public static final String CATALOGO_PROVEEDOR_TIPO = "C_TIPPROV";
 	public static final String CATALOGO_VIGENTE = "T_VIGENTE";
 	
@@ -44,6 +45,7 @@ public class Constantes {
 	public static final String SECUENCIA_RUBRO = "RUB";
 	public static final String SECUENCIA_EJERCE_RUBRO = "EJR";
 	public static final String SECUENCIA_SERVICIO_ACTIVO = "SAC";
+	public static final String SECUENCIA_SOLICITUD = "SOL";
 
 	// MAILS
 	public static final String MAIL_NOTIFICA_NUEVASOLICITUD = "NUEVA_SOLICITUD";

@@ -1,5 +1,6 @@
 package com.auctionnow.controller.solicitud;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.auctionnow.common.Constantes;
@@ -8,11 +9,14 @@ import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroDireccion;
+import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.filters.FiltroSolicitud;
 import com.auctionnow.model.Cliente;
+import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
 import com.auctionnow.model.Proveedor;
+import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.Solicitud;
 import com.auctionnow.model.Subasta;
@@ -25,9 +29,11 @@ public class SolicitudRegistrarAction extends AbstractControllerConfig {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Servicio servicio;
 	protected Solicitud solicitud;
+	protected Servicio servicio;
 	protected Direccion direccion;
+	protected Contacto contacto;
+	
 	protected String activarSolicitud;
 	protected Subasta subasta;
 	protected String codigoSolicitud;
@@ -37,74 +43,42 @@ public class SolicitudRegistrarAction extends AbstractControllerConfig {
 
 		Cliente cliente = (Cliente) ((UsuarioWeb) getSession().get("usuarioWeb")).getUsuario();
 		List<Direccion> direcciones = getUsuarioEjbRemote().asignarComunaDireccion(cliente.getDirecciones());
+		List<Contacto> contactos = cliente.getContactos();
 
-		// filtroCatalogo = new FiltroCatalogo();
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SERVICIO_TIPO);
-		List<Tupla> tipsServicios = getCommonEjbRemote().getParameters(filtroCatalogo);
+		FiltroRubro filtroRubro = new FiltroRubro();
+		List<Rubro> lstRubros = getTransaccionEjbRemote().getRubros(filtroRubro);
 
-		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_NIVEL_PRIORIDAD);
-		List<Tupla> prioridades = getCommonEjbRemote().getParameters(filtroCatalogo);
-
-		getRequest().put("tipsServicios", tipsServicios);
-		getRequest().put("prioridades", prioridades);
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_TIPO_FECHA);
+		List<Tupla> tipoFechas = getCommonEjbRemote().getParameters(filtroCatalogo);
+		
+		getRequest().put("tipoFechas", tipoFechas);
+		getRequest().put("rubros", lstRubros);
 		getRequest().put("direcciones", direcciones);
+		getRequest().put("contactos", contactos);
+		getRequest().put("serviciosActivosByRubro", new ArrayList<Servicio>());
 
 		return Constantes.SUCCESS;
 	}
 
 	public String addSolicitud() {
 		// VALIDAR CAMPOS
-
-		/// PRUEBA
-		// setActivarSolicitud("N");
-
-		// solicitud = new Solicitud();
-		// solicitud.setDescripcion("Servicio de cerrajeria");
-		// solicitud.setFechaVencimiento(new Date());
-		// solicitud.setPrecioEsperado(new Long("33000"));
-		// solicitud.setPrioridad(1);
-		//
-		// Servicio servicio = new Servicio();
-		// servicio.setCodigoServicio("SER002");
-		// solicitud.setServicio(servicio);
-		//
-		// Direccion direccion = new Direccion();
-		// direccion.setCodigoDireccion("34");
-		// solicitud.setDireccion(direccion);
-		//////////
-
-		solicitud.setFechaCreacion(new Date());
-
-		// CREACION DE CODIGO
-		solicitud.setCodigoSolicitud("SOL0002");
-
-		if ("off".equalsIgnoreCase(getActivarSolicitud())) {
-			solicitud.setEstadoSolicitud("C");
-		} else {
-			solicitud.setEstadoSolicitud("A");
-		}
-
 		Cliente cliente = (Cliente) ((UsuarioWeb) getSession().get("usuarioWeb")).getUsuario();
+		
 		solicitud.setCliente(cliente);
+		solicitud.setServicio(servicio);
+		solicitud.setDireccion(direccion);
+		solicitud.setContacto(contacto);
 
 		Integer regSolicitud = getSolicitudEjbRemote().addSolicitud(solicitud);
 
-		if ("on".equalsIgnoreCase(getActivarSolicitud()) && regSolicitud != null && regSolicitud > 0) {
-
-			/////// PRUEBA
-			// subasta = new Subasta();
-			// subasta.setDuracion("2");
-
-			///////////////////
-
-			subasta.setMontoMinimo(solicitud.getPrecioEsperado());
-			subasta.setDescripcion(solicitud.getDescripcion());
-
+		if (Constantes.ACTIVO.equals(solicitud.getActivo()) && (regSolicitud != null && regSolicitud > 0)) {
+			Subasta subasta = new Subasta();
+			
 			// Enviar correo de Notificacion a los Proveedores e Iniciar subasta
 			subasta = getSolicitudEjbRemote().iniciarSubasta(solicitud, subasta);
 		}
 
-		return Constantes.SUCCESS;
+		return SUCCESS;
 	}
 
 	public void showDetalleSolicitud() {
@@ -190,4 +164,12 @@ public class SolicitudRegistrarAction extends AbstractControllerConfig {
 		this.servicio = servicio;
 	}
 
+	public Contacto getContacto() {
+		return contacto;
+	}
+
+	public void setContacto(Contacto contacto) {
+		this.contacto = contacto;
+	}
+	
 }

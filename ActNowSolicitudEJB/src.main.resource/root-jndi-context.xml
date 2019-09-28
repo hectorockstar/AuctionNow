@@ -11,16 +11,19 @@
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	
 	<!-- EJB -->
-	<bean id="usuarioEjbRemote" class="com.auctionnow.utils.AuctionNowUsuarioGetEJB" factory-method="getInstanceEJB" >
+	<bean id="commonEjbRemote" class="com.auctionnow.utils.AuctionNowSolicitudGetEJB" factory-method="getInstanceEJB" >
 		<constructor-arg index="0" value="com.auctionnow.ejb.ICommonEjbRemote" />	
-		<constructor-arg index="1" value="ActNowUsuarioService/ActNowUsuarioEJB/UsuarioEjb!com.auctionnow.ejb.IUsuarioEjbRemote" />
+		<constructor-arg index="1" value="ActNowCommonService/ActNowCommonEJB/CommonEjb!com.auctionnow.ejb.ICommonEjbRemote" />
 	</bean>
 	
+	<bean id="usuarioEjbRemote" class="com.auctionnow.utils.AuctionNowSolicitudGetEJB" factory-method="getInstanceEJB" >
+		<constructor-arg index="0" value="com.auctionnow.ejb.IUsuarioEjbRemote" />	
+		<constructor-arg index="1" value="ActNowUsuarioService/ActNowUsuarioEJB/UsuarioEjb!com.auctionnow.ejb.IUsuarioEjbRemote" />
+	</bean>
+
 	<!-- Enable Annotation based Declarative Transaction Management -->
-	<tx:annotation-driven proxy-target-class="true"
-		transaction-manager="transactionManager" />
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
 
 	<!-- Creating TransactionManager Bean, since JDBC we are creating of type 
 		DataSourceTransactionManager -->

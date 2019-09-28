@@ -6,26 +6,101 @@ import java.util.Date;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.auctionnow.common.Tupla;
+
 public class Solicitud implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Cliente cliente;
+	
 	private String codigoSolicitud;
-	private String descripcion;
-	private Direccion direccion;
-	private String estadoSolicitud;
+	private Tupla tipoFecha;
+	private Date fechaServicioDesde;
+	private Date fechaServicioHasta;
+	private String horarioDesde;
+	private String horarioHasta;
+	private Date fechaEntregaServicio;
 	private Date fechaCreacion;
-	private Date fechaVencimiento;
-	private Long precioEsperado;
-	private Integer prioridad;
-	private Servicio servicio;
+	private Date fechaVencimientoSubasta;
+	private String horaVencimientoSubasta;
+	private Double precioEsperado;
+	private String estadoSolicitud;
 	private Double valoracion;
+	private String descripcion;
+	private Servicio servicio;
+	private Direccion direccion;
+	private Contacto contacto;
+	private Cliente cliente;
+	private String activo;
+	
+	private Integer prioridad;
 	private String diasDisponible;
 	
-	
-	
+	public String getActivo() {
+		return activo;
+	}
+
+	public void setActivo(String activo) {
+		this.activo = activo;
+	}
+
+	public Contacto getContacto() {
+		return contacto;
+	}
+
+	public void setContacto(Contacto contacto) {
+		this.contacto = contacto;
+	}
+
+	public Date getFechaEntregaServicio() {
+		return fechaEntregaServicio;
+	}
+
+	public void setFechaEntregaServicio(Date fechaEntregaServicio) {
+		this.fechaEntregaServicio = fechaEntregaServicio;
+	}
+
+	public String getHorarioDesde() {
+		return horarioDesde;
+	}
+
+	public void setHorarioDesde(String horarioDesde) {
+		this.horarioDesde = horarioDesde;
+	}
+
+	public String getHorarioHasta() {
+		return horarioHasta;
+	}
+
+	public void setHorarioHasta(String horarioHasta) {
+		this.horarioHasta = horarioHasta;
+	}
+
+	public Date getFechaServicioDesde() {
+		return fechaServicioDesde;
+	}
+
+	public void setFechaServicioDesde(Date fechaServicioDesde) {
+		this.fechaServicioDesde = fechaServicioDesde;
+	}
+
+	public Date getFechaServicioHasta() {
+		return fechaServicioHasta;
+	}
+
+	public void setFechaServicioHasta(Date fechaServicioHasta) {
+		this.fechaServicioHasta = fechaServicioHasta;
+	}
+
+	public Tupla getTipoFecha() {
+		return tipoFecha;
+	}
+
+	public void setTipoFecha(Tupla tipoFecha) {
+		this.tipoFecha = tipoFecha;
+	}
+
 	public String getDiasDisponible() {
 		return diasDisponible;
 	}
@@ -98,19 +173,11 @@ public class Solicitud implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaVencimiento() {
-		return fechaVencimiento;
-	}
-
-	public void setFechaVencimiento(Date fechaVencimiento) {
-		this.fechaVencimiento = fechaVencimiento;
-	}
-
-	public Long getPrecioEsperado() {
+	public Double getPrecioEsperado() {
 		return precioEsperado;
 	}
 
-	public void setPrecioEsperado(Long precioEsperado) {
+	public void setPrecioEsperado(Double precioEsperado) {
 		this.precioEsperado = precioEsperado;
 	}
 
@@ -120,6 +187,22 @@ public class Solicitud implements Serializable {
 
 	public void setPrioridad(Integer prioridad) {
 		this.prioridad = prioridad;
+	}
+	
+	public Date getFechaVencimientoSubasta() {
+		return fechaVencimientoSubasta;
+	}
+
+	public void setFechaVencimientoSubasta(Date fechaVencimientoSubasta) {
+		this.fechaVencimientoSubasta = fechaVencimientoSubasta;
+	}
+
+	public String getHoraVencimientoSubasta() {
+		return horaVencimientoSubasta;
+	}
+
+	public void setHoraVencimientoSubasta(String horaVencimientoSubasta) {
+		this.horaVencimientoSubasta = horaVencimientoSubasta;
 	}
 
 	public String toString() {

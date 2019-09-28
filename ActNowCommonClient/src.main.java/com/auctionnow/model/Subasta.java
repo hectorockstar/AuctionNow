@@ -18,7 +18,9 @@ public class Subasta implements Serializable {
 	private String duracion;
 	private boolean extendida;
 	private Date fechaInicio;
+	private String horaInicioSubasta;
 	private Date fechaTermino;
+	private String horaTerminoSubasta;
 	private Long montoFinal;
 	private Oferta ofertaGanadora;
 	private List<Oferta> ofertas;
@@ -30,6 +32,22 @@ public class Subasta implements Serializable {
 
 	public Servicio getServicio() {
 		return servicio;
+	}
+
+	public String getHoraInicioSubasta() {
+		return horaInicioSubasta;
+	}
+
+	public void setHoraInicioSubasta(String horaInicioSubasta) {
+		this.horaInicioSubasta = horaInicioSubasta;
+	}
+
+	public String getHoraTerminoSubasta() {
+		return horaTerminoSubasta;
+	}
+
+	public void setHoraTerminoSubasta(String horaTerminoSubasta) {
+		this.horaTerminoSubasta = horaTerminoSubasta;
 	}
 
 	public void setServicio(Servicio servicio) {

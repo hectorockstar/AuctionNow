@@ -47,7 +47,6 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		filtroCatalogo.setKey(Constantes.SECUENCIA_SERVICIO);
 		servicio.setCodigoServicio(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		
-		
 		Integer registrarServicio = transaccionDAO.addServicio(servicio);
 		return registrarServicio;
 	}

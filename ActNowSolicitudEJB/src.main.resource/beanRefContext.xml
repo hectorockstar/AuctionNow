@@ -6,8 +6,10 @@
 	<bean id="user-service-ejb-context" class="org.springframework.context.support.ClassPathXmlApplicationContext">		 
 		<constructor-arg>
 			<list>
+				<value>root-context.xml</value>
+				<value>root-jndi-context.xml</value>
 				<value>app/context/solicitud-context.xml</value>
 			</list>
-		</constructor-arg> 		
+		</constructor-arg>
 	</bean>
 </beans>

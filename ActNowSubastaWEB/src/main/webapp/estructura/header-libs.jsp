@@ -8,8 +8,9 @@
 <script src="../utils/validar_campos_formularios.js"></script>
 
 <!-- JQUERY rateYo -->
-<script src="../utils/rateYo/js/jquery.rateyo.js"></script>
-<script src="../utils/ranking_estrellas.js"></script>
+<link rel="stylesheet" href="../utils/rateYo/css/jquery.rateyo.css" />
+
+<script type="text/javascript" src="../utils/ranking_estrellas.js"></script>
 
 <!-- JQUERY Steps -->
 <!-- <script src="../utils/jquery-steps/js/jquery.steps.js"></script> -->
@@ -31,9 +32,16 @@
 <link rel="stylesheet" href="../utils/bootstrap/css/bootstrap-theme-steps.css">
 <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 
+<!-- AUCTION NOW COMMON JS -->
+<script type="text/javascript" src="../utils/auctionnow/js/auctionnow-common.js"></script>
+
 <!-- DATEPICKER -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+<!-- CLOCKPICKER -->
+<script type="text/javascript" src="../utils/clockpicker/src/clockpicker.js"></script>
+<link rel="stylesheet" href="../utils/clockpicker/src/clockpicker.css"/>
 
 <!-- COMMONS CUSTOM  -->
 <link rel="stylesheet" href="../custom-styles/css/common.css">
@@ -47,53 +55,8 @@
 	}
 </style>
 
-<!-- DATEPICKER FUNCTION -->
-<script>
-    $(document).ready(function() {
-    	$('#fechaNacimiento').bind('click', function (){
-    		setDatePicker('fechaNacimiento');
-    	});
-    	$('#fechaNacimiento').click();
-    	
-    	$('#fechaFundacion').bind('click', function (){
-    		setDatePicker('fechaFundacion');
-    	});
-    	$('#fechaFundacion').click();
 
-    	$('#fechaEjerceDesde').bind('click', function (){
-    		setDatePicker('fechaEjerceDesde');
-    	});
-    	$('#fechaEjerceDesde').click();
 
-    	$('#updateFechaNacimiento').bind('click', function (){
-    		setDatePicker('updateFechaNacimiento');
-    	});
-    	$('#updateFechaNacimiento').click();
-    });
-    
-    function setDatePicker(inputId){
-        var date_input=$('#'+inputId); //our date input has the name "date"
-        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-
-		if(inputId.includes('update')){
-			var options={
-	          format: 'dd/mm/yyyy',
-	          container: container,
-	          //todayHighlight: true,
-	          autoclose: true,
-	        };
-		} else {
-			var options={
-	          format: 'dd/mm/yyyy',
-	          container: container,
-	          todayHighlight: true,
-	          autoclose: true,
-	        };
-		}
-        
-        date_input.datepicker(options);
-    }
-</script>
 
 <!-- FUNCIONES -->
 <script text="type/javascript">

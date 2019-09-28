@@ -10,7 +10,9 @@ import javax.mail.internet.AddressException;
 
 import com.auctionnow.common.Constantes;
 import com.auctionnow.data.solicitud.ISolicitudDAO;
+import com.auctionnow.ejb.ICommonEjbRemote;
 import com.auctionnow.ejb.IUsuarioEjbRemote;
+import com.auctionnow.filters.FiltroCatalogo;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroOferta;
 import com.auctionnow.filters.FiltroSolicitud;
@@ -27,12 +29,32 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 	@EJB
 	private IUsuarioEjbRemote usuarioEjbRemote;
 	
-	public SolicitudBusiness (ISolicitudDAO solicitudDAO, IUsuarioEjbRemote usuarioEjbRemote){
+	@EJB
+	private ICommonEjbRemote commonEjbRemote;
+	
+	public SolicitudBusiness (ISolicitudDAO solicitudDAO, IUsuarioEjbRemote usuarioEjbRemote, ICommonEjbRemote commonEjbRemote){
 		this.solicitudDAO = solicitudDAO;
 		this.usuarioEjbRemote = usuarioEjbRemote;
+		this.commonEjbRemote = commonEjbRemote;
 	}
 
 	public Integer addSolicitud(Solicitud solicitud) {
+		
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+		filtroCatalogo.setKey(Constantes.SECUENCIA_SOLICITUD);
+		
+		solicitud.setCodigoSolicitud(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		solicitud.setFechaCreacion(new Date());
+		
+		if(Constantes.ACTIVA.equals(solicitud.getActivo())) {
+			solicitud.setEstadoSolicitud("A");
+		} else {
+			solicitud.setEstadoSolicitud("NA");
+		}
+		
+		solicitud.setPrioridad(0);
+		
 		Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
 		return addSolicitud;
 	}
@@ -84,9 +106,31 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return solicitudDAO.getOferta(filtroOferta);
 	}
 	
-	
 	public Subasta iniciarSubasta(Solicitud solicitud, Subasta subasta){
 		try {
+			
+			FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+			filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+			filtroCatalogo.setKey(Constantes.SECUENCIA_SUBASTA);
+			subasta.setCodigoSubasta(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo)); // GENERAR CODIGO SUBASTA
+			
+			subasta.setMontoFinal(new Long("0"));
+			subasta.setMontoInicial(new Long("0"));
+			
+			subasta.setFechaInicio(new Date());
+			
+			subasta.setEstadoSubasta("EC");
+			subasta.setCantidadExtenciones(0);
+			subasta.setExtendida(Boolean.FALSE);
+			subasta.setFechaTermino(new Date()); // Fecha actual mas duracion de la subasta
+			subasta.setServicio(solicitud.getServicio());
+			subasta.setSolicitud(solicitud);
+			
+			Integer regSubasta = solicitudDAO.addSubasta(subasta);
+			if(regSubasta == null || regSubasta == 0){
+				throw new RuntimeException("Error al iniciar la Subasta");
+			} 
+			
 			FiltroContacto filtroContacto = new FiltroContacto();
 			filtroContacto.setCodigoServicio(solicitud.getServicio().getCodigoServicio());
 			List<Contacto> contactos = getUsuarioEjbRemote().getContactos(filtroContacto);
@@ -106,23 +150,6 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 				e.printStackTrace();
 			}
 			
-			subasta.setMontoFinal(new Long("0"));
-			subasta.setMontoInicial(new Long("0"));
-			subasta.setCodigoSubasta("SUB001"); // GENERAR CODIGO SUBASTA
-			subasta.setFechaInicio(new Date());
-			
-			subasta.setEstadoSubasta("EC");
-			subasta.setCantidadExtenciones(0);
-			subasta.setExtendida(Boolean.FALSE);
-			subasta.setFechaTermino(new Date()); // Fecha actual mas duracion de la subasta
-			subasta.setServicio(solicitud.getServicio());
-			subasta.setSolicitud(solicitud);
-			
-			Integer regSubasta = solicitudDAO.addSubasta(subasta);
-			if(regSubasta == null || regSubasta == 0){
-				throw new RuntimeException("Error al iniciar la Subasta");
-			} 
-			
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,6 +161,21 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 	public Integer addSubastaProveedor(String codigoSubasta, String codigoProveedor) {
 		return solicitudDAO.addSubastaProveedor(codigoSubasta, codigoProveedor);
 	}
-	
+
+	public ISolicitudDAO getSolicitudDAO() {
+		return solicitudDAO;
+	}
+
+	public void setSolicitudDAO(ISolicitudDAO solicitudDAO) {
+		this.solicitudDAO = solicitudDAO;
+	}
+
+	public ICommonEjbRemote getCommonEjbRemote() {
+		return commonEjbRemote;
+	}
+
+	public void setCommonEjbRemote(ICommonEjbRemote commonEjbRemote) {
+		this.commonEjbRemote = commonEjbRemote;
+	}
 	
 }

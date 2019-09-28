@@ -16,7 +16,7 @@
 							id="formulario_registro_proveedor" method="POST">
 
 							<s:if test="%{request.empresas != null}">
-								<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoPorServicioEmpresa1.jsp" />
+								<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoServicioRubrobyEmpresa.jsp" />
 							</s:if>
 							
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalProveedor.jsp" />

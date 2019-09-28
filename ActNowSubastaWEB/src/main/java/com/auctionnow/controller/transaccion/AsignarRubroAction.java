@@ -6,9 +6,11 @@ import java.util.List;
 import com.auctionnow.common.Constantes;
 import com.auctionnow.controller.AbstractControllerConfig;
 import com.auctionnow.filters.FiltroCargo;
+import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroServicio;
 import com.auctionnow.model.Cargo;
+import com.auctionnow.model.Direccion;
 import com.auctionnow.model.Empresa;
 import com.auctionnow.model.Rubro;
 import com.auctionnow.model.Servicio;
@@ -50,7 +52,7 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		return SUCCESS;
 	}
 	
-	public String getServiciosPorRubro() {
+	public String getServiciosByRubro() {
 		
 		FiltroServicio filtroServicio = new FiltroServicio();
 		filtroServicio.setCodigoRubro(rubro.getCodigoRubro());
@@ -67,13 +69,16 @@ public class AsignarRubroAction extends AbstractControllerConfig {
 		Rubro rubroAsignado = getTransaccionEjbRemote().asignaRubroServiciosEmpresa(empresa.getCodigoEmpresa(), rubro, estadosServicios);
 		
 		List<Rubro> rubros = empresa.getRubros();
+		
 		if(rubros == null) {
 			rubros = new ArrayList<Rubro>();
-			rubros.add(rubroAsignado);
 		} 
+		
 		rubros.add(rubroAsignado);
 		empresa.setRubros(rubros);
 		usuarioWebSession.setEmpresa(empresa);
+		
+		this.getSession().put("usuarioWeb", usuarioWebSession);
 		
 		return SUCCESS;
 	}

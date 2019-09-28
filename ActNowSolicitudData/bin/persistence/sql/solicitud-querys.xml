@@ -139,25 +139,43 @@
 		INSERT INTO AN_SOLICITUD (
 			C_CODSOL,
 			T_DESCRIPCION,
-			T_ESTSOL,
-			D_FECCREA,
-			D_FECVEN,
-			N_PRECEST,
-			N_PRIOR,
+			T_ESTADO,
+			D_FECCREASOL,
+			D_FECESPECIFICA,
+			D_FECSERDESDE,
+			D_FECSERHASTA,
+			T_HRSERDESDE,
+			T_HRSERHASTA,
+			D_FECVENSUB,
+			T_HRVENSUB,
+			N_PRECIOEST,
+			N_VALORACION,
+			T_ACTIVO,
+			C_TIPOFECHA,
 			C_CODCLI,
 			C_CODSER,
-			C_CODDIR
+			C_CODDIR,
+			C_CODCON 
 		) VALUES (
 			#{codigoSolicitud},
 			#{descripcion},
 			#{estadoSolicitud},
-			#{fecCreacion},
-			#{fecVencimiento},
+			#{fechaCreacionSolicitud},
+			#{fechaServicioEspecifica},
+			#{fechaServicioDesde},
+			#{fechaServicioHasta},
+			#{horaServicioDesde},
+			#{horaServicioHasta},
+			#{fechaVencimientoSubasta},
+			#{horaVencimientoSubasta},
 			#{precioEstimado},
-			#{prioridad},
+			#{valoracion},
+			#{activo},
+			#{tipoFecha},
 			#{codigoCliente},
 			#{codigoServicio},
-			#{codigoDireccion}
+			#{codigoDireccion},
+			#{codigoContacto}
 		)
 	</insert>
 	

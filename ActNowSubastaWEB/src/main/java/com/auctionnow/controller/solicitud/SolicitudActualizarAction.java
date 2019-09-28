@@ -58,24 +58,6 @@ public class SolicitudActualizarAction extends AbstractControllerConfig {
 		// VALIDAR CAMPOS
 
 		/// PRUEBA
-		setActivarSolicitud("S");
-
-		solicitud = new Solicitud();
-		solicitud.setCodigoSolicitud("SOL0002");
-		solicitud.setDescripcion("Servicio de Peluqueria a Domicilio");
-		solicitud.setFechaCreacion(new Date());
-		solicitud.setFechaVencimiento(new Date());
-		solicitud.setPrecioEsperado(new Long("9000"));
-		solicitud.setPrioridad(5);
-
-		Servicio servicio = new Servicio();
-		servicio.setCodigoServicio("SER006");
-		solicitud.setServicio(servicio);
-
-		Direccion direccion = new Direccion();
-		direccion.setCodigoDireccion("34");
-		solicitud.setDireccion(direccion);
-		//////////
 
 		if ("N".equalsIgnoreCase(getActivarSolicitud())) {
 			solicitud.setEstadoSolicitud("C");

@@ -22,13 +22,22 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 		parameters.put("codigoSolicitud", solicitud.getCodigoSolicitud());
 		parameters.put("descripcion", solicitud.getDescripcion());
 		parameters.put("estadoSolicitud", solicitud.getEstadoSolicitud());
-		parameters.put("fecCreacion", solicitud.getFechaCreacion());
-		parameters.put("fecVencimiento", solicitud.getFechaVencimiento());
+		parameters.put("fechaCreacionSolicitud", solicitud.getFechaCreacion());
+		parameters.put("fechaServicioEspecifica", solicitud.getFechaEntregaServicio());
+		parameters.put("fechaServicioDesde", solicitud.getFechaServicioDesde());
+		parameters.put("fechaServicioHasta", solicitud.getFechaServicioHasta());
+		parameters.put("horaServicioDesde", solicitud.getHorarioDesde());
+		parameters.put("horaServicioHasta", solicitud.getHorarioHasta());
+		parameters.put("fechaVencimientoSubasta", solicitud.getFechaVencimientoSubasta());
+		parameters.put("horaVencimientoSubasta", solicitud.getHoraVencimientoSubasta());
 		parameters.put("precioEstimado", solicitud.getPrecioEsperado());
-		parameters.put("prioridad", solicitud.getPrioridad());
+		parameters.put("valoracion", solicitud.getValoracion());
+		parameters.put("activo", solicitud.getActivo());
+		parameters.put("tipoFecha", solicitud.getTipoFecha().getId());
 		parameters.put("codigoCliente", solicitud.getCliente().getCodigoCliente());
 		parameters.put("codigoServicio", solicitud.getServicio().getCodigoServicio());
 		parameters.put("codigoDireccion", solicitud.getDireccion().getCodigoDireccion());
+		parameters.put("codigoContacto", solicitud.getContacto().getCodigoContacto());
 		
 		return (Integer)getSqlSession().update("updateSolicitud", parameters);
 	}
@@ -88,13 +97,22 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 		parameters.put("codigoSolicitud", solicitud.getCodigoSolicitud());
 		parameters.put("descripcion", solicitud.getDescripcion());
 		parameters.put("estadoSolicitud", solicitud.getEstadoSolicitud());
-		parameters.put("fecCreacion", solicitud.getFechaCreacion());
-		parameters.put("fecVencimiento", solicitud.getFechaVencimiento());
+		parameters.put("fechaCreacionSolicitud", solicitud.getFechaCreacion());
+		parameters.put("fechaServicioEspecifica", solicitud.getFechaEntregaServicio());
+		parameters.put("fechaServicioDesde", solicitud.getFechaServicioDesde());
+		parameters.put("fechaServicioHasta", solicitud.getFechaServicioHasta());
+		parameters.put("horaServicioDesde", solicitud.getHorarioDesde());
+		parameters.put("horaServicioHasta", solicitud.getHorarioHasta());
+		parameters.put("fechaVencimientoSubasta", solicitud.getFechaVencimientoSubasta());
+		parameters.put("horaVencimientoSubasta", solicitud.getHoraVencimientoSubasta());
 		parameters.put("precioEstimado", solicitud.getPrecioEsperado());
-		parameters.put("prioridad", solicitud.getPrioridad());
+		parameters.put("valoracion", solicitud.getValoracion());
+		parameters.put("activo", solicitud.getActivo());
+		parameters.put("tipoFecha", solicitud.getTipoFecha().getId());
 		parameters.put("codigoCliente", solicitud.getCliente().getCodigoCliente());
 		parameters.put("codigoServicio", solicitud.getServicio().getCodigoServicio());
 		parameters.put("codigoDireccion", solicitud.getDireccion().getCodigoDireccion());
+		parameters.put("codigoContacto", solicitud.getContacto().getCodigoContacto());
 		
 		return (Integer)getSqlSession().insert("addSolicitud", parameters);
 	}

@@ -216,6 +216,10 @@
 		WHERE MAIL.C_CODMAIL = #{codigoMail}
 	</select>
 	
+	<select id="getCurrentDate" resultType="String" >
+		SELECT to_char((now() AT TIME zone 'utc'), 'dd-MM-yyyy hh24:mi:ss')
+	</select>
+	
 	<update id="updateSecuenciaRegistro" parameterType="map">
 		UPDATE AN_CATALOGO 
 			SET T_DESCRIPCION = #{secuencia} 

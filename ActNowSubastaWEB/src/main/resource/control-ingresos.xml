@@ -175,7 +175,12 @@
 			<result name="SUCCESS">/WEB-INF/views/usuario/actualizaEmpresaExito.jsp</result>
 		</action>
 		
-		
+		<action name="getServiciosActivosByRubro" class="com.auctionnow.controller.transaccion.AsignarServicioAction"
+			method="getServiciosActivosByRubro">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
+		</action>
 		
 		<action name="showAddRubroEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="showAddRubroEmpresa">
@@ -198,7 +203,7 @@
 		</action>
 		
 		<action name="getServiciosByRubro" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
-			method="getServiciosPorRubro">
+			method="getServiciosByRubro">
 			<result name="ERROR">/WEB-INF/views/error.jsp</result>
 			<result name="SUCCESS">/pages/formularioPlantilla/resultado/servicio/resultadoServiciosbyRubro.jsp</result>
 		</action>
@@ -222,7 +227,7 @@
 		
 		<action name="asignaRubroServiciosEmpresa" class="com.auctionnow.controller.transaccion.AsignarRubroAction"
 			method="asignaRubroServiciosEmpresa">
-			<result name= "SUCCESS"></result>
+			<result name="SUCCESS" type="chain" >showAddRubroEmpresa</result>
 		</action>
 		
 		<action name="showActualizaServicioEmpresa" class="com.auctionnow.controller.usuario.EmpresaOperaServicioActualizarAction"
@@ -314,18 +319,6 @@
 		
 		<action name="addServicio" class="com.auctionnow.controller.transaccion.ServicioRegistrarAction"
 			method="addServicio">
-			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/exitoAddServicio.jsp</result>
-		</action>
-		
-		<action name="showActualizaServicio" class="com.auctionnow.controller.transaccion.ServicioActualizarAction"
-			method="showActualizaServicio">
-			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/addServicio.jsp</result>
-		</action>
-		
-		<action name="actualizaServicio" class="com.auctionnow.controller.transaccion.ServicioActualizarAction"
-			method="actualizaServicio">
 			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
 			<result name="SUCCESS">/WEB-INF/views/usuario/exitoAddServicio.jsp</result>
 		</action>

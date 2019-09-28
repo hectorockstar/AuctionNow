@@ -16,7 +16,7 @@
 
 
 <ul>
-<!-- Usuario Administracdro -->
+<!-- Usuario Administrador -->
 <li><a href="<s:url action="showRegistarUsuarioAdministrador"/>">Registrar Administrador</a></li>
 <li><a href="<s:url action="showActualizaUsuarioAdministrador"/>">Actualizar Administrador</a> (Iniciar Sesion Antes como usuario Administrador)</li>
 
@@ -42,7 +42,7 @@
 
 <!-- Servicio Empresa -->
 <li><a href="<s:url action="showAddRubroEmpresa"/>">Asignar Rubro a Empresa</a></li>
-<li><a href="<s:url action="showServiciosEmpresa"/>">Ver Detalle Servicios de Empresa</a></li>
+<li><a href="<s:url action="showServiciosEmpresa" />">Ver Detalle Servicios de Empresa</a></li>
 <li><a href="<s:url action="showActualizaServicioEmpresa"/>">Actualiza Servicio a Empresa</a></li>
 
 <!-- Solicitudes -->

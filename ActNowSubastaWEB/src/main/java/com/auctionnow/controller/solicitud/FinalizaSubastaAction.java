@@ -83,7 +83,6 @@ public class FinalizaSubastaAction extends AbstractControllerConfig {
 		subasta.setEstadoSubasta("F"); // ESTADO FINALIZADA
 		subasta.setOfertaGanadora(oferta); // CODIGO OFERTA VIENE DESDE LA VISTA
 		subasta.setMontoFinal(oferta.getMontoOferta());
-		subasta.setFechaTermino(new Date());
 		
 		Integer resUpdSubasta = getSolicitudEjbRemote().actualizaSubasta(subasta);
 		if(resUpdSubasta != null && resUpdSubasta > 0){

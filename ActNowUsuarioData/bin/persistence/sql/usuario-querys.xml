@@ -551,6 +551,31 @@
 		</if>
 	</select>
 	
+	<select id="getContactosByServicio" resultMap="contacto-mapping" parameterType="com.auctionnow.filters.FiltroContacto" >
+		SELECT 
+		    CON.C_CODCON         AS C_CODCONTACTO,
+		    CON.T_EMAIL          AS C_EMAIL,
+		    CON.N_PRIOR          AS C_PRIORIDAD,
+		    CON.N_TELFIJO1       AS C_TELFIJ1,
+		    CON.N_TELFIJO2       AS C_TELFIJ2,
+		    CON.N_TELMOV1        AS C_TELMOV1,
+		    CON.N_TELMOV2        AS C_TELMOV2,
+		    TIPCON.C_TIPCATAL    AS C_TIPOCONTACTOID,
+		    TIPCON.T_DESCRIPCION AS C_TIPOCONTACTODESC,
+		    CON.C_TITULAR        AS C_CODTITULAR,
+		    CON.C_CODDIR         AS C_CODDIRECCION
+		FROM AN_CONTACTO CON
+		INNER JOIN AN_CATALOGO TIPCON 
+		    ON CON.C_TIPCON = TIPCON.C_TIPCATAL
+		    AND TIPCON.C_CATALOGO = 'C_TIPCON'
+		INNER JOIN AN_SERVICIOS_ACTIVOS SERACT
+		    ON CON.C_TITULAR = SERACT.C_TITULAR
+		    AND SERACT.T_ACTIVO = 'A'
+		INNER JOIN AN_SERVICIO SER
+		    ON SERACT.C_CODSER = SER.C_CODSER
+		WHERE SER.C_CODSER = #{codigoServicio}
+	</select>
+	
 	<select id="getDireccion" resultMap="direccion-mapping" parameterType="com.auctionnow.filters.FiltroDireccion" >
 		SELECT 
 			DIR.C_CODDIR         AS D_CODDIRECCION,

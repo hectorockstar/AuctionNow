@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
@@ -56,6 +57,10 @@ public class CommonBusiness implements ICommonBusiness {
 
 	public Mail getMailMessage(String codigoMail) {
 		return commonDAO.getMailMessage(codigoMail);
+	}
+	
+	public HorarioSistema getCurrentDate() {
+		return commonDAO.getCurrentDate();
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)

@@ -69,13 +69,13 @@ public class SolicitudRegistrarAction extends AbstractControllerConfig {
 		solicitud.setDireccion(direccion);
 		solicitud.setContacto(contacto);
 
-		Integer regSolicitud = getSolicitudEjbRemote().addSolicitud(solicitud);
+		Integer regSolicitud = null;
+		Subasta subastaIniciada = null;
 
-		if (Constantes.ACTIVO.equals(solicitud.getActivo()) && (regSolicitud != null && regSolicitud > 0)) {
-			Subasta subasta = new Subasta();
-			
-			// Enviar correo de Notificacion a los Proveedores e Iniciar subasta
-			subasta = getSolicitudEjbRemote().iniciarSubasta(solicitud, subasta);
+		if (Constantes.ACTIVO.equals(solicitud.getActivo())) {
+			subastaIniciada = getSolicitudEjbRemote().iniciarSubasta(solicitud);
+		} else {
+			regSolicitud = getSolicitudEjbRemote().addSolicitud(solicitud);
 		}
 
 		return SUCCESS;

@@ -70,8 +70,8 @@ public class SolicitudEjb implements ISolicitudEjbLocal, ISolicitudEjbRemote{
 		return solicitudBusiness.getOferta(filtroOferta);
 	}
 
-	public Subasta iniciarSubasta(Solicitud solicitud, Subasta subasta) {
-		return solicitudBusiness.iniciarSubasta(solicitud, subasta);
+	public Subasta iniciarSubasta(Solicitud solicitud) {
+		return solicitudBusiness.iniciarSubasta(solicitud);
 	}
 
 	public Integer addSubastaProveedor(String codigoSubasta, String codigoProveedor) {

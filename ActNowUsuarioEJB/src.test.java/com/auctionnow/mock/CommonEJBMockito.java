@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
@@ -72,6 +73,12 @@ public class CommonEJBMockito implements ICommonEjbLocal, ICommonEjbRemote{
 
 	@Override
 	public Tupla getParameter(FiltroCatalogo filtroCatalogo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HorarioSistema getCurrentDate() {
 		// TODO Auto-generated method stub
 		return null;
 	}

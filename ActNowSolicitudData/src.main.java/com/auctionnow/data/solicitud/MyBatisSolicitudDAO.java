@@ -46,19 +46,21 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 	public Integer actualizaSubasta(Subasta subasta) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSubasta", subasta.getCodigoSubasta());
-		parameters.put("estado", subasta.getEstadoSubasta());
-		parameters.put("fecInicio", subasta.getFechaInicio());
-		parameters.put("fecTermino", subasta.getFechaTermino());
+		parameters.put("estadoSubasta", subasta.getEstadoSubasta());
+		parameters.put("descripcion", subasta.getDescripcion());
+		parameters.put("fechaSubastaDesde", subasta.getFechaSubastaDesde());
+		parameters.put("horaInicioSubasta", subasta.getHoraInicioSubasta());
+		parameters.put("fechaSubastaHasta", subasta.getFechaSubastaHasta());
+		parameters.put("horaTerminoSubasta", subasta.getHoraTerminoSubasta());
 		parameters.put("duracion", subasta.getDuracion());
-		parameters.put("cantidadExtnsions", subasta.getCantidadExtenciones());
+		parameters.put("cantidadExtensiones", subasta.getCantidadExtensiones());
 		parameters.put("montoMinimo", subasta.getMontoMinimo());
 		parameters.put("montoInicial", subasta.getMontoInicial());
 		parameters.put("montoFinal", subasta.getMontoFinal());
-		parameters.put("extendida", subasta.isExtendida() ? 1 : 0);
-		parameters.put("descripcion", subasta.getDescripcion());
-		parameters.put("codigoOfertaG", subasta.getOfertaGanadora() != null? subasta.getOfertaGanadora().getCodigoOferta() : "");
 		parameters.put("codigoServicio", subasta.getServicio().getCodigoServicio());
 		parameters.put("codigoSolicitud", subasta.getSolicitud().getCodigoSolicitud());
+		parameters.put("extendida", subasta.isExtendida() ? 1 : 0);
+		parameters.put("codigoOfertaGanadora", subasta.getOfertaGanadora().getCodigoOferta());
 		
 		return (Integer)getSqlSession().update("updateSubasta", parameters);
 	}
@@ -71,7 +73,7 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 		parameters.put("comision", oferta.getValorAgregado());
 		parameters.put("montoOferta", oferta.getMontoOferta());
 		parameters.put("codigoProveedor", oferta.getProveedor().getCodigoProveedor());
-		parameters.put("codigoSubasta", oferta.getCodigoSubasta());
+		parameters.put("codigoSubasta", oferta.getSubasta().getCodigoSubasta());
 		
 		return (Integer)getSqlSession().update("updateOferta", parameters);
 	}
@@ -121,18 +123,21 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 	public Integer addSubasta(Subasta subasta) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSubasta", subasta.getCodigoSubasta());
-		parameters.put("estado", subasta.getEstadoSubasta());
-		parameters.put("fecInicio", subasta.getFechaInicio());
-		parameters.put("fecTermino", subasta.getFechaTermino());
+		parameters.put("estadoSubasta", subasta.getEstadoSubasta());
+		parameters.put("descripcion", subasta.getDescripcion());
+		parameters.put("fechaSubastaDesde", subasta.getFechaSubastaDesde());
+		parameters.put("horaInicioSubasta", subasta.getHoraInicioSubasta());
+		parameters.put("fechaSubastaHasta", subasta.getFechaSubastaHasta());
+		parameters.put("horaTerminoSubasta", subasta.getHoraTerminoSubasta());
 		parameters.put("duracion", subasta.getDuracion());
-		parameters.put("cantidadExtnsions", subasta.getCantidadExtenciones());
+		parameters.put("cantidadExtensiones", subasta.getCantidadExtensiones());
 		parameters.put("montoMinimo", subasta.getMontoMinimo());
 		parameters.put("montoInicial", subasta.getMontoInicial());
 		parameters.put("montoFinal", subasta.getMontoFinal());
-		parameters.put("extendida", subasta.isExtendida()? 1 : 0);
-		parameters.put("descripcion", subasta.getDescripcion());
 		parameters.put("codigoServicio", subasta.getSolicitud().getServicio().getCodigoServicio());
 		parameters.put("codigoSolicitud", subasta.getSolicitud().getCodigoSolicitud());
+		parameters.put("extendida", subasta.isExtendida() ? 1 : 0);
+		parameters.put("codigoOfertaGanadora", null);
 		
 		return (Integer)getSqlSession().insert("addSubasta", parameters);
 	}
@@ -145,7 +150,7 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 		parameters.put("comision", oferta.getValorAgregado());
 		parameters.put("montoOferta", oferta.getMontoOferta());
 		parameters.put("codigoProveedor", oferta.getProveedor().getCodigoProveedor());
-		parameters.put("codigoSubasta", oferta.getCodigoSubasta());
+		parameters.put("codigoSubasta", oferta.getSubasta().getCodigoSubasta());
 		
 		return (Integer)getSqlSession().insert("addOferta", parameters);
 	}

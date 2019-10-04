@@ -75,7 +75,6 @@ public class OfertaRegistrarAction extends AbstractControllerConfig {
 		oferta.setCodigoOferta("OFER001");
 		oferta.setFechaOferta(new Date());
 		oferta.setValorAgregado(oferta.getMontoOferta()); // MULTIPLICAR POR VALOR DE LA COMISION (SE OBTIENE DE AN_CONFIGURACION)
-		oferta.setCodigoSubasta(codigoSubasta); // VIENE DE LA VISTA
 
 		UsuarioWeb usuarioWeb = (UsuarioWeb) getSession().get("usuarioWeb");
 		Proveedor proveedor = (Proveedor) usuarioWeb.getUsuario();

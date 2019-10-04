@@ -36,6 +36,6 @@ public interface ISolicitudEJB {
 	List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud);
 	
 	// SERVICIOS
-	Subasta iniciarSubasta(Solicitud solicitud, Subasta subasta);
+	Subasta iniciarSubasta(Solicitud solicitud);
 
 }

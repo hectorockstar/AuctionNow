@@ -183,31 +183,37 @@
 		INSERT INTO AN_SUBASTA (
 			C_CODSUB,
 			C_ESTADO,
-			D_FECINI,
-			D_FECTER,
+			T_DESCRIPCION,
+			D_FECSUBDESDE,
+			T_HRSUBINICIO,
+			D_FECSUBHASTA,
+			T_HRSUBTERMINO,
 			T_DURACION,
 			N_CANTEXT,
-			N_MTOMIN,
-			N_MTOINI,
+			N_MTOMINNIMO,
+			N_MTOINICIAL,
 			N_MTOFINAL,
+			C_CODSER, 
+			C_CODSOL,
 			C_EXTEND,
-			T_DESCRIPCION,
-			C_CODSER,
-			C_CODSOL
+			C_CODOFERGANA
 		) VALUES (
 			#{codigoSubasta},
-			#{estado},
-			#{fecInicio},
-			#{fecTermino},
+			#{estadoSubasta},
+			#{descripcion},
+			#{fechaSubastaDesde},
+			#{horaInicioSubasta},
+			#{fechaSubastaHasta},
+			#{horaTerminoSubasta},
 			#{duracion},
-			#{cantidadExtnsions},
+			#{cantidadExtensiones},
 			#{montoMinimo},
 			#{montoInicial},
 			#{montoFinal},
-			#{extendida},
-			#{descripcion},
 			#{codigoServicio},
-			#{codigoSolicitud}
+			#{codigoSolicitud},
+			#{extendida},
+			#{codigoOfertaGanadora}
 		)
 	</insert>
 	

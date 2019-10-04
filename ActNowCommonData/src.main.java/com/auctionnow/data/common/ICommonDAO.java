@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
@@ -32,4 +33,6 @@ public interface ICommonDAO {
 	Mail getMailMessage (String codigoMail);
 	
 	Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo);
+
+	HorarioSistema getCurrentDate();
 }

@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import com.auctionnow.common.Constantes;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.data.solicitud.ISolicitudDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
 import com.auctionnow.ejb.IUsuarioEjbRemote;
@@ -56,6 +57,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		solicitud.setPrioridad(0);
 		
 		Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
+		
 		return addSolicitud;
 	}
 	
@@ -83,7 +85,30 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 	}
 
 	public Integer addSubasta(Subasta subasta) {
-		return solicitudDAO.addSubasta(subasta);
+
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+		filtroCatalogo.setKey(Constantes.SECUENCIA_SUBASTA);
+		subasta.setCodigoSubasta(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo)); // GENERAR CODIGO SUBASTA
+		
+		subasta.setEstadoSubasta("EC");
+		subasta.setDescripcion("");
+		
+		HorarioSistema horarioSistema = getCommonEjbRemote().getCurrentDate();
+		subasta.setFechaSubastaDesde(horarioSistema.getFechaActual());
+		subasta.setHoraInicioSubasta(horarioSistema.getHoraActual());
+		subasta.setFechaSubastaHasta(null);
+		subasta.setHoraTerminoSubasta(null);
+		
+		subasta.setDuracion("");
+		subasta.setCantidadExtensiones(new Integer("0"));
+		subasta.setMontoMinimo(new Long("0"));
+		subasta.setMontoInicial(new Long("0"));
+		subasta.setMontoFinal(new Long("0"));
+		
+		Integer regSubasta = solicitudDAO.addSubasta(subasta);
+		
+		return regSubasta;
 	}
 
 	public Integer addOferta(Oferta oferta) {
@@ -106,34 +131,39 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return solicitudDAO.getOferta(filtroOferta);
 	}
 	
-	public Subasta iniciarSubasta(Solicitud solicitud, Subasta subasta){
+	public Subasta iniciarSubasta(Solicitud solicitud){
+		Subasta subasta = null;
 		try {
 			
 			FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 			filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
-			filtroCatalogo.setKey(Constantes.SECUENCIA_SUBASTA);
-			subasta.setCodigoSubasta(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo)); // GENERAR CODIGO SUBASTA
+			filtroCatalogo.setKey(Constantes.SECUENCIA_SOLICITUD);
 			
-			subasta.setMontoFinal(new Long("0"));
-			subasta.setMontoInicial(new Long("0"));
+			solicitud.setCodigoSolicitud(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+			solicitud.setFechaCreacion(new Date());
 			
-			subasta.setFechaInicio(new Date());
+			if(Constantes.ACTIVA.equals(solicitud.getActivo())) {
+				solicitud.setEstadoSolicitud("A");
+			} else {
+				solicitud.setEstadoSolicitud("NA");
+			}
 			
-			subasta.setEstadoSubasta("EC");
-			subasta.setCantidadExtenciones(0);
-			subasta.setExtendida(Boolean.FALSE);
-			subasta.setFechaTermino(new Date()); // Fecha actual mas duracion de la subasta
-			subasta.setServicio(solicitud.getServicio());
+			solicitud.setPrioridad(0);
+			
+			Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
+			
+			subasta = new Subasta();
 			subasta.setSolicitud(solicitud);
 			
-			Integer regSubasta = solicitudDAO.addSubasta(subasta);
-			if(regSubasta == null || regSubasta == 0){
+			Integer addSubastaResultado = this.addSubasta(subasta);
+			
+			if(addSubastaResultado == null || addSubastaResultado == 0){
 				throw new RuntimeException("Error al iniciar la Subasta");
 			} 
 			
 			FiltroContacto filtroContacto = new FiltroContacto();
 			filtroContacto.setCodigoServicio(solicitud.getServicio().getCodigoServicio());
-			List<Contacto> contactos = getUsuarioEjbRemote().getContactos(filtroContacto);
+			List<Contacto> contactos = getUsuarioEjbRemote().getContactosByServicio(filtroContacto);
 			
 			List<String> mailsTO = new ArrayList<String>();
 			for(Contacto contacto : contactos){

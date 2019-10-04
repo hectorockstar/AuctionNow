@@ -16,14 +16,14 @@ public class Oferta implements Serializable {
 	private Proveedor proveedor;
 	private Long valorAgregado;
 	private Date fechaOferta;
-	private String codigoSubasta;
+	private Subasta subasta;
 
-	public String getCodigoSubasta() {
-		return codigoSubasta;
+	public Subasta getSubasta() {
+		return subasta;
 	}
 
-	public void setCodigoSubasta(String codigoSubasta) {
-		this.codigoSubasta = codigoSubasta;
+	public void setSubasta(Subasta subasta) {
+		this.subasta = subasta;
 	}
 
 	public String getCodigoOferta() {

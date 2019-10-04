@@ -416,8 +416,13 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	}
 
 	public List<Contacto> getContactos(FiltroContacto filtroContacto) {
-		List<Contacto> lstContantos = usuarioDAO.getContactos(filtroContacto);
-		return lstContantos;
+		List<Contacto> lstContactos = usuarioDAO.getContactos(filtroContacto);
+		return lstContactos;
+	}
+	
+	public List<Contacto> getContactosByServicio(FiltroContacto filtroContacto) {
+		List<Contacto> lstContactos = usuarioDAO.getContactosByServicio(filtroContacto);
+		return lstContactos;
 	}
 
 	public List<Direccion> getDirecciones(FiltroDireccion filtroDireccion) {
@@ -542,7 +547,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		// Step1
 		System.out.println("\n 1st ===> setup Mail Server Properties..");
 		mailServerProperties = System.getProperties();
-		mailServerProperties.put("mail.smtp.port", "587");
+		mailServerProperties.put("mail.smtp.port", "25");
 		mailServerProperties.put("mail.smtp.auth", "true");
 		mailServerProperties.put("mail.smtp.starttls.enable", "true");
 		System.out.println("Mail Server Properties have been setup successfully..");

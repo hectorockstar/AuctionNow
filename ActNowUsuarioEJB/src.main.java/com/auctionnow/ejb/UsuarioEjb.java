@@ -144,6 +144,10 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public List<Contacto> getContactos(FiltroContacto filtroContacto) {
 		return usuarioBusiness.getContactos(filtroContacto);
 	}
+	
+	public List<Contacto> getContactosByServicio(FiltroContacto filtroContacto) {
+		return usuarioBusiness.getContactosByServicio(filtroContacto);
+	}
 
 	public List<Direccion> getDirecciones(FiltroDireccion filtroDireccion) {
 		return usuarioBusiness.getDirecciones(filtroDireccion);

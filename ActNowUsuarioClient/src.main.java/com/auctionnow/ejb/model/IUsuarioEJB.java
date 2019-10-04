@@ -79,6 +79,8 @@ public interface IUsuarioEJB {
 	List<Empresa> getEmpresas(FiltroEmpresa filtroEmpresa);
 
 	List<Contacto> getContactos(FiltroContacto filtroContacto);
+	
+	List<Contacto> getContactosByServicio(FiltroContacto filtroContacto);
 
 	List<Direccion> getDirecciones(FiltroDireccion filtroDireccion);
 

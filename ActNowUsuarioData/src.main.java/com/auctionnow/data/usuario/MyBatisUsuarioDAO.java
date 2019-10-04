@@ -448,6 +448,11 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public List<Contacto> getContactos(FiltroContacto filtroContacto) {
 		return (List<Contacto>) getSqlSession().selectList("getContactos", filtroContacto);
 	}
+	
+	@Override
+	public List<Contacto> getContactosByServicio(FiltroContacto filtroContacto) {
+		return (List<Contacto>) getSqlSession().selectList("getContactosByServicio", filtroContacto);
+	}
 
 	@Override
 	public Direccion getDireccion(FiltroDireccion filtroDireccion) {

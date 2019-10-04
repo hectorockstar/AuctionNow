@@ -85,7 +85,7 @@ public class SolicitudActualizarAction extends AbstractControllerConfig {
 			///////////////////
 
 			// Enviar correo de Notificacion a los Proveedores e Iniciar subasta
-			subasta = getSolicitudEjbRemote().iniciarSubasta(solicitud, subasta);
+			subasta = getSolicitudEjbRemote().iniciarSubasta(solicitud);
 		}
 
 		return Constantes.SUCCESS;

@@ -112,4 +112,6 @@ public interface IUsuarioDAO {
 	
 	String validateUserLogin(String userName, String password);
 
+	List<Contacto> getContactosByServicio(FiltroContacto filtroContacto);
+
 }

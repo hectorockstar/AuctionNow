@@ -13,6 +13,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import com.auctionnow.business.common.ICommonBusiness;
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
@@ -66,6 +67,10 @@ public class CommonEjb implements ICommonEjbLocal, ICommonEjbRemote{
 
 	public String getSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {
 		return commonBusiness.getSecuenciaRegistro(filtroCatalogo);
+	}
+	
+	public HorarioSistema getCurrentDate() {
+		return commonBusiness.getCurrentDate();
 	}
 
 	public Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {

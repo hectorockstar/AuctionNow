@@ -12,23 +12,49 @@ public class Subasta implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer cantidadExtenciones;
+
 	private String codigoSubasta;
+	private String estadoSubasta;
 	private String descripcion;
+	private Date fechaSubastaDesde;
+	private String horaInicioSubasta;
+	private Date fechaSubastaHasta;
+	private String horaTerminoSubasta;
 	private String duracion;
 	private boolean extendida;
-	private Date fechaInicio;
-	private String horaInicioSubasta;
-	private Date fechaTermino;
-	private String horaTerminoSubasta;
-	private Long montoFinal;
-	private Oferta ofertaGanadora;
-	private List<Oferta> ofertas;
+	private Integer cantidadExtensiones;
 	private Long montoMinimo;
 	private Long montoInicial;
-	private String estadoSubasta;
+	private Long montoFinal;
 	private Solicitud solicitud;
 	private Servicio servicio;
+
+	private Oferta ofertaGanadora;
+	private List<Oferta> ofertas;
+
+	public Date getFechaSubastaDesde() {
+		return fechaSubastaDesde;
+	}
+
+	public void setFechaSubastaDesde(Date fechaSubastaDesde) {
+		this.fechaSubastaDesde = fechaSubastaDesde;
+	}
+
+	public Date getFechaSubastaHasta() {
+		return fechaSubastaHasta;
+	}
+
+	public void setFechaSubastaHasta(Date fechaSubastaHasta) {
+		this.fechaSubastaHasta = fechaSubastaHasta;
+	}
+
+	public Integer getCantidadExtensiones() {
+		return cantidadExtensiones;
+	}
+
+	public void setCantidadExtensiones(Integer cantidadExtensiones) {
+		this.cantidadExtensiones = cantidadExtensiones;
+	}
 
 	public Servicio getServicio() {
 		return servicio;
@@ -62,14 +88,6 @@ public class Subasta implements Serializable {
 		this.solicitud = solicitud;
 	}
 
-	public Integer getCantidadExtenciones() {
-		return cantidadExtenciones;
-	}
-
-	public void setCantidadExtenciones(Integer cantidadExtenciones) {
-		this.cantidadExtenciones = cantidadExtenciones;
-	}
-
 	public String getCodigoSubasta() {
 		return codigoSubasta;
 	}
@@ -100,22 +118,6 @@ public class Subasta implements Serializable {
 
 	public void setExtendida(boolean extendida) {
 		this.extendida = extendida;
-	}
-
-	public Date getFechaInicio() {
-		return fechaInicio;
-	}
-
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
-
-	public Date getFechaTermino() {
-		return fechaTermino;
-	}
-
-	public void setFechaTermino(Date fechaTermino) {
-		this.fechaTermino = fechaTermino;
 	}
 
 	public Long getMontoFinal() {

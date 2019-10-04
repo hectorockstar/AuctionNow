@@ -8,6 +8,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.auctionnow.common.Ciudad;
 import com.auctionnow.common.Comuna;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Pais;
 import com.auctionnow.common.Region;
@@ -61,6 +62,11 @@ public class MyBatisCommonDAO extends SqlSessionDaoSupport implements ICommonDAO
 	@Override
 	public Tupla getSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {
 		return (Tupla)getSqlSession().selectOne("getParameter", filtroCatalogo);
+	}
+	
+	@Override
+	public HorarioSistema getCurrentDate() {
+		return (HorarioSistema)getSqlSession().selectOne("getCurrentDate");
 	}
 
 	@Override

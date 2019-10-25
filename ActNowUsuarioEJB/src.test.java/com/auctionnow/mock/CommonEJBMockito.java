@@ -82,6 +82,12 @@ public class CommonEJBMockito implements ICommonEjbLocal, ICommonEjbRemote{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Tupla getConfiguracion(String codigoConfiguracion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

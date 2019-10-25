@@ -72,6 +72,10 @@ public class CommonEjb implements ICommonEjbLocal, ICommonEjbRemote{
 	public HorarioSistema getCurrentDate() {
 		return commonBusiness.getCurrentDate();
 	}
+	
+	public Tupla getConfiguracion(String codigoConfiguracion) {
+		return commonBusiness.getConfiguracion(codigoConfiguracion);
+	}
 
 	public Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {
 		return commonBusiness.updateSecuenciaRegistro(filtroCatalogo);

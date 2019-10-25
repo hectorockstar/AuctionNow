@@ -60,6 +60,11 @@
 		<result property="descripcion" column="C_VALOR" />
 	</resultMap>
 	
+	<resultMap id="config-mapping" type="com.auctionnow.common.Tupla" >
+		<result property="id"          column="CON_VALOR" />
+		<result property="descripcion" column="CON_DESCRIPCION" />
+	</resultMap>
+	
 	<resultMap id="mail-mapping" type="com.auctionnow.common.Mail" >
 		<result property="codigoMail"  column="M_CODMAIL" />
 		<result property="from"        column="M_FROM" />
@@ -217,14 +222,24 @@
 			MAIL.T_CCO     AS M_CCO,
 			MAIL.T_ASUNTO  AS M_ASUNTO,
 			MAIL.T_MAIL    AS M_MENSAJE
+		
 		FROM AN_MAILREPORT MAIL
 		WHERE MAIL.C_CODMAIL = #{codigoMail}
 	</select>
 	
 	<select id="getCurrentDate" resultMap="horario-sistema-mapping"  >
 		SELECT 
-			to_char(now(), 'dd-MM-yyyy') AS FECHAACTUAL,
+			to_char(now(), 'yyyy-MM-dd') AS FECHAACTUAL,
 			to_char(now(), 'hh24:mi:ss') AS HORAACTUAL
+	</select>
+	
+	<select id="getConfiguracion" resultMap="config-mapping" parameterType="java.lang.String" >
+		SELECT 
+			CONF.T_VALOR       AS CON_VALOR,
+			CONF.T_DESCRIPCION AS CON_DESCRIPCION
+		
+		FROM AN_CONFIGURACION CONF
+		WHERE CONF.C_CONFIG = #{codigoConfiguracion}
 	</select>
 	
 	<update id="updateSecuenciaRegistro" parameterType="map">

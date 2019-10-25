@@ -18,6 +18,7 @@ import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
+import com.auctionnow.filters.FiltroNotificacion;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
@@ -28,6 +29,7 @@ import com.auctionnow.model.Empresa;
 import com.auctionnow.model.FichaServicioCliente;
 import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
 import com.auctionnow.model.UsuarioWeb;
@@ -99,6 +101,14 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 
 	public Integer actualizaDireccion(Direccion direccion, String codigoTitular) {
 		return usuarioBusiness.actualizaDireccion(direccion, codigoTitular);
+	}
+	
+	public Integer addNotificacionUsuario(Notificacion notificacion) {
+		return usuarioBusiness.addNotificacionUsuario(notificacion);
+	}
+	
+	public Integer addPrivilegioUsuario(Privilegio privilegio) {
+		return usuarioBusiness.addPrivilegioUsuario(privilegio);
 	}
 
 	public UsuarioWeb getUsuarioWebClienteData(FiltroUsuarioWeb filtroUsuarioWeb) {
@@ -196,6 +206,16 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 
 	public List<Direccion> asignarComunaDireccion(List<Direccion> direcciones) {
 		return usuarioBusiness.asignarComunaDireccion(direcciones);
+	}
+
+	@Override
+	public List<Notificacion> getNotificacionesUsuario(FiltroNotificacion filtroNotificacion) {
+		return usuarioBusiness.getNotificacionesUsuario(filtroNotificacion);
+	}
+
+	@Override
+	public List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
+		return usuarioBusiness.getUsuarioWebByPrivilegio(filtroUsuarioWeb);
 	}
 
 }

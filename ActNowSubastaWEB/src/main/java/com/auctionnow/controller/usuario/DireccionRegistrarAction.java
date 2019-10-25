@@ -61,12 +61,15 @@ public class DireccionRegistrarAction extends AbstractControllerConfig {
 		FiltroDireccion filtroDireccion = new FiltroDireccion();
 		filtroDireccion.setCodigoTitular(codigoTitular);
 		List<Direccion> direcciones = getUsuarioEjbRemote().getDirecciones(filtroDireccion);
+		List<Direccion> direccionesCompleteData = getUsuarioEjbRemote().asignarComunaDireccion(direcciones);
 		
 		if(Constantes.TIPOUSUARIO_SIGLA_EMPRESA.equals(usuarioWebSession.getTipoUsuarioWeb().getId())) {
-			usuarioWebSession.getEmpresa().setDirecciones(direcciones);
+			usuarioWebSession.getEmpresa().setDirecciones(direccionesCompleteData);
 		} else {
-			usuarioWebSession.getUsuario().setDirecciones(direcciones);
+			usuarioWebSession.getUsuario().setDirecciones(direccionesCompleteData);
 		}
+		
+		this.jsonFormatResult(direccionesCompleteData);
 		
 		this.getSession().put("usuarioWeb", usuarioWebSession);
 		

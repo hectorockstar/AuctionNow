@@ -9,6 +9,7 @@
 	<title>AuctionNow</title>
 </head>
 <body>
+	<s:hidden id='usuarioWebCurrentSession' value='%{#session.usuarioWeb.codigoUsuarioWeb}:%{#session.usuarioWeb.tipoUsuarioWeb.id}' />
 
 	<div class="jumbotron">
 		<div class="container text-center">

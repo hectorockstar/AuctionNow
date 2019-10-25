@@ -34,4 +34,6 @@ public interface ICommonEJB {
 	Mail getMailMessage (String codigoMail);
 	
 	HorarioSistema getCurrentDate();
+	
+	Tupla getConfiguracion(String codigoConfiguracion);
 }

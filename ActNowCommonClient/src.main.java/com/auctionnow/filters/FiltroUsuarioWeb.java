@@ -14,8 +14,17 @@ public class FiltroUsuarioWeb implements Serializable {
 	
 	// Filtro para Privilegios del UsuarioWeb
 	private String codigoPrivilegio;
+	private String nombrePrivilegio;
 	private String activo;
 	
+	public String getNombrePrivilegio() {
+		return nombrePrivilegio;
+	}
+
+	public void setNombrePrivilegio(String nombrePrivilegio) {
+		this.nombrePrivilegio = nombrePrivilegio;
+	}
+
 	public String getCodigoPrivilegio() {
 		return codigoPrivilegio;
 	}

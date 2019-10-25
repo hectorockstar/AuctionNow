@@ -17,6 +17,7 @@
 
 							<s:if test="%{request.empresas != null}">
 								<jsp:include page="../../../../pages/formularioPlantilla/filtro/servicio/baseFiltroCargoServicioRubrobyEmpresa.jsp" />
+								<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseAsignaSubastador.jsp" />
 							</s:if>
 							
 							<jsp:include page="../../../../pages/formularioPlantilla/registro/usuario/baseRegistroInfoPersonalProveedor.jsp" />

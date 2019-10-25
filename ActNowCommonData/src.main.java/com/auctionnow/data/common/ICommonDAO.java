@@ -35,4 +35,6 @@ public interface ICommonDAO {
 	Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo);
 
 	HorarioSistema getCurrentDate();
+
+	Tupla getConfiguracion(String codigoConfiguracion);
 }

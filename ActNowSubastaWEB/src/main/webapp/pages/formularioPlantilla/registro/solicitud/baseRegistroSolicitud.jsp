@@ -105,13 +105,17 @@
 		</div>
 	</div>
 	
-<div class="form-group">
-	<input
-		id="btnRegistrarSolicitud"
-		type="button" 
-		class="btn btn-success"
-		value='<s:text name="button.label.registrar.solicitud" />' />
-</div>
+	<div class="form-group">
+		<input
+			id="btnRegistrarSolicitud"
+			type="button" 
+			class="btn btn-success"
+			value='<s:text name="button.label.registrar.solicitud" />' />
+	</div>
+	
+	
+	<jsp:include page="../../../../pages/formularios/registro/usuario/modals/modalRegistrarDireccion.jsp" />
+	<jsp:include page="../../../../pages/formularios/registro/usuario/modals/modalRegistrarContacto.jsp" />
 
 <script>
 	$(function() {

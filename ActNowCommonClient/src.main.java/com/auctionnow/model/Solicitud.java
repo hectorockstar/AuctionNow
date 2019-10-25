@@ -37,6 +37,16 @@ public class Solicitud implements Serializable {
 	private Integer prioridad;
 	private String diasDisponible;
 	
+	private UsuarioWeb usuarioWeb;
+	
+	public UsuarioWeb getUsuarioWeb() {
+		return usuarioWeb;
+	}
+
+	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
+		this.usuarioWeb = usuarioWeb;
+	}
+
 	public String getActivo() {
 		return activo;
 	}

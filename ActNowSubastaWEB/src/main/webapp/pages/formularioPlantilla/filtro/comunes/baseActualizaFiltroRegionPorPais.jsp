@@ -9,7 +9,7 @@
 			name="pais.codigoPais"
 			list="#request.paises" 
 			headerKey="" 
-			headerValue="Selecccione..."
+			headerValue="Seleccione..."
 			listKey="codigoPais" 
 			listValue="nombre"
 			value="comuna.ciudad.region.pais.codigoPais" />
@@ -23,7 +23,7 @@
 			name="region.codigoRegion"
 			list="#request.regiones" 
 			headerKey="" 
-			headerValue="Selecccione..."
+			headerValue="Seleccione..."
 			listKey="codigoRegion" 
 			listValue="nombre" />
 	</div>
@@ -38,7 +38,7 @@
 			name="ciudad.codigoCiudad"
 			list="#request.ciudades" 
 			headerKey="" 
-			headerValue="Selecccione..."
+			headerValue="Seleccione..."
 			listKey="codigoCiudad" 
 			listValue="nombre" />
 	</div>
@@ -51,7 +51,7 @@
 			name="direccion.comuna.codigoComuna" 
 			list="#request.comunas"
 			headerKey="" 
-			headerValue="Selecccione..." 
+			headerValue="Seleccione..." 
 			listKey="codigoComuna"
 			listValue="nombre" />
 	</div>

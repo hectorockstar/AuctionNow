@@ -9,6 +9,7 @@ public class FiltroPrivilegio implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codigoPrivilegio;
+	private String nombrePrivilegio;
 	private String vigente;
 	private String tipoPrivilegio;
 	private String tipoUsuario;
@@ -43,6 +44,14 @@ public class FiltroPrivilegio implements Serializable {
 
 	public void setCodigoPrivilegio(String codigoPrivilegio) {
 		this.codigoPrivilegio = codigoPrivilegio;
+	}
+
+	public String getNombrePrivilegio() {
+		return nombrePrivilegio;
+	}
+
+	public void setNombrePrivilegio(String nombrePrivilegio) {
+		this.nombrePrivilegio = nombrePrivilegio;
 	}
 
 }

@@ -7,11 +7,11 @@
 <br>
 
 <div class="form-group">
-	<label class="control-label col-sm-3" for="contacto"> 
+	<label class="control-label col-sm-3" for="seleccioneDireccion"> 
 		<s:text name="common.label.seleccione.direccion" />:
 	</label>
 	<div class="col-sm-9 campoValidado">
-		<s:select class="form-control" id="tipoContacto"
+		<s:select class="form-control" id="seleccioneDireccion"
 			name="contacto.direccion.codigoDireccion" list="#request.direcciones"
 			headerKey="" headerValue="Seleccione Dirección..." listKey="codigoDireccion"
 			listValue="calle+' '+numeracion+', '+comuna.nombre+', '+comuna.ciudad.nombre+', '+comuna.ciudad.region.nombre+' - '+tipoDireccion.descripcion" />
@@ -73,7 +73,7 @@
 	<div class="col-sm-3 campoValidado">
 		<s:select class="form-control" id="tipoContacto"
 			name="contacto.tipoContacto.id" list="#request.tipsContactos"
-			headerKey="" headerValue="Selecccione..." listKey="id"
+			headerKey="" headerValue="Seleccione..." listKey="id"
 			listValue="descripcion" />
 	</div>
 </div>

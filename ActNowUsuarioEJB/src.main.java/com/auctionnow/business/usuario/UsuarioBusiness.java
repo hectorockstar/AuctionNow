@@ -1,10 +1,12 @@
 package com.auctionnow.business.usuario;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.auctionnow.common.Comuna;
 import com.auctionnow.common.Constantes;
+import com.auctionnow.common.HorarioSistema;
 import com.auctionnow.common.Mail;
 import com.auctionnow.common.Tupla;
 import com.auctionnow.data.usuario.IUsuarioDAO;
@@ -18,6 +20,7 @@ import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroDivGeografica;
 import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
+import com.auctionnow.filters.FiltroNotificacion;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroRubro;
@@ -29,6 +32,7 @@ import com.auctionnow.model.Empresa;
 import com.auctionnow.model.FichaServicioCliente;
 import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
 import com.auctionnow.model.Usuario;
@@ -145,6 +149,17 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		filtroCatalogo.setKey(Constantes.SECUENCIA_USUARIOWEB);
 		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
 		Integer registraUsuarioWeb = usuarioDAO.addUsuarioWeb(usuarioWeb);
+		
+		List<Privilegio> lstPrivilegiosUsuario = usuarioWeb.getPrivilegios();
+		Integer registraPrivilegioUsuario = new Integer("1");
+		if(lstPrivilegiosUsuario != null && !lstPrivilegiosUsuario.isEmpty()) {
+			for (Privilegio privilegio : lstPrivilegiosUsuario) {
+				privilegio.setUsuarioWeb(usuarioWeb);
+				Integer insertPrivilegioResult = this.addPrivilegioUsuario(privilegio);
+				registraPrivilegioUsuario = registraPrivilegioUsuario * insertPrivilegioResult;
+			}
+		}
+		
 
 		return registraUsuario * registraProveedor * registraUsuarioWeb;
 	}
@@ -157,7 +172,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		
 		Empresa empresa = usuarioWeb.getEmpresa();
 		empresa.setFechaRegistro(new Date());
-		empresa.setVigente("S");
+		empresa.setVigente(Constantes.SI);
 		
 		filtroCatalogo.setKey(Constantes.SECUENCIA_USUARIOWEB);
 		usuarioWeb.setCodigoUsuarioWeb(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
@@ -178,7 +193,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
 		
 		empresa.setFechaRegistro(new Date());
-		empresa.setVigente("S");
+		empresa.setVigente(Constantes.SI);
 		
 		filtroCatalogo.setKey(Constantes.SECUENCIA_EMPRESA);
 		empresa.setCodigoEmpresa(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
@@ -209,6 +224,62 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		Integer registraDireccion = usuarioDAO.addDireccion(direccion, codigoTitular);
 		
 		return registraDireccion;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer addNotificacionUsuario(Notificacion notificacion) {
+		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+		filtroCatalogo.setKey(Constantes.SECUENCIA_NOTIFICACION_USUARIO);
+		
+		FiltroNotificacion filtroNotificacion = new FiltroNotificacion();
+		filtroNotificacion.setTipoNotificacion(notificacion.getTipoNotificacion().getId());
+		Notificacion notificacionInfo = usuarioDAO.getNotificacio(filtroNotificacion);
+		
+		notificacion.setCodigoNotificacionUsuario(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		notificacion.setEstadoNotificacion(Constantes.ESTADO_NOTIFICACION_CREADA);  //TODO modelar estructura de notitifcaciones
+		
+		HorarioSistema horarioSistema = getCommonEjbRemote().getCurrentDate();
+		notificacion.setFechaEmision(horarioSistema.getFechaActual());
+		notificacion.setHoraEmision(horarioSistema.getHoraActual());
+		
+		notificacion.setLeida(Constantes.NO);
+		notificacion.setFechaLectura(null);
+		notificacion.setHoraLectura(null);
+		notificacion.setMostrar(Constantes.SI);
+		notificacion.setCodigoNotificacion(notificacionInfo.getCodigoNotificacion());
+		
+		Integer registraNotificacion = usuarioDAO.addNotificacionUsuario(notificacion);
+		return registraNotificacion;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Integer addPrivilegioUsuario(Privilegio privilegio) {
+		Integer resultadoPrivilegioUsuario = null;
+		
+		if (privilegio != null && privilegio.getNombrePrivilegio() != null && !privilegio.getNombrePrivilegio().equals("")) {
+			
+			FiltroPrivilegio filtroPrivilegio = new FiltroPrivilegio();
+			filtroPrivilegio.setNombrePrivilegio(privilegio.getNombrePrivilegio());
+			Privilegio privilegioInfo = usuarioDAO.getPrivilegioByNombre(filtroPrivilegio);
+			privilegio.setCodigoPrivilegio(privilegioInfo.getCodigoPrivilegio());
+			
+			FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
+			filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+			filtroCatalogo.setKey(Constantes.SECUENCIA_PRIVILEGIO_USUARIO);
+			
+			privilegio.setCodigoPrivilegioUsuario(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+			privilegio.setActivo(Constantes.ACTIVO);
+			
+			HorarioSistema horarioSistema = getCommonEjbRemote().getCurrentDate();
+			privilegio.setFechaAsignacion(horarioSistema.getFechaActual());
+			
+			resultadoPrivilegioUsuario = usuarioDAO.addPrivilegioUsuario(privilegio);
+		} else {
+			throw new RuntimeException("Para crear un privilegio de usuario debe definirlo previamente");
+		}
+		
+		return resultadoPrivilegioUsuario;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -323,6 +394,13 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public UsuarioWeb getUsuarioWebProveedorData(FiltroUsuarioWeb filtroUsuarioWeb) {
 		UsuarioWeb usuarioWeb = usuarioDAO.getUsuarioWeb(filtroUsuarioWeb);
 
+		usuarioWeb = this.getCompleteDataForUsuarioWebProveedor(usuarioWeb);
+
+		return usuarioWeb;
+	}
+	
+	private UsuarioWeb getCompleteDataForUsuarioWebProveedor (UsuarioWeb usuarioWeb) {
+		
 		FiltroProveedor filtroProveedor = new FiltroProveedor();
 		filtroProveedor.setCodigoUsuario(usuarioWeb.getUsuario().getCodigoUsuario());
 
@@ -340,7 +418,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		FiltroEmpresa filtroEmpresa = new FiltroEmpresa();
 		filtroEmpresa.setCodigoEmpresa(proveedor.getEmpresa().getCodigoEmpresa());
 		proveedor.setEmpresa(usuarioDAO.getEmpresa(filtroEmpresa));
-
+		
 		return usuarioWeb;
 	}
 	
@@ -384,6 +462,24 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		usuarioWeb.setUsuario(usuarioAdministrador);
 		
 		return usuarioWeb;
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
+		List<UsuarioWeb> lstUsuariosWebByPrivilegio = null;
+		
+		List<UsuarioWeb> lstUWCompleteInfo = new ArrayList<UsuarioWeb>();
+		lstUsuariosWebByPrivilegio = usuarioDAO.getUsuarioWebByPrivilegio(filtroUsuarioWeb);
+		for (UsuarioWeb usuarioWeb : lstUsuariosWebByPrivilegio) {
+			
+			if(Constantes.TIPOUSUARIO_SIGLA_PROVEEDOR.equals(usuarioWeb.getTipoUsuarioWeb().getId())) {
+				usuarioWeb = this.getCompleteDataForUsuarioWebProveedor(usuarioWeb);
+			}
+			
+			lstUWCompleteInfo.add(usuarioWeb);
+		}
+		
+		return lstUWCompleteInfo;
 	}
 
 	public Empresa getEmpresa(FiltroEmpresa filtroEmpresa) {
@@ -460,6 +556,10 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 
 	public List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return usuarioDAO.getUsuarioWebPrivilegio(filtroUsuarioWeb);
+	}
+	
+	public List<Notificacion> getNotificacionesUsuario(FiltroNotificacion filtroNotificacion) {
+		return (List<Notificacion>)usuarioDAO.getNotificacionesUsuario(filtroNotificacion);
 	}
 
 	public List<UsuarioWeb> getProveedores(FiltroProveedor filtroProveedor) {

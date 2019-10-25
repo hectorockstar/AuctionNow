@@ -7,6 +7,7 @@ import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
+import com.auctionnow.filters.FiltroNotificacion;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
@@ -17,6 +18,7 @@ import com.auctionnow.model.Empresa;
 import com.auctionnow.model.FichaServicioCliente;
 import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
 import com.auctionnow.model.Usuario;
@@ -49,6 +51,12 @@ public interface IUsuarioDAO {
 	Integer addUsuarioWeb(UsuarioWeb usuarioWeb);
 
 	Integer addUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion);
+	
+	Integer addNotificacionUsuario(Notificacion notificacion);
+
+	Integer addNotificacion(Notificacion notificacion);
+	
+	Integer addPrivilegioUsuario(Privilegio privilegio);
 	
 	// UPDATES
 	Integer actualizaClienteFicha(FichaServicioCliente fichaCliente);
@@ -105,13 +113,21 @@ public interface IUsuarioDAO {
 	FichaServicioProveedor getProveedorFicha(FiltroProveedor filtroProveedor);
 
 	GeoLocalizacion getGeoLocalizacion(FiltroGeoLoc filtroGeoLoc);
-
+	
 	List<Privilegio> getPrivilegios(FiltroPrivilegio filtroPrivilegio);
+
+	Privilegio getPrivilegioByNombre(FiltroPrivilegio filtroPrivilegio);
 
 	List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
 	
 	String validateUserLogin(String userName, String password);
 
 	List<Contacto> getContactosByServicio(FiltroContacto filtroContacto);
+
+	List<Notificacion> getNotificacionesUsuario(FiltroNotificacion filtroNotificacion);
+
+	Notificacion getNotificacio(FiltroNotificacion filtroNotificacion);
+
+	List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
 
 }

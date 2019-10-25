@@ -15,19 +15,49 @@ public class Privilegio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String codigoPrivilegio;
-	private String descPrivilegio;
-	private Boolean vigente;
+	private String nombrePrivilegio;
+	private String descripcion;
+	private String vigente;
 	private String observacion;
 	private Date fechaRegistro;
 	private Tupla tipoPrivilegio;
-	private Tupla tipousuarioWeb;
+	private Tupla tipoUsuarioWeb;
 
-	public Boolean getVigente() {
-		return vigente;
+	private String codigoPrivilegioUsuario;
+	private UsuarioWeb usuarioWeb;
+	private String activo;
+	private Date fechaAsignacion;
+
+	public String getCodigoPrivilegioUsuario() {
+		return codigoPrivilegioUsuario;
 	}
 
-	public void setVigente(Boolean vigente) {
-		this.vigente = vigente;
+	public void setCodigoPrivilegioUsuario(String codigoPrivilegioUsuario) {
+		this.codigoPrivilegioUsuario = codigoPrivilegioUsuario;
+	}
+
+	public UsuarioWeb getUsuarioWeb() {
+		return usuarioWeb;
+	}
+
+	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
+		this.usuarioWeb = usuarioWeb;
+	}
+
+	public Date getFechaAsignacion() {
+		return fechaAsignacion;
+	}
+
+	public void setFechaAsignacion(Date fechaAsignacion) {
+		this.fechaAsignacion = fechaAsignacion;
+	}
+
+	public String getActivo() {
+		return activo;
+	}
+
+	public void setActivo(String activo) {
+		this.activo = activo;
 	}
 
 	public Date getFechaRegistro() {
@@ -46,12 +76,12 @@ public class Privilegio implements Serializable {
 		this.tipoPrivilegio = tipoPrivilegio;
 	}
 
-	public Tupla getTipousuarioWeb() {
-		return tipousuarioWeb;
+	public Tupla getTipoUsuarioWeb() {
+		return tipoUsuarioWeb;
 	}
 
-	public void setTipousuarioWeb(Tupla tipousuarioWeb) {
-		this.tipousuarioWeb = tipousuarioWeb;
+	public void setTipoUsuarioWeb(Tupla tipoUsuarioWeb) {
+		this.tipoUsuarioWeb = tipoUsuarioWeb;
 	}
 
 	public String getCodigoPrivilegio() {
@@ -60,14 +90,6 @@ public class Privilegio implements Serializable {
 
 	public void setCodigoPrivilegio(String codigoPrivilegio) {
 		this.codigoPrivilegio = codigoPrivilegio;
-	}
-
-	public String getDescPrivilegio() {
-		return descPrivilegio;
-	}
-
-	public void setDescPrivilegio(String descPrivilegio) {
-		this.descPrivilegio = descPrivilegio;
 	}
 
 	public String getObservacion() {
@@ -81,4 +103,29 @@ public class Privilegio implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getNombrePrivilegio() {
+		return nombrePrivilegio;
+	}
+
+	public void setNombrePrivilegio(String nombrePrivilegio) {
+		this.nombrePrivilegio = nombrePrivilegio;
+	}
+
+	public String getVigente() {
+		return vigente;
+	}
+
+	public void setVigente(String vigente) {
+		this.vigente = vigente;
+	}
+	
 }

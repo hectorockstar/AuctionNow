@@ -7,17 +7,15 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
-import com.auctionnow.filters.FiltroCargo;
 import com.auctionnow.filters.FiltroCliente;
 import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
+import com.auctionnow.filters.FiltroNotificacion;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
-import com.auctionnow.filters.FiltroRubro;
 import com.auctionnow.filters.FiltroUsuarioWeb;
-import com.auctionnow.model.Cargo;
 import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
@@ -25,11 +23,9 @@ import com.auctionnow.model.Empresa;
 import com.auctionnow.model.FichaServicioCliente;
 import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
-import com.auctionnow.model.Rubro;
-import com.auctionnow.model.Servicio;
-import com.auctionnow.model.TipoUsuarioWeb;
 import com.auctionnow.model.Usuario;
 import com.auctionnow.model.UsuarioWeb;
 import com.auctionnow.model.UsuarioWebTienePrivilegio;
@@ -120,12 +116,12 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer actualizaPrivilegio(Privilegio privilegio) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoPrivilegio", privilegio.getCodigoPrivilegio());
-		parameters.put("descripcion", privilegio.getDescPrivilegio());
+		parameters.put("descripcion", privilegio.getDescripcion());
 		parameters.put("vigente", privilegio.getVigente());
 		parameters.put("observacion", privilegio.getObservacion());
 		parameters.put("fechaRegistro", privilegio.getFechaRegistro());
 		parameters.put("tipoPrivilegio", privilegio.getTipoPrivilegio().getId());
-		parameters.put("tipoUsuarioWeb", privilegio.getTipousuarioWeb().getId());
+		parameters.put("tipoUsuarioWeb", privilegio.getTipoUsuarioWeb().getId());
 
 		return (Integer) getSqlSession().update("updatePrivilegio", parameters);
 	}
@@ -350,12 +346,12 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public Integer addPrivilegio(Privilegio privilegio) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoPrivilegio", privilegio.getCodigoPrivilegio());
-		parameters.put("descripcion", privilegio.getDescPrivilegio());
+		parameters.put("descripcion", privilegio.getDescripcion());
 		parameters.put("vigente", privilegio.getVigente());
 		parameters.put("observacion", privilegio.getObservacion());
 		parameters.put("fechaRegistro", privilegio.getFechaRegistro());
 		parameters.put("tipoPrivilegio", privilegio.getTipoPrivilegio().getId());
-		parameters.put("tipoUsuarioWeb", privilegio.getTipousuarioWeb().getId());
+		parameters.put("tipoUsuarioWeb", privilegio.getTipoUsuarioWeb().getId());
 
 		return (Integer) getSqlSession().insert("addPrivilegio", parameters);
 	}
@@ -408,10 +404,57 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 
 		return (Integer) getSqlSession().insert("addUsuarioPrivilegio", parameters);
 	}
+	
+	@Override
+	public Integer addNotificacionUsuario(Notificacion notificacion) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoNotificaUsuario", notificacion.getCodigoNotificacionUsuario());
+		parameters.put("estadoNotificaUsuario", notificacion.getEstadoNotificacion());
+		parameters.put("fechaEmision", notificacion.getFechaEmision());
+		parameters.put("horaEmision", notificacion.getHoraEmision());
+		parameters.put("leida", notificacion.getLeida());
+		parameters.put("fechaLectura", notificacion.getFechaLectura());
+		parameters.put("horaLectura", notificacion.getHoraLectura());
+		parameters.put("mostrar", notificacion.getMostrar());
+		parameters.put("codigoOrigenNotificacion", notificacion.getCodigoOrigenNotificacion());
+		parameters.put("codigoNotificacion", notificacion.getCodigoNotificacion());
+		parameters.put("codigoUsuarioWeb", notificacion.getUsuarioWeb().getCodigoUsuarioWeb());
+
+		return (Integer) getSqlSession().insert("addNotificacionUsuario", parameters);
+	}
+	
+	@Override
+	public Integer addNotificacion(Notificacion notificacion) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoNotificacion", notificacion.getCodigoNotificacion());
+		parameters.put("tipoNotificacion", notificacion.getTipoNotificacion().getId());
+		parameters.put("nombreNotificacion", notificacion.getNombreNotificacion());
+		parameters.put("descripcion", notificacion.getDescripcion());
+
+		return (Integer) getSqlSession().insert("addNotificacion", parameters);
+	}
+	
+	@Override
+	public Integer addPrivilegioUsuario(Privilegio privilegio) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoPrivilegioUsuario", privilegio.getCodigoPrivilegioUsuario());
+		parameters.put("activo", privilegio.getActivo());
+		parameters.put("fechaAsignacion", privilegio.getFechaAsignacion());
+		parameters.put("descripcion", privilegio.getDescripcion());
+		parameters.put("codigoPrivilegio", privilegio.getCodigoPrivilegio());
+		parameters.put("codigoUsuarioWeb", privilegio.getUsuarioWeb().getCodigoUsuarioWeb());
+
+		return (Integer) getSqlSession().insert("addPrivilegioUsuario", parameters);
+	}
 
 	@Override
 	public UsuarioWeb getUsuarioWeb(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (UsuarioWeb) getSqlSession().selectOne("getUsuarioWeb", filtroUsuarioWeb);
+	}
+	
+	@Override
+	public List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
+		return (List<UsuarioWeb>) getSqlSession().selectList("getUsuarioWebByPrivilegio", filtroUsuarioWeb);
 	}
 	
 	@Override
@@ -488,6 +531,11 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	public GeoLocalizacion getGeoLocalizacion(FiltroGeoLoc filtroGeoLoc) {
 		return (GeoLocalizacion) getSqlSession().selectOne("getGeoLocalizacion", filtroGeoLoc);
 	}
+	
+	@Override
+	public Privilegio getPrivilegioByNombre(FiltroPrivilegio filtroPrivilegio) {
+		return (Privilegio) getSqlSession().selectOne("getPrivilegioByNombre", filtroPrivilegio);
+	}
 
 	@Override
 	public List<Privilegio> getPrivilegios(FiltroPrivilegio filtroPrivilegio) {
@@ -497,6 +545,16 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 	@Override
 	public List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return (List<UsuarioWebTienePrivilegio>) getSqlSession().selectList("getPrivilegiosUsuario", filtroUsuarioWeb);
+	}
+	
+	@Override
+	public List<Notificacion> getNotificacionesUsuario(FiltroNotificacion filtroNotificacion) {
+		return (List<Notificacion>) getSqlSession().selectList("getNotificacionesUsuario", filtroNotificacion);
+	}
+	
+	@Override
+	public Notificacion getNotificacio(FiltroNotificacion filtroNotificacion) {
+		return (Notificacion) getSqlSession().selectOne("getNotificacion", filtroNotificacion);
 	}
 
 	@Override

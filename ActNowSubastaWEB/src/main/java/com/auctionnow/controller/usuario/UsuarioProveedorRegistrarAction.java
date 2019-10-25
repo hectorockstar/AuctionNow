@@ -23,6 +23,7 @@ import com.auctionnow.model.Cliente;
 import com.auctionnow.model.Contacto;
 import com.auctionnow.model.Direccion;
 import com.auctionnow.model.Empresa;
+import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
 import com.auctionnow.model.Servicio;
 import com.auctionnow.model.UsuarioWeb;
@@ -40,6 +41,7 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 	protected Servicio servicio;
 	protected Cargo cargo;
 	protected Pais pais;
+	protected Privilegio privilegio;
 
 	public String showRegistrarUsuarioProveedor() throws AuctionNowServiceException {
 		
@@ -89,6 +91,8 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 	public String addUsuarioWebProveedor() throws AuctionNowServiceException {
 		// VALIDAR CAMPOS
 		
+		List<Privilegio> lstPrivilegiosUsuario = new ArrayList<Privilegio>();
+		
 		Tupla tipoProveedor = new Tupla();
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_PROVEEDOR_TIPO);
@@ -96,8 +100,16 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 			proveedor.setEmpresa(empresa);
 			proveedor.setCargo(cargo);
 			filtroCatalogo.setKey(Constantes.TIPOPROVEEDOR_DEPENDIENTE);
+			
+			lstPrivilegiosUsuario.add(privilegio);
+			
 		} else {
 			filtroCatalogo.setKey(Constantes.TIPOPROVEEDOR_INDEPENDIENTE);
+			
+			privilegio = new Privilegio();
+			privilegio.setNombrePrivilegio(Constantes.PRIVILEGIO_NOMBRE_SUBASTADOR);
+			
+			lstPrivilegiosUsuario.add(privilegio);
 		}
 		
 		tipoProveedor = getCommonEjbRemote().getParameter(filtroCatalogo);
@@ -106,6 +118,7 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 		proveedor.setPais(pais);
 		
 		usuarioWeb.setUsuario(proveedor);
+		usuarioWeb.setPrivilegios(lstPrivilegiosUsuario);
 		usuarioWeb.setEstadoCuenta(Constantes.ACTIVA);
 		
 		Tupla tipoUsuarioWeb = new Tupla();
@@ -163,6 +176,14 @@ public class UsuarioProveedorRegistrarAction extends AbstractControllerConfig {
 
 	public void setPais(Pais pais) {
 		this.pais = pais;
+	}
+
+	public Privilegio getPrivilegio() {
+		return privilegio;
+	}
+
+	public void setPrivilegio(Privilegio privilegio) {
+		this.privilegio = privilegio;
 	}
 	
 }

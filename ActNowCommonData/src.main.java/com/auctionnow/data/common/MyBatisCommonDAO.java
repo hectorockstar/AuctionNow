@@ -68,6 +68,14 @@ public class MyBatisCommonDAO extends SqlSessionDaoSupport implements ICommonDAO
 	public HorarioSistema getCurrentDate() {
 		return (HorarioSistema)getSqlSession().selectOne("getCurrentDate");
 	}
+	
+	@Override
+	public Tupla getConfiguracion(String codigoConfiguracion) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("codigoConfiguracion", codigoConfiguracion);
+		
+		return (Tupla)getSqlSession().selectOne("getConfiguracion", parameters);
+	}
 
 	@Override
 	public Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {

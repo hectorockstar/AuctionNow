@@ -10,6 +10,7 @@ import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroDireccion;
 import com.auctionnow.filters.FiltroEmpresa;
 import com.auctionnow.filters.FiltroGeoLoc;
+import com.auctionnow.filters.FiltroNotificacion;
 import com.auctionnow.filters.FiltroPrivilegio;
 import com.auctionnow.filters.FiltroProveedor;
 import com.auctionnow.filters.FiltroUsuarioWeb;
@@ -20,6 +21,7 @@ import com.auctionnow.model.Empresa;
 import com.auctionnow.model.FichaServicioCliente;
 import com.auctionnow.model.FichaServicioProveedor;
 import com.auctionnow.model.GeoLocalizacion;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Privilegio;
 import com.auctionnow.model.Proveedor;
 import com.auctionnow.model.UsuarioWeb;
@@ -41,6 +43,10 @@ public interface IUsuarioEJB {
 	Integer addContacto(Contacto contacto, String codigoTitular);
 
 	Integer addDireccion(Direccion direccion, String codigoTitular);
+	
+	Integer addNotificacionUsuario(Notificacion notificacion);
+	
+	Integer addPrivilegioUsuario(Privilegio privilegio);
 
 	// UPDATES
 	Integer actualizaCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb);
@@ -89,6 +95,8 @@ public interface IUsuarioEJB {
 	Proveedor getProveedor(FiltroProveedor filtroProveedor);
 
 	List<UsuarioWeb> getProveedores(FiltroProveedor filtroProveedor);
+	
+	List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
 
 	Cliente getCliente(FiltroCliente filtroCliente);
 
@@ -99,6 +107,8 @@ public interface IUsuarioEJB {
 	GeoLocalizacion getGeoLocalizacion(FiltroGeoLoc filtroGeoLoc);
 
 	List<UsuarioWebTienePrivilegio> getUsuarioWebPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb);
+	
+	List<Notificacion> getNotificacionesUsuario(FiltroNotificacion filtroNotificacion);
 	
 	// SERVICES
 	String validateUserLogin(String userName, String password);

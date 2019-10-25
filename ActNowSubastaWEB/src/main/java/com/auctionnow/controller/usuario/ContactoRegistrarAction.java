@@ -57,7 +57,7 @@ public class ContactoRegistrarAction extends AbstractControllerConfig {
 			codigoTitular = usuarioWebSession.getUsuario().getCodigoUsuario();
 		}
 		
-		Integer resultado = getUsuarioEjbRemote().addContacto(contacto, codigoTitular);
+		Integer resultadoRegistraContacto = getUsuarioEjbRemote().addContacto(contacto, codigoTitular);
 		
 		// ACTUALIZAR SESSION CON ULTIMO CONTACTO REGISTRADO
 		FiltroContacto filtroContacto = new FiltroContacto();
@@ -69,6 +69,8 @@ public class ContactoRegistrarAction extends AbstractControllerConfig {
 		} else {
 			usuarioWebSession.getUsuario().setContactos(contactos);
 		}
+		
+		this.jsonFormatResult(contactos);
 		
 		this.getSession().put("usuarioWeb", usuarioWebSession);
 		

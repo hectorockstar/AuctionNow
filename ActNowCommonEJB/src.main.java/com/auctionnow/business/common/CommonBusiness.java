@@ -62,6 +62,10 @@ public class CommonBusiness implements ICommonBusiness {
 	public HorarioSistema getCurrentDate() {
 		return commonDAO.getCurrentDate();
 	}
+	
+	public Tupla getConfiguracion(String codigoConfiguracion) {
+		return commonDAO.getConfiguracion(codigoConfiguracion);
+	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public String getSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {

@@ -8,8 +8,13 @@ import javax.ejb.EJB;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.auctionnow.common.Constantes;
 import com.auctionnow.common.HorarioSistema;
+import com.auctionnow.common.Tupla;
 import com.auctionnow.data.solicitud.ISolicitudDAO;
 import com.auctionnow.ejb.ICommonEjbRemote;
 import com.auctionnow.ejb.IUsuarioEjbRemote;
@@ -18,10 +23,13 @@ import com.auctionnow.filters.FiltroContacto;
 import com.auctionnow.filters.FiltroOferta;
 import com.auctionnow.filters.FiltroSolicitud;
 import com.auctionnow.filters.FiltroSubasta;
+import com.auctionnow.filters.FiltroUsuarioWeb;
 import com.auctionnow.model.Contacto;
+import com.auctionnow.model.Notificacion;
 import com.auctionnow.model.Oferta;
 import com.auctionnow.model.Solicitud;
 import com.auctionnow.model.Subasta;
+import com.auctionnow.model.UsuarioWeb;
 
 public class SolicitudBusiness implements ISolicitudBusiness {
 	
@@ -38,7 +46,8 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		this.usuarioEjbRemote = usuarioEjbRemote;
 		this.commonEjbRemote = commonEjbRemote;
 	}
-
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addSolicitud(Solicitud solicitud) {
 		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
@@ -61,29 +70,25 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return addSolicitud;
 	}
 	
-	public IUsuarioEjbRemote getUsuarioEjbRemote() {
-		return usuarioEjbRemote;
-	}
-
-	public void setUsuarioEjbRemote(IUsuarioEjbRemote usuarioEjbRemote) {
-		this.usuarioEjbRemote = usuarioEjbRemote;
-	}
-
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer actualizaSolicitud(Solicitud solicitud) {
 		Integer actualizaSolicitud = solicitudDAO.actualizaSolicitud(solicitud);
 		return actualizaSolicitud;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Solicitud getSolicitud(FiltroSolicitud filtroSolicitud) {
 		Solicitud solicitud = solicitudDAO.getSolicitud(filtroSolicitud).get(0);
 		return solicitud;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud) {
 		List<Solicitud> solicitudes = solicitudDAO.getSolicitud(filtroSolicitud);
 		return solicitudes;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addSubasta(Subasta subasta) {
 
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
@@ -111,26 +116,32 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return regSubasta;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addOferta(Oferta oferta) {
 		return solicitudDAO.addOferta(oferta);
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer actualizaSubasta(Subasta subasta) {
 		return solicitudDAO.actualizaSubasta(subasta);
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer actualizaOferta(Oferta oferta) {
 		return solicitudDAO.actualizaOferta(oferta);
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Subasta getSubasta(FiltroSubasta filtroSubasta) {
 		return solicitudDAO.getSubasta(filtroSubasta);
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public List<Oferta> getOferta(FiltroOferta filtroOferta) {
 		return solicitudDAO.getOferta(filtroOferta);
 	}
 	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Subasta iniciarSubasta(Solicitud solicitud){
 		Subasta subasta = null;
 		try {
@@ -148,36 +159,77 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 				solicitud.setEstadoSolicitud("NA");
 			}
 			
+			//TODO
 			solicitud.setPrioridad(0);
 			
 			Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
 			
-			subasta = new Subasta();
-			subasta.setSolicitud(solicitud);
-			
-			Integer addSubastaResultado = this.addSubasta(subasta);
-			
-			if(addSubastaResultado == null || addSubastaResultado == 0){
-				throw new RuntimeException("Error al iniciar la Subasta");
-			} 
-			
-			FiltroContacto filtroContacto = new FiltroContacto();
-			filtroContacto.setCodigoServicio(solicitud.getServicio().getCodigoServicio());
-			List<Contacto> contactos = getUsuarioEjbRemote().getContactosByServicio(filtroContacto);
-			
-			List<String> mailsTO = new ArrayList<String>();
-			for(Contacto contacto : contactos){
-				mailsTO.add(contacto.getEmail());
-			}
-			
-			try {
-				getUsuarioEjbRemote().sendMailNotification(Constantes.MAIL_NOTIFICA_NUEVASOLICITUD, mailsTO, new ArrayList<String>(), new ArrayList<String>());
-			} catch (AddressException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(addSolicitud != null && !addSolicitud.equals(new Integer("0"))) {
+				subasta = new Subasta();
+				subasta.setSolicitud(solicitud);
+				
+				Integer addSubastaResultado = this.addSubasta(subasta);
+				
+				if(addSubastaResultado != null && !addSubastaResultado.equals(new Integer("0"))) {
+					
+					FiltroUsuarioWeb filtroUsuarioWeb = new FiltroUsuarioWeb();
+					filtroUsuarioWeb.setNombrePrivilegio(Constantes.PRIVILEGIO_NOMBRE_SUBASTADOR);
+					filtroUsuarioWeb.setActivo(Constantes.ACTIVO);
+					List<UsuarioWeb> lstUsuariosWebNotificar = getUsuarioEjbRemote().getUsuarioWebByPrivilegio(filtroUsuarioWeb);
+					
+					List<Contacto> contactosForMailNotification = new ArrayList<Contacto>();			
+					for (UsuarioWeb usuarioWebNotificar : lstUsuariosWebNotificar) { 
+						Notificacion notificacion = new Notificacion();
+						notificacion.setUsuarioWeb(usuarioWebNotificar);
+						notificacion.setCodigoOrigenNotificacion("SOLICITUDSERVICIO");
+						
+						Tupla tipoNotificacion = new Tupla();
+						tipoNotificacion.setId(Constantes.TIPONOTIFICACION_NUEVA_SUBASTA);
+						notificacion.setTipoNotificacion(tipoNotificacion);
+						
+						Integer addNotificacion = getUsuarioEjbRemote().addNotificacionUsuario(notificacion);
+						
+						if(addNotificacion != null && !addNotificacion.equals(new Integer("0"))) {
+							contactosForMailNotification.addAll(usuarioWebNotificar.getUsuario().getContactos());
+						} else {
+							throw new RuntimeException("Error al registrar notificacion para el Usuario: "+  usuarioWebNotificar.getCodigoUsuarioWeb() );
+						}
+						
+					}
+					
+					Tupla mailNotification = getCommonEjbRemote().getConfiguracion(Constantes.ACTIVATE_MAIL_NOTIFYS);
+					
+					if(mailNotification != null && Constantes.ACTIVA.equals(mailNotification.getId())) {
+						try {
+							//NOTIFICACION DE MAILS PARA LOS PROVEEDORES DEL SERVICIO PROVENIENTE EN LA SOLICITUD
+							List<String> mailsCCO = new ArrayList<String>();
+							for(Contacto contacto : contactosForMailNotification){
+								mailsCCO.add(contacto.getEmail());
+							}
+							getUsuarioEjbRemote().sendMailNotification(Constantes.MAIL_NOTIFICA_NUEVASOLICITUD, new ArrayList<String>(), new ArrayList<String>(), mailsCCO);
+							
+							//NOTIFICACION DE MAIL PARA EL CLIENTE QUE GENERA LA SOLICITUD
+							List<String> mailsTO = new ArrayList<String>();
+							for(Contacto contacto : solicitud.getUsuarioWeb().getUsuario().getContactos()){
+								mailsCCO.add(contacto.getEmail());
+							}
+							getUsuarioEjbRemote().sendMailNotification(Constantes.MAIL_NOTIFICA_NUEVASOLICITUD, mailsTO, new ArrayList<String>(), new ArrayList<String>());
+						
+						} catch (AddressException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (MessagingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				} else  {
+					throw new RuntimeException("Error al iniciar la Subasta");
+				}
+				
+			} else  {
+				throw new RuntimeException("Error al registar la solicitud del servicio");
 			}
 			
 		} catch (RuntimeException e) {
@@ -188,6 +240,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return subasta;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addSubastaProveedor(String codigoSubasta, String codigoProveedor) {
 		return solicitudDAO.addSubastaProveedor(codigoSubasta, codigoProveedor);
 	}
@@ -208,4 +261,11 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		this.commonEjbRemote = commonEjbRemote;
 	}
 	
+	public IUsuarioEjbRemote getUsuarioEjbRemote() {
+		return usuarioEjbRemote;
+	}
+
+	public void setUsuarioEjbRemote(IUsuarioEjbRemote usuarioEjbRemote) {
+		this.usuarioEjbRemote = usuarioEjbRemote;
+	}
 }

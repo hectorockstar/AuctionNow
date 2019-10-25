@@ -46,6 +46,8 @@ public class Constantes {
 	public static final String SECUENCIA_EJERCE_RUBRO = "EJR";
 	public static final String SECUENCIA_SERVICIO_ACTIVO = "SAC";
 	public static final String SECUENCIA_SOLICITUD = "SOL";
+	public static final String SECUENCIA_NOTIFICACION_USUARIO = "NOTUSU";
+	public static final String SECUENCIA_PRIVILEGIO_USUARIO = "PRIVUSU";
 
 	// MAILS
 	public static final String MAIL_NOTIFICA_NUEVASOLICITUD = "NUEVA_SOLICITUD";
@@ -91,5 +93,21 @@ public class Constantes {
 	public static final String TIPOPROVEEDOR_INDEPENDIENTE = "IND";
 	public static final String TIPOPROVEEDOR_DEPENDIENTE = "DEP";
 	
+	//VALORES LOGICOS
+	public static final String SI = "S";
+	public static final String NO = "N";
+	
+	//ESTADO NOTIFICACION
+	public static final String ESTADO_NOTIFICACION_CREADA = "C";
+	
+	//TIPO NOTIFICACION
+	public static final String TIPONOTIFICACION_NUEVA_SUBASTA = "NEWSUB";
+	
+	//NOMBRES DE PROIVILEGIOS
+	public static final String PRIVILEGIO_NOMBRE_SUBASTADOR = "SUBASTADOR";
+	
 
+	// FLAGS ACTIVACION DE SERVICIOS
+	public static final String ACTIVATE_MAIL_NOTIFYS = "MAIL_NOTIFYS";
+	
 }

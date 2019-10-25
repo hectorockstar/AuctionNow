@@ -148,14 +148,13 @@
 	
 	<resultMap id="privilegio-mapping" type="com.auctionnow.model.Privilegio" >
 		<result property="codigoPrivilegio"           column="P_CODIGOPRIVILEGIO" />
-		<result property="descPrivilegio"             column="P_DESCRIPCION" />
+		<result property="nombrePrivilegio"           column="P_NOMBREPRIVILEGIO" />
+		<result property="descripcion"                column="P_DESCRIPCION" />
 		<result property="vigente"                    column="P_VIGENTE" />
 		<result property="observacion"                column="P_OBSERVACION" />
 		<result property="fechaRegistro"              column="P_FECHAREGISTRO" />
-		<result property="tipoPrivilegio.id"          column="P_TIPOPRIVILEGIOID" />
-		<result property="tipoPrivilegio.descripcion" column="P_TIPOPRIVILEGIODESC" />
-		<result property="tipousuarioWeb.id"          column="P_TIPOUSUARIOWEBID" />
-		<result property="tipousuarioWeb.descripcion" column="P_TIPOUSUARIOWEBDESC" />
+		<result property="tipoPrivilegio.id"          column="P_TIPOPRIVILEGIO" />
+		<result property="tipoUsuarioWeb.id"          column="P_TIPOUSUARIOWEB" />
 	</resultMap>
 	
 	<resultMap id="privilegio-usuario-mapping" type="com.auctionnow.model.UsuarioWebTienePrivilegio" >
@@ -191,6 +190,23 @@
 		</collection>
 	</resultMap>
 	
+	<resultMap id="notificacion-usuario-mapping" type="com.auctionnow.model.Notificacion" >
+		<result property="codigoNotificacion"          column="NU_CODIGONOTIFICACION" />
+		<result property="tipoNotificacion.id"         column="NU_TIPONOTIFICACION" />
+		<result property="nombreNotificacion"          column="NU_NOMBRENOTIFICACION" />
+		<result property="descripcion"                 column="NU_DESCRIPCION" />
+		<result property="codigoNotificacionUsuario"   column="NU_CODIGONOTIFICAUSUARIO" />
+		<result property="estadoNotificacion"          column="NU_ESTADONOTIFICACION" />
+		<result property="fechaEmision"                column="NU_FECHAEMISION" />
+		<result property="horaEmision"                 column="NU_HORAEMISION" />
+		<result property="leida"                       column="NU_LEIDA" />
+		<result property="fechaLectura"                column="NU_FECHALECTURA" />
+		<result property="horaLectura"                 column="NU_HORALECTURA" />
+		<result property="mostrar"                     column="NU_MOSTRAR" />
+		<result property="codigoOrigenNotificacion"    column="NU_CODIGOORIGEN" />
+		<result property="usuarioWeb.codigoUsuarioWeb" column="NU_CODUSUARIOWEB" />
+	</resultMap>
+	
 	<!-- SELECTs -->
 	<select id="getUsuarioWeb" resultMap="usuarioWeb-mapping" parameterType="com.auctionnow.filters.FiltroUsuarioWeb">
 		SELECT 
@@ -216,6 +232,44 @@
 			
 		WHERE T_NOMUSU = #{nombreUsuario}
 		AND T_PASSWORD = #{contrasena}
+		
+	</select>
+	
+	<select id="getUsuarioWebByPrivilegio" resultMap="usuarioWeb-mapping" parameterType="com.auctionnow.filters.FiltroUsuarioWeb">
+		SELECT 
+			USUWEB.C_CODUSUWEB      AS UW_CODUSUWEB,
+			USUWEB.T_NOMUSU         AS UW_NOMBREUSUARIO,
+			USUWEB.T_PASSWORD       AS UW_PASSWORD,
+			USUWEB.T_FIRMA          AS UW_FIRMA,
+			USUWEB.T_PREG1          AS UW_PREG1,
+			USUWEB.T_PREG2          AS UW_PREG2,
+			USUWEB.T_PREG3          AS UW_PREG3,
+			USUWEB.T_RES1           AS UW_RES1,
+			USUWEB.T_RES2           AS UW_RES2,
+			USUWEB.T_RES3           AS UW_RES3,
+			USUWEB.T_ESTCTA         AS UW_ESTADOCTA,
+			TIPUSUWEB.C_TIPCATAL    AS UW_TIPOUSUWEBID,
+			TIPUSUWEB.T_DESCRIPCION AS UW_TIPOUSUWEBDESC,
+			USUWEB.C_CODUSU         AS UW_CODUSUARIO
+			
+		FROM AN_USUARIOWEB USUWEB
+		INNER JOIN AN_CATALOGO TIPUSUWEB 
+			ON USUWEB.C_TIPUSUWEB = TIPUSUWEB.C_TIPCATAL
+			AND TIPUSUWEB.C_CATALOGO = 'C_TIPUSUWEB'
+       	INNER JOIN AN_USUARIO USU
+           	ON USUWEB.C_CODUSU = USU.C_CODUSU
+       	INNER JOIN AN_PROVEEDOR PROV
+           	ON USU.C_CODUSU = PROV.C_CODUSU
+		INNER JOIN AN_PRIV_USUARIOWEB PRIVUSUWEB
+           	ON USUWEB.C_CODUSUWEB = PRIVUSUWEB.C_CODUSUWEB 
+       	INNER JOIN AN_PRIVILEGIO PRIV
+           	ON PRIVUSUWEB.C_CODPRIV = PRIV.C_CODPRIV
+
+	   	WHERE PRIV.T_NOMBRE = #{nombrePrivilegio}
+	   
+	   <if test="activo != null and activo != ''">
+       		AND PRIVUSUWEB.T_ACTIVO = #{activo}
+		</if>
 		
 	</select>
 	
@@ -656,7 +710,20 @@
 		WHERE FICHPRO.C_FICHPROV = #{codigoFicha}
 	</select>
 	
-	
+	<select id="getPrivilegioByNombre" resultMap="privilegio-mapping" parameterType="com.auctionnow.filters.FiltroPrivilegio" >
+		SELECT
+			PRIV.C_CODPRIV          AS P_CODIGOPRIVILEGIO,
+			PRIV.T_NOMBRE           AS P_NOMBREPRIVILEGIO,
+			PRIV.T_DESCRIPCION      AS P_DESCRIPCION,
+			PRIV.T_VIGENTE          AS P_VIGENTE,
+			PRIV.T_OBSERVACION      AS P_OBSERVACION,
+			PRIV.D_FECREG           AS P_FECHAREGISTRO,
+			PRIV.C_TIPOPRIV         AS P_TIPOPRIVILEGIO,
+			PRIV.C_TIPUSUWEB        AS P_TIPOUSUARIOWEB
+		
+		FROM AN_PRIVILEGIO PRIV
+		WHERE PRIV.T_NOMBRE = #{nombrePrivilegio}
+	</select>
 	
 	<select id="getPrivilegios" resultMap="privilegio-mapping" parameterType="com.auctionnow.filters.FiltroPrivilegio" >
 		SELECT
@@ -763,6 +830,47 @@
 		AND USUWEB.T_NOMUSU = #{userName}
 		AND USUWEB.T_PASSWORD = #{password}
 	</select>
+	
+	<select id="getNotificacionesUsuario" resultMap="notificacion-usuario-mapping" parameterType="com.auctionnow.filters.FiltroNotificacion" >
+		SELECT
+			NOTUSU.C_CODNOTUSUARIO  AS NU_CODIGONOTIFICAUSUARIO,
+			NOTUSU.C_ESTADO         AS NU_ESTADONOTIFICACION,
+			NOTUSU.D_FECHAEMISION   AS NU_FECHAEMISION,
+			NOTUSU.T_HORAEMISION    AS NU_HORAEMISION,
+			NOTUSU.T_LEIDA          AS NU_LEIDA,
+			NOTUSU.D_FECHALECTURA   AS NU_FECHALECTURA,
+			NOTUSU.T_HORALECTURA    AS NU_HORALECTURA,
+			NOTUSU.T_MOSTRAR        AS NU_MOSTRAR,
+			NOTUSU.C_ORIGENNOTIFICA AS NU_CODIGOORIGEN,
+			NOTUSU.C_CODUSUWEB      AS NU_CODUSUARIOWEB,
+			
+			NOTIF.C_CODNOTIFICACION AS NU_CODIGONOTIFICACION,
+			NOTIF.C_TIPNOTIFICACION AS NU_TIPONOTIFICACION,
+			NOTIF.T_NOMBRE          AS NU_NOMBRENOTIFICACION,
+			NOTIF.T_DESCRIPCION     AS NU_DESCRIPCION
+			
+		FROM AN_NOTIFICACION_USUARIO NOTUSU
+		INNER JOIN AN_NOTIFICACION NOTIF
+		    ON NOTUSU.C_CODNOTIFICACION = NOTIF.C_CODNOTIFICACION
+		    
+		WHERE NOTUSU.C_CODUSUWEB = #{codigoUsuarioWeb}
+		
+		<if test="leida != null and leida != ''">
+			AND NOTUSU.T_LEIDA = #{leida}
+		</if>
+		
+    </select>
+    
+    <select id="getNotificacion" resultMap="notificacion-usuario-mapping" parameterType="com.auctionnow.filters.FiltroNotificacion" >
+		SELECT
+			NOTIF.C_CODNOTIFICACION AS NU_CODIGONOTIFICACION,
+			NOTIF.C_TIPNOTIFICACION AS NU_TIPONOTIFICACION,
+			NOTIF.T_NOMBRE          AS NU_NOMBRENOTIFICACION,
+			NOTIF.T_DESCRIPCION     AS NU_DESCRIPCION
+			
+		FROM AN_NOTIFICACION NOTIF
+		WHERE NOTIF.C_TIPNOTIFICACION = #{tipoNotificacion}
+    </select>
 	
 	<!-- INSERTs -->
 	<insert id="addUsuario" parameterType="map" >
@@ -1023,18 +1131,63 @@
 		)
 	</insert>
 	
-	<insert id="addUsuarioPrivilegio" parameterType="map">
+	<insert id="addPrivilegioUsuario" parameterType="map">
 		INSERT INTO AN_PRIV_USUARIOWEB (
-			C_CODPRIV,
-			C_CODUSUWEB,
+			C_CODPRIVUSU,
 			T_ACTIVO, 
 			D_FECASIG,
-			T_DESCRIPCION
+			T_DESCRIPCION,
+			C_CODPRIV,
+			C_CODUSUWEB
 		) VALUES (
-			#{codigoPrivilegio},
-			#{codigoUsuarioWeb},
+			#{codigoPrivilegioUsuario},
 			#{activo},
 			#{fechaAsignacion},
+			#{descripcion},
+			#{codigoPrivilegio},
+			#{codigoUsuarioWeb}
+		)
+	</insert>
+	
+	<insert id="addNotificacionUsuario" parameterType="map">
+		INSERT INTO AN_NOTIFICACION_USUARIO (
+			C_CODNOTUSUARIO,
+			C_ESTADO,
+			D_FECHAEMISION,
+			T_HORAEMISION,
+			T_LEIDA,
+			D_FECHALECTURA,
+			T_HORALECTURA,
+			T_MOSTRAR,
+			C_ORIGENNOTIFICA,
+			C_CODNOTIFICACION,
+			C_CODUSUWEB
+		) VALUES (
+			#{codigoNotificaUsuario},
+			#{estadoNotificaUsuario},
+			#{fechaEmision},
+			#{horaEmision},
+			#{leida},
+			#{fechaLectura},
+			#{horaLectura},
+			#{mostrar},
+			#{codigoOrigenNotificacion},
+			#{codigoNotificacion},
+			#{codigoUsuarioWeb}
+		)
+	</insert>
+	
+	
+	<insert id="addNotificacion" parameterType="map">
+		INSERT INTO AN_NOTIFICACION (
+			C_CODNOTIFICACION,
+			C_TIPNOTIFICACION,
+			T_NOMBRE,
+			T_DESCRIPCION
+		) VALUES (
+			#{codigoNotificacion},
+			#{tipoNotificacion},
+			#{nombreNotificacion},
 			#{descripcion}
 		)
 	</insert>

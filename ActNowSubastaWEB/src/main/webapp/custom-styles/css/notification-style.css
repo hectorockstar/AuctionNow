@@ -1,0 +1,42 @@
+.header-menu-icons {
+	font-size: 18px;
+}
+
+.notificationsCount {
+    display: flex;
+    position: absolute;
+    right: 21px;
+    top: 10px;
+    display: none;
+}
+
+.accessible_elem {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+._51lp {
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+._5ugg, ._3z_5 {
+    background-color: #fa3e3e;
+    border-radius: 10px;
+    color: #fff;
+    padding: 3px 3px;
+}
+
+.scrollable-notification-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.not-read-notification {
+	background-color: aliceblue;
+}

@@ -49,6 +49,9 @@
 <!-- ACCORDION -->
 <link rel="stylesheet" href="../custom-styles/css/accordion.css">
 
+<!-- NOTIFICATION -->
+<link rel="stylesheet" href="../custom-styles/css/notification-style.css">
+
 <style>
 	body {
 		padding-top: 70px;

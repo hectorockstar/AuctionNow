@@ -859,6 +859,8 @@
 			AND NOTUSU.T_LEIDA = #{leida}
 		</if>
 		
+		ORDER BY (NOTUSU.D_FECHAEMISION||' '||NOTUSU.T_HORALECTURA), NOTUSU.C_CODNOTUSUARIO DESC
+		
     </select>
     
     <select id="getNotificacion" resultMap="notificacion-usuario-mapping" parameterType="com.auctionnow.filters.FiltroNotificacion" >
@@ -1338,6 +1340,13 @@
 		SET T_ACTIVO = #{activo},
 		    T_DESCRIPCION = #{descripcion}
 		WHERE C_CODPRIV = #{codigoPrivilegio}
+		AND C_CODUSUWEB = #{codigoUsuarioWeb}
+	</update>
+	
+	<update id="updateUserNotificationStatus" parameterType="map" >
+		UPDATE AN_NOTIFICACION_USUARIO
+		SET T_LEIDA = #{leida}
+		WHERE C_CODNOTUSUARIO = #{codigoNotificacionUsuario}
 		AND C_CODUSUWEB = #{codigoUsuarioWeb}
 	</update>
 	

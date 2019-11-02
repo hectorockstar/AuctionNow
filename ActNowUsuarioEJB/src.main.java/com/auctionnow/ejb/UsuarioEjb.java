@@ -47,6 +47,11 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 
 	}
 	
+	@Override
+	public Integer actualizaEstadoNotificacionUsuario(FiltroNotificacion filtroNotificacion) {
+		return usuarioBusiness.actualizaEstadoNotificacionUsuario(filtroNotificacion);
+	}
+	
 	public Integer addCuentaUsuarioAdministrador(UsuarioWeb usuarioWeb) {
 		return usuarioBusiness.addCuentaUsuarioAdministrador(usuarioWeb);
 	}
@@ -217,5 +222,7 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 	public List<UsuarioWeb> getUsuarioWebByPrivilegio(FiltroUsuarioWeb filtroUsuarioWeb) {
 		return usuarioBusiness.getUsuarioWebByPrivilegio(filtroUsuarioWeb);
 	}
+
+	
 
 }

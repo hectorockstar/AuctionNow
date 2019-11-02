@@ -294,10 +294,11 @@
 		
 		
 		<!-- Subasta -->
-		<action name="showDetalleSubasta" class="com.auctionnow.controller.solicitud.OfertaRegistrarAction"
-			method="showDetalleSubasta">
-			<result name="ERROR">/WEB-INF/views/usuario/error.jsp</result>
-			<result name="SUCCESS">/WEB-INF/views/usuario/detalleSubasta.jsp</result>
+		<action name="showSubastaDetail" class="com.auctionnow.controller.solicitud.SubastaDetalleAction"
+			method="showSubastaDetail">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
 		</action>
 		
 		<action name="aceptarSubasta" class="com.auctionnow.controller.solicitud.OfertaRegistrarAction"
@@ -408,6 +409,13 @@
 		<!-- NOTIFICACION -->
 		<action name="getNotificacionesUsuarioWeb" class="com.auctionnow.controller.usuario.NotificacionWebAction"
 			method="getNotificacionesUsuarioWeb">
+			<result name= "SUCCESS" type="stream" >
+		        <param name="inputStream">inputStream</param>
+		    </result>
+		</action>
+		
+		<action name="updateNotificationStatus" class="com.auctionnow.controller.usuario.NotificacionWebAction"
+			method="updateNotificationStatus">
 			<result name= "SUCCESS" type="stream" >
 		        <param name="inputStream">inputStream</param>
 		    </result>

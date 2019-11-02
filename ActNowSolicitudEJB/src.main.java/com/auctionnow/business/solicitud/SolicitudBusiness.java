@@ -53,8 +53,17 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
 		filtroCatalogo.setKey(Constantes.SECUENCIA_SOLICITUD);
-		
 		solicitud.setCodigoSolicitud(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
+		
+		solicitud = this.setDataAddNewSolicitud(solicitud);
+		
+		Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
+		
+		return addSolicitud;
+	}
+	
+	private Solicitud setDataAddNewSolicitud(Solicitud solicitud) {
+		
 		solicitud.setFechaCreacion(new Date());
 		
 		if(Constantes.ACTIVA.equals(solicitud.getActivo())) {
@@ -65,9 +74,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		
 		solicitud.setPrioridad(0);
 		
-		Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
-		
-		return addSolicitud;
+		return solicitud;
 	}
 	
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -90,12 +97,20 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addSubasta(Subasta subasta) {
-
+		
 		FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 		filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
 		filtroCatalogo.setKey(Constantes.SECUENCIA_SUBASTA);
 		subasta.setCodigoSubasta(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo)); // GENERAR CODIGO SUBASTA
+
+		subasta = this.setDataAddNewSubasta(subasta);
 		
+		Integer regSubasta = solicitudDAO.addSubasta(subasta);
+		
+		return regSubasta;
+	}
+	
+	private Subasta setDataAddNewSubasta(Subasta subasta) {
 		subasta.setEstadoSubasta("EC");
 		subasta.setDescripcion("");
 		
@@ -110,10 +125,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		subasta.setMontoMinimo(new Long("0"));
 		subasta.setMontoInicial(new Long("0"));
 		subasta.setMontoFinal(new Long("0"));
-		
-		Integer regSubasta = solicitudDAO.addSubasta(subasta);
-		
-		return regSubasta;
+		return subasta;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
@@ -149,18 +161,9 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 			FiltroCatalogo filtroCatalogo = new FiltroCatalogo();
 			filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
 			filtroCatalogo.setKey(Constantes.SECUENCIA_SOLICITUD);
-			
 			solicitud.setCodigoSolicitud(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo));
-			solicitud.setFechaCreacion(new Date());
 			
-			if(Constantes.ACTIVA.equals(solicitud.getActivo())) {
-				solicitud.setEstadoSolicitud("A");
-			} else {
-				solicitud.setEstadoSolicitud("NA");
-			}
-			
-			//TODO
-			solicitud.setPrioridad(0);
+			solicitud = this.setDataAddNewSolicitud(solicitud);
 			
 			Integer addSolicitud = solicitudDAO.addSolicitud(solicitud);
 			
@@ -168,7 +171,14 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 				subasta = new Subasta();
 				subasta.setSolicitud(solicitud);
 				
-				Integer addSubastaResultado = this.addSubasta(subasta);
+				filtroCatalogo = new FiltroCatalogo();
+				filtroCatalogo.setTipoCatalogo(Constantes.CATALOGO_SECUENCIA_REGISTRO);
+				filtroCatalogo.setKey(Constantes.SECUENCIA_SUBASTA);
+				subasta.setCodigoSubasta(getCommonEjbRemote().getSecuenciaRegistro(filtroCatalogo)); // GENERAR CODIGO SUBASTA
+
+				subasta = setDataAddNewSubasta(subasta);
+				
+				Integer addSubastaResultado = solicitudDAO.addSubasta(subasta);
 				
 				if(addSubastaResultado != null && !addSubastaResultado.equals(new Integer("0"))) {
 					
@@ -181,7 +191,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 					for (UsuarioWeb usuarioWebNotificar : lstUsuariosWebNotificar) { 
 						Notificacion notificacion = new Notificacion();
 						notificacion.setUsuarioWeb(usuarioWebNotificar);
-						notificacion.setCodigoOrigenNotificacion("SOLICITUDSERVICIO");
+						notificacion.setCodigoOrigenNotificacion(subasta.getCodigoSubasta());
 						
 						Tupla tipoNotificacion = new Tupla();
 						tipoNotificacion.setId(Constantes.TIPONOTIFICACION_NUEVA_SUBASTA);

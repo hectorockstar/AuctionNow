@@ -3,6 +3,8 @@ $(document).ready(function() {
 	setCalendarFunction();
 	$('.clockpicker').clockpicker();
 	
+	verificaNotificaciones();
+	
 	setInterval(verificaNotificaciones, 10000);
 	
 });
@@ -45,7 +47,32 @@ function verificaNotificaciones(){
 				data : formData,
 				success : function(response) {
 					var notificaciones = JSON.parse(response);
-					console.log(notificaciones[0].descripcion);
+					var notificationsNotReadCount = 0;
+					
+					$("#notificationsView").html('');
+					for(var i = 0 ;i < notificaciones.length; i++){
+						var notificationRowInfo = '';
+						if(notificaciones[i].leida == 'N'){
+							notificationsNotReadCount++;
+							notificationRowInfo = '<li id='+ notificaciones[i].codigoNotificacionUsuario +'><a href="javascript:getActionByTipoNotificacion(\'' + notificaciones[i].usuarioWeb.codigoUsuarioWeb + '\', \'' + notificaciones[i].tipoNotificacion.id + '\', \'' + notificaciones[i].codigoOrigenNotificacion + '\', \'' + notificaciones[i].codigoNotificacionUsuario + '\')" >'+ notificaciones[i].descripcion +'</a></li>';
+							$("#notificationsView").append(notificationRowInfo);
+							$("#"+notificaciones[i].codigoNotificacionUsuario).addClass("not-read-notification");
+							
+						} else {
+							notificationRowInfo = '<li id='+ notificaciones[i].codigoNotificacionUsuario +'><a href="javascript:getActionByTipoNotificacion(\'' + notificaciones[i].usuarioWeb.codigoUsuarioWeb + '\', \'' + notificaciones[i].tipoNotificacion.id + '\', \'' + notificaciones[i].codigoOrigenNotificacion + '\', \'' + notificaciones[i].codigoNotificacionUsuario + '\')" >'+ notificaciones[i].descripcion +'</a></li>';
+							$("#notificationsView").append(notificationRowInfo);
+						}
+						
+                    }
+					
+					$("#notificationsCountValue").html('');
+					$("#notificationsCountValue").append(notificationsNotReadCount);
+					
+					if(notificationsNotReadCount > 0) {
+						$("#notificationsCount").css("display", "flex");
+					} else{
+						$("#notificationsCount").css("display", "none");
+					}
 				}
 			});
 			
@@ -54,6 +81,50 @@ function verificaNotificaciones(){
 	}
 	
 	console.log('VERIFICA NOTIFICACIONES');
+}
+
+function getActionByTipoNotificacion(codigoUsuarioWeb, tipoNotificacion, codigoOrigenNotificacion, codigoNotificacionUsuario){
+	
+	updateUserNotificationStatusLeida(codigoUsuarioWeb, codigoNotificacionUsuario);
+	
+	switch (tipoNotificacion) {
+		case 'NEWSUB':
+			$.ajax({
+				type : "GET",
+				url : 'showSubastaDetail.action?notificacion.codigoOrigenNotificacion='+codigoOrigenNotificacion,
+				success : function(response) {
+						
+				}
+			});
+			break;
+		default:
+			console.log('Lo lamentamos, por el momento no disponemos de notificaciones para' + tipoNotificacion + '.');
+	}
+	
+	verificaNotificaciones();
+	
+}
+
+function updateUserNotificationStatus(codigoUsuarioWeb, codigoNotificacionUsuario, estado) {
+	
+	$.ajax({
+		type : "GET",
+		url : "updateNotificationStatus.action?notificacion.usuarioWeb.codigoUsuarioWeb=" + codigoUsuarioWeb + "&notificacion.codigoNotificacionUsuario=" + codigoNotificacionUsuario + "&notificacion.leida=" + estado,
+		//data : formData,
+		success : function(response) {
+			
+		}
+	});
+}
+
+function updateUserNotificationStatusLeida(codigoUsuarioWeb, codigoNotificacionUsuario) {
+	var estado = 'S';
+	updateUserNotificationStatus(codigoUsuarioWeb, codigoNotificacionUsuario, estado);
+}
+
+function updateUserNotificationStatusNoLeida(codigoUsuarioWeb, codigoNotificacionUsuario) {
+	var estado = 'N';
+	updateUserNotificationStatus(codigoUsuarioWeb, codigoNotificacionUsuario, estado);
 }
 
 function setCalendarFunction() {

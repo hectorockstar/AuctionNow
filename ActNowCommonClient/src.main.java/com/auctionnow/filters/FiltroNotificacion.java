@@ -10,9 +10,19 @@ public class FiltroNotificacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String codigoUsuarioWeb;
+	private String codigoNotificacionUsuario;
 	private String leida;
 	private String tipoNotificacion;
+	private String tipoUsuarioWeb;
 	
+	public String getTipoUsuarioWeb() {
+		return tipoUsuarioWeb;
+	}
+
+	public void setTipoUsuarioWeb(String tipoUsuarioWeb) {
+		this.tipoUsuarioWeb = tipoUsuarioWeb;
+	}
+
 	public String getTipoNotificacion() {
 		return tipoNotificacion;
 	}
@@ -37,4 +47,12 @@ public class FiltroNotificacion implements Serializable {
 		this.leida = leida;
 	}
 
+	public String getCodigoNotificacionUsuario() {
+		return codigoNotificacionUsuario;
+	}
+
+	public void setCodigoNotificacionUsuario(String codigoNotificacionUsuario) {
+		this.codigoNotificacionUsuario = codigoNotificacionUsuario;
+	}
+	
 }

@@ -50,10 +50,25 @@
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
 					<c:when test="${usuarioWeb != null}">
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#"> <span
-								class="glyphicon glyphicon-user"></span> <c:out
-									value="${usuarioWeb.getNombreUsuario()}" /><span class="caret"></span></a>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<span class="glyphicon glyphicon-bell header-menu-icons"></span>
+								<span class="caret"></span>
+								
+								<span class="notificationsCount" id="notificationsCount">
+									<span class="_51lp _3z_5 _5ugh" id="notificationsCountValue"></span> 
+								</span>
+							</a>
+							<ul id="notificationsView" class="nav dropdown-menu scrollable-notification-menu">
+								
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+								<span class="glyphicon glyphicon-user header-menu-icons"></span> 
+								<c:out value="${usuarioWeb.getNombreUsuario()}" />
+								<span class="caret"></span>
+							</a>
 							<ul class="nav dropdown-menu">
 								<li><a href="../cargaMenuUsuario">Mi Perfil</a></li>
 								<li><a href="<s:url action="logoutUser"/>">Salir</a></li>
@@ -61,9 +76,11 @@
 						</li>
 					</c:when>
 					<c:otherwise>
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="modal" data-target="#loginModal" href="#"><span
-								class="glyphicon glyphicon-user"></span> Accede</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="modal" data-target="#loginModal" href="#">
+								<span class="glyphicon glyphicon-user"></span> Accede
+							</a>
+						</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

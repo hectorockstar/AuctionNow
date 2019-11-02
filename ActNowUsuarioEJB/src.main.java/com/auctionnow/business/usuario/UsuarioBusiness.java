@@ -569,6 +569,10 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public Integer actualizaOperacionEmpresa(Empresa empresa) {
 		return null;
 	}
+	
+	public Integer actualizaEstadoNotificacionUsuario(FiltroNotificacion filtroNotificacion) {
+		return usuarioDAO.actualizaEstadoNotificacionUsuario(filtroNotificacion);
+	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public List<Direccion> asignarComunaDireccion(List<Direccion> direcciones) {
@@ -694,5 +698,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 	public void setTransaccionEjbRemote(ITransaccionEjbRemote transaccionEjbRemote) {
 		this.transaccionEjbRemote = transaccionEjbRemote;
 	}
+
+	
 
 }

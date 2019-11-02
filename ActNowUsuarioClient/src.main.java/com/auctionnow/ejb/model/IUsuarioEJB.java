@@ -62,6 +62,8 @@ public interface IUsuarioEJB {
 	Integer actualizaContacto(Contacto contacto, String codigoTitular);
 
 	Integer actualizaDireccion(Direccion direccion, String codigoTitular);
+	
+	Integer actualizaEstadoNotificacionUsuario(FiltroNotificacion filtroNotificacion);
 
 	// GETS
 	UsuarioWeb getUsuarioWebClienteData(FiltroUsuarioWeb filtroUsuarioWeb);

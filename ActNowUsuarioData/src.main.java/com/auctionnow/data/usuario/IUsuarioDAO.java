@@ -83,6 +83,8 @@ public interface IUsuarioDAO {
 
 	Integer actualizaUsuarioWebPrivilegio(Privilegio privilegio, UsuarioWeb usuarioWeb, String descripcion, String activo);
 	
+	Integer actualizaEstadoNotificacionUsuario(FiltroNotificacion filtroNotificacion);
+	
 	// GETS
 	UsuarioWeb getUsuarioWeb(FiltroUsuarioWeb filtroUsuarioWeb);
 	

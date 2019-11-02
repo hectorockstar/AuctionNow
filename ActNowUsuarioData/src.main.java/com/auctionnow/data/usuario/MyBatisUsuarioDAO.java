@@ -215,6 +215,16 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 
 		return (Integer) getSqlSession().update("updateUsuarioPrivilegio", parameters);
 	}
+	
+	@Override
+	public Integer actualizaEstadoNotificacionUsuario(FiltroNotificacion filtroNotificacion) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoUsuarioWeb", filtroNotificacion.getCodigoUsuarioWeb());
+		parameters.put("codigoNotificacionUsuario", filtroNotificacion.getCodigoNotificacionUsuario());
+		parameters.put("leida", filtroNotificacion.getLeida());
+		
+		return (Integer) getSqlSession().update("updateUserNotificationStatus", parameters);
+	}
 
 	@Override
 	public Integer addClienteFicha(FichaServicioCliente fichaCliente) {
@@ -566,5 +576,7 @@ public class MyBatisUsuarioDAO extends SqlSessionDaoSupport implements IUsuarioD
 		String tipoUsuarioWeb = (String) getSqlSession().selectOne("getValidateLogin", parameters);
 		return tipoUsuarioWeb;
 	}
+
+	
 
 }

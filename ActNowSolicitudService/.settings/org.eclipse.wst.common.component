@@ -17,5 +17,8 @@
         <dependent-module archiveName="ActNowUsuarioClient.jar" deploy-path="/" handle="module:/resource/ActNowUsuarioClient/ActNowUsuarioClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="ActNowTransaccionClient.jar" deploy-path="/" handle="module:/resource/ActNowTransaccionClient/ActNowTransaccionClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

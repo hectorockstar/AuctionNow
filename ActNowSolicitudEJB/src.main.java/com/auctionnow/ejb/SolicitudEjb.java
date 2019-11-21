@@ -73,9 +73,15 @@ public class SolicitudEjb implements ISolicitudEjbLocal, ISolicitudEjbRemote{
 	public Subasta iniciarSubasta(Solicitud solicitud) {
 		return solicitudBusiness.iniciarSubasta(solicitud);
 	}
+	
+	public Subasta getDetalleSubastaForProveedor(FiltroSubasta filtroSubasta) {
+		return solicitudBusiness.getDetalleSubastaForProveedor(filtroSubasta);
+	}
 
 	public Integer addSubastaProveedor(String codigoSubasta, String codigoProveedor) {
 		return solicitudBusiness.addSubastaProveedor(codigoSubasta, codigoProveedor);
 	}
+
+	
 
 }

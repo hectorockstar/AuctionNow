@@ -7,6 +7,8 @@ $(document).ready(function() {
 	
 	setInterval(verificaNotificaciones, 10000);
 	
+	setAuctionCountdown();
+	
 });
 
 function verificaNotificaciones(){
@@ -19,32 +21,10 @@ function verificaNotificaciones(){
 		
 		if(codigoUsuarioWeb != "" && codigoUsuarioWeb != null) {
 			
-			var newInputFormNotifys = document.createElement("form");
-			newInputFormNotifys.setAttribute("id", "usuarioWebNotificacionesForm");
-			
-			var newInputCodigoUsuarioWeb = document.createElement("input");
-			newInputCodigoUsuarioWeb.setAttribute("type", "hidden");
-			newInputCodigoUsuarioWeb.setAttribute("id", "codigoUsuarioWebNotify");
-			newInputCodigoUsuarioWeb.setAttribute("name", "usuarioWeb.codigoUsuarioWeb");
-			newInputCodigoUsuarioWeb.setAttribute("value", codigoUsuarioWeb);
-			
-			var newInputTipoUsuarioWeb = document.createElement("input");
-			newInputTipoUsuarioWeb.setAttribute("type", "hidden");
-			newInputTipoUsuarioWeb.setAttribute("id", "tipoUsuarioWebNotify");
-			newInputTipoUsuarioWeb.setAttribute("name", "usuarioWeb.tipoUsuarioWeb.id");
-			newInputTipoUsuarioWeb.setAttribute("value", tipoUsuarioWeb);
-			
-			document.getElementsByTagName('body')[0].appendChild(newInputFormNotifys);
-			
-			$("#usuarioWebNotificacionesForm").append(newInputCodigoUsuarioWeb);
-			$("#usuarioWebNotificacionesForm").append(newInputTipoUsuarioWeb);
-			
-			var formData = $(document.getElementById("usuarioWebNotificacionesForm")).serialize();
-			
 			$.ajax({
-				type : "POST",
-				url : "getNotificacionesUsuarioWeb.action",
-				data : formData,
+				type : "GET",
+				url : "getNotificacionesUsuarioWeb.action?usuarioWeb.codigoUsuarioWeb=" + codigoUsuarioWeb + "&usuarioWeb.tipoUsuarioWeb.id=" + tipoUsuarioWeb,
+				//data : formData,
 				success : function(response) {
 					var notificaciones = JSON.parse(response);
 					var notificationsNotReadCount = 0;
@@ -75,8 +55,6 @@ function verificaNotificaciones(){
 					}
 				}
 			});
-			
-			document.getElementById('usuarioWebNotificacionesForm').remove();
 		}
 	}
 	
@@ -89,13 +67,27 @@ function getActionByTipoNotificacion(codigoUsuarioWeb, tipoNotificacion, codigoO
 	
 	switch (tipoNotificacion) {
 		case 'NEWSUB':
-			$.ajax({
-				type : "GET",
-				url : 'showSubastaDetail.action?notificacion.codigoOrigenNotificacion='+codigoOrigenNotificacion,
-				success : function(response) {
-						
-				}
-			});
+			
+			var newInputFormCodigoOrigenNotificacion = document.createElement("form");
+			newInputFormCodigoOrigenNotificacion.setAttribute("id", "codigoOrigenNotificacionForm");
+			newInputFormCodigoOrigenNotificacion.setAttribute("action", "showSubastaDetailbyNotification.action");
+			newInputFormCodigoOrigenNotificacion.setAttribute("method", "POST");
+			
+			var newInputCodigoOrigenNotificacion = document.createElement("input");
+			newInputCodigoOrigenNotificacion.setAttribute("type", "hidden");
+			newInputCodigoOrigenNotificacion.setAttribute("id", "codigoOrigenNotificacion");
+			newInputCodigoOrigenNotificacion.setAttribute("name", "notificacion.codigoOrigenNotificacion");
+			newInputCodigoOrigenNotificacion.setAttribute("value", codigoOrigenNotificacion);
+			
+			document.getElementsByTagName('body')[0].appendChild(newInputFormCodigoOrigenNotificacion);
+			
+			$("#codigoOrigenNotificacionForm").append(newInputCodigoOrigenNotificacion);
+			
+			var codigoOrigenNotificacionForm = document.getElementById("codigoOrigenNotificacionForm");
+			codigoOrigenNotificacionForm.submit();
+			
+			document.getElementById('codigoOrigenNotificacionForm').remove();
+			
 			break;
 		default:
 			console.log('Lo lamentamos, por el momento no disponemos de notificaciones para' + tipoNotificacion + '.');
@@ -114,6 +106,27 @@ function updateUserNotificationStatus(codigoUsuarioWeb, codigoNotificacionUsuari
 		success : function(response) {
 			
 		}
+	});
+}
+
+function setAuctionCountdown() {
+	var dateAuctionCountdown = document.getElementById('h_dateAuctionCountdown').value;
+	
+	$('.countdown').dsCountDown({
+		startDate:new Date(),// Date Object of starting time of count down, usualy now (whether client time or given php time)
+		endDate:new Date(dateAuctionCountdown),
+		elemSelDays:'',// Leave blank to use default value or provide a string selector if the lement already exist, Example: .ds-days
+		elemSelHours:'',// Leave blank to use default value or provide a string selector if the lement already exist, Example: .ds-hours
+		elemSelMinutes:'',// Leave blank to use default value or provide a string selector if the lement already exist, Example: .ds-minutes
+		elemSelSeconds:'',// Leave blank to use default value or provide a string selector if the lement already exist, Example: .ds-seconds
+		theme:'white',// Set the theme 'white', 'black', 'red', 'flat', 'custom'
+		titleDays:'Days',// Set the title of days
+		titleHours:'Hours',// Set the title of hours
+		titleMinutes:'Minutes',// Set the title of minutes
+		titleSeconds:'Seconds',// Set the title of seconds
+		onBevoreStart:null,// callback before the count down starts
+		onClocking:null,// callback after the timer just clocked
+		onFinish:null// callback if the count down is finish or 0 timer defined
 	});
 }
 
@@ -171,8 +184,7 @@ function setCalendarFunction() {
 
 function setDatePicker(inputId) {
 	var date_input = $('#' + inputId); // our date input has the name "date"
-	var container = $('.bootstrap-iso form').length > 0 ? $(
-			'.bootstrap-iso form').parent() : "body";
+	var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
 
 	if (inputId.includes('update')) {
 		var options = {

@@ -16,7 +16,9 @@ public interface ISolicitudDAO {
 
 	Integer actualizaOferta(Oferta oferta);
 
-	List<Solicitud> getSolicitud(FiltroSolicitud filtroSolicitud);
+	Solicitud getSolicitud(FiltroSolicitud filtroSolicitud);
+	
+	List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud);
 
 	Subasta getSubasta(FiltroSubasta filtroSubasta);
 	

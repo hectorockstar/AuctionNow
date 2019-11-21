@@ -28,14 +28,16 @@ public interface ISolicitudEJB {
 
 	// GETS
 	Solicitud getSolicitud(FiltroSolicitud filtroSolicitud);
+	
+	List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud);
 
 	Subasta getSubasta(FiltroSubasta filtroSubasta);
 
 	List<Oferta> getOferta(FiltroOferta filtroOferta);
 
-	List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud);
-	
 	// SERVICIOS
 	Subasta iniciarSubasta(Solicitud solicitud);
+	
+	Subasta getDetalleSubastaForProveedor(FiltroSubasta filtroSubasta);
 
 }

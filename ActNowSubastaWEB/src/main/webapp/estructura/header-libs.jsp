@@ -43,6 +43,11 @@
 <script type="text/javascript" src="../utils/clockpicker/src/clockpicker.js"></script>
 <link rel="stylesheet" href="../utils/clockpicker/src/clockpicker.css"/>
 
+<!-- COUNTDOWN -->
+<script type="text/javascript" src="../utils/countdown/js/dscountdown.js"></script>
+<script type="text/javascript" src="../utils/countdown/js/dscountdown.min.js"></script>
+<link rel="stylesheet" href="../utils/countdown/css/dscountdown.css"/>
+
 <!-- COMMONS CUSTOM  -->
 <link rel="stylesheet" href="../custom-styles/css/common.css">
 

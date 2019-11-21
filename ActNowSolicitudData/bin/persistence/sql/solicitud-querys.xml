@@ -5,33 +5,45 @@
 <mapper namespace="com.auctionnow.data.solicitud">
 
 	<resultMap id="solicitud-mapping" type="com.auctionnow.model.Solicitud" >
-		<result property="cliente.codigoCliente"        column="S_CODCLIENTE" />
-		<result property="codigoSolicitud"              column="S_CODSOLICITUD" />
-		<result property="descripcion"                  column="S_DESCRIPCION" />
-		<result property="direccion.codigoDireccion"    column="S_CODDIRECCION" />
-		<result property="estadoSolicitud"              column="S_ESTADOSOL" />
-		<result property="fechaCreacion"                column="S_FECHACREACION" />
-		<result property="fechaVencimiento"             column="S_FECHAVENCIMIENTO" />
-		<result property="precioEsperado"               column="S_PRECIOESTIMADO" />
-		<result property="prioridad"                    column="S_PRIORIDAD" />
-		<result property="servicio.codigoServicio"      column="S_CODSERVICIO" />
+		<result property="codigoSolicitud"           column="S_CODSOLICITUD" />
+		<result property="estadoSolicitud"           column="S_ESTADOSOL" />
+		<result property="descripcion"               column="S_DESCRIPCION" />
+		<result property="fechaCreacion"             column="S_FECHACREACION" />
+		<result property="fechaEntregaServicio"      column="S_FECHAESPECIFICA" />
+		<result property="fechaServicioDesde"        column="S_FECHASERVICIODESDE" />
+		<result property="fechaServicioHasta"        column="S_FECHASERVICIOHASTA" />
+		<result property="horarioDesde"              column="S_HRSERVICIODESDE" />
+		<result property="horarioHasta"              column="S_HRSERVICIOHASTA" />
+		<result property="fechaVencimientoSubasta"   column="S_FECHAVENCIMIENTOSUB" />
+		<result property="horaVencimientoSubasta"    column="S_HRVENCIMIENTOSUB" />
+		<result property="precioEsperado"            column="S_PRECIOESTIMADO" />
+		<result property="valoracion"                column="S_VALORACION" />
+		<result property="activo"                    column="S_ACTIVO" />
+		<result property="tipoFecha.id"              column="S_TIPOFECHA" />
+		<result property="cliente.codigoCliente"     column="S_CODCLIENTE" />
+		<result property="servicio.codigoServicio"   column="S_CODSERVICIO" />
+		<result property="direccion.codigoDireccion" column="S_CODDIRECCION" />
+		<result property="contacto.codigoContacto"   column="S_CODCONTACTO" />
 	</resultMap>
 	
 	<resultMap id="subasta-mapping" type="com.auctionnow.model.Subasta" >
-		<result property="cantidadExtenciones"         column="S_CANTIDADEXTENSIONES" />
+		
 		<result property="codigoSubasta"               column="S_CODIGOSUBASTA" />
+		<result property="estadoSubasta"               column="S_ESTADO" />
 		<result property="descripcion"                 column="S_DESCRIPCION" />
+		<result property="fechaSubastaDesde"           column="S_FECHAINICIO" />
+		<result property="horaInicioSubasta"           column="S_HRINICIOSUBASTA" />
+		<result property="fechaSubastaHasta"           column="S_FECHATERMINO" />
+		<result property="horaTerminoSubasta"          column="S_HRTERMINOSUBASTA" />
 		<result property="duracion"                    column="S_DURACION" />
-		<result property="extendida"                   column="S_EXTENDIDA" />
-		<result property="fechaInicio"                 column="S_FECHAINICIO" />
-		<result property="fechaTermino"                column="S_FECHATERMINO" />
-		<result property="ofertaGanadora.codigoOferta" column="S_CODIGOOFERTAGANADORA" />
+		<result property="cantidadExtensiones"         column="S_CANTIDADEXTENSIONES" />
 		<result property="montoMinimo"                 column="S_MONTOMINIMO" />
 		<result property="montoInicial"                column="S_MONINICIAL" />
 		<result property="montoFinal"                  column="S_MONTOFINAL" />
-		<result property="estadoSubasta"               column="S_ESTADO" />
-		<result property="solicitud.codigoSolicitud"   column="S_CODIGOSOLICITUD" />
 		<result property="servicio.codigoServicio"     column="S_CODIGOSERVICIO" />
+		<result property="solicitud.codigoSolicitud"   column="S_CODIGOSOLICITUD" />
+		<result property="extendida"                   column="S_EXTENDIDA" />
+		<result property="ofertaGanadora.codigoOferta" column="S_CODIGOOFERTAGANADORA" />
 	</resultMap>
 	
 	<resultMap id="oferta-mapping" type="com.auctionnow.model.Oferta" >
@@ -45,60 +57,61 @@
 	
 	<select id="getSolicitud" resultMap="solicitud-mapping" parameterType="com.auctionnow.filters.FiltroSolicitud">
 		SELECT 
-			SOL.C_CODSOL      AS S_CODSOLICITUD,
-			SOL.T_DESCRIPCION AS S_DESCRIPCION,
-			SOL.T_ESTSOL      AS S_ESTADOSOL,
-			SOL.D_FECCREA     AS S_FECHACREACION,
-			SOL.D_FECVEN      AS S_FECHAVENCIMIENTO,
-			SOL.N_PRECEST     AS S_PRECIOESTIMADO,
-			SOL.N_PRIOR       AS S_PRIORIDAD,
-			SOL.C_CODCLI      AS S_CODCLIENTE,
-			SOL.C_CODSER      AS S_CODSERVICIO,
-			SOL.C_CODDIR      AS S_CODDIRECCION
+			SOL.C_CODSOL        AS S_CODSOLICITUD,
+			SOL.T_DESCRIPCION   AS S_DESCRIPCION,
+			SOL.T_ESTADO        AS S_ESTADOSOL,
+			SOL.D_FECCREASOL    AS S_FECHACREACION,
+			SOL.D_FECESPECIFICA AS S_FECHAESPECIFICA,
+			SOL.D_FECSERDESDE   AS S_FECHASERVICIODESDE,
+			SOL.D_FECSERHASTA   AS S_FECHASERVICIOHASTA,
+			SOL.T_HRSERDESDE    AS S_HRSERVICIODESDE,
+			SOL.T_HRSERHASTA    AS S_HRSERVICIOHASTA,
+			SOL.D_FECVENSUB     AS S_FECHAVENCIMIENTOSUB,
+			SOL.T_HRVENSUB		AS S_HRVENCIMIENTOSUB,
+			SOL.N_PRECIOEST     AS S_PRECIOESTIMADO,
+			SOL.N_VALORACION	AS S_VALORACION,
+			SOL.T_ACTIVO		AS S_ACTIVO,
+			SOL.C_TIPOFECHA		AS S_TIPOFECHA,
+			SOL.C_CODCLI        AS S_CODCLIENTE,
+			SOL.C_CODSER        AS S_CODSERVICIO,
+			SOL.C_CODDIR        AS S_CODDIRECCION,
+			SOL.C_CODCON		AS S_CODCONTACTO
 			
 		FROM AN_SOLICITUD SOL
 		
-		WHERE 
+		WHERE SOL.C_CODSOL = #{codigoSolicitud}
+		
 		<if test="codigoCliente != null and codigoCliente != ''">
 			SOL.C_CODCLI = #{codigoCliente}
-		</if>
-		<if test="codigoCliente != null and codigoCliente != '' and codigoSolicitud != null and codigoSolicitud != ''">
-			AND
-		</if>
-		<if test="codigoSolicitud != null and codigoSolicitud != ''">
-			SOL.C_CODSOL = #{codigoSolicitud}
 		</if>
 		
 	</select>
 	
 	<select id="getSubasta" resultMap="subasta-mapping" parameterType="com.auctionnow.filters.FiltroSubasta">
 		SELECT 
-			SUB.C_CODSUB   AS S_CODIGOSUBASTA,
-			SUB.C_ESTADO   AS S_ESTADO,
-			SUB.D_FECINI   AS S_FECHAINICIO,
-			SUB.D_FECTER   AS S_FECHATERMINO,
-			SUB.T_DURACION AS S_DURACION,
-			SUB.N_CANTEXT  AS S_CANTIDADEXTENSIONES,
-			SUB.N_MTOMIN   AS S_MONTOMINIMO,
-			SUB.N_MTOINI   AS S_MONINICIAL,
-			SUB.N_MTOFINAL AS S_MONTOFINAL,
-			SUB.C_EXTEND   AS S_EXTENDIDA,
-			SUB.C_CODOFEG  AS S_CODIGOOFERTAGANADORA,
-			SUB.C_CODSER   AS S_CODIGOSERVICIO,
-			SUB.C_CODSOL   AS S_CODIGOSOLICITUD
+			SUB.C_CODSUB       AS S_CODIGOSUBASTA,
+			SUB.C_ESTADO       AS S_ESTADO,
+			SUB.T_DESCRIPCION  AS S_DESCRIPCION,
+			SUB.D_FECSUBDESDE  AS S_FECHAINICIO,
+			SUB.T_HRSUBINICIO  AS S_HRINICIOSUBASTA,
+			SUB.D_FECSUBHASTA  AS S_FECHATERMINO,
+			SUB.T_HRSUBTERMINO AS S_HRTERMINOSUBASTA,
+			SUB.T_DURACION     AS S_DURACION,
+			SUB.N_CANTEXT      AS S_CANTIDADEXTENSIONES,
+			SUB.N_MTOMINIMO    AS S_MONTOMINIMO,
+			SUB.N_MTOINICIAL   AS S_MONINICIAL,
+			SUB.N_MTOFINAL     AS S_MONTOFINAL,
+			SUB.C_CODSER       AS S_CODIGOSERVICIO,
+			SUB.C_CODSOL       AS S_CODIGOSOLICITUD,
+			SUB.C_EXTEND       AS S_EXTENDIDA,
+			SUB.C_CODOFERGANA  AS S_CODIGOOFERTAGANADORA
 			
 		FROM AN_SUBASTA SUB
 		
-		WHERE 
+		WHERE SUB.C_CODSUB = #{codigoSubasta}
 		
-		<if test="codigoSubasta != null and codigoSubasta != ''">
-			SUB.C_CODSUB = #{codigoSubasta}
-		</if>
-		<if test="codigoSubasta != null and codigoSubasta != '' and codigoSolicitud != null and codigoSolicitud != ''">
-			AND
-		</if>
 		<if test="codigoSolicitud != null and codigoSolicitud != ''">
-			SUB.C_CODSOL = #{codigoSolicitud}
+			AND SUB.C_CODSOL = #{codigoSolicitud}
 		</if>
 	</select>
 	
@@ -190,7 +203,7 @@
 			T_HRSUBTERMINO,
 			T_DURACION,
 			N_CANTEXT,
-			N_MTOMINNIMO,
+			N_MTOMINIMO,
 			N_MTOINICIAL,
 			N_MTOFINAL,
 			C_CODSER, 

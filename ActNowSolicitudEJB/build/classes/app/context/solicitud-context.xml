@@ -21,6 +21,7 @@
 		<constructor-arg ref="solicitudDAO" />
 		<constructor-arg ref="usuarioEjbRemote" />
 		<constructor-arg ref="commonEjbRemote" />
+		<constructor-arg ref="transaccionEjbRemote" />
 	</bean>	
 		
 </beans>

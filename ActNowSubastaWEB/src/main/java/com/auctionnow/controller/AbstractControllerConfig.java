@@ -141,11 +141,14 @@ public class AbstractControllerConfig extends ActionSupport
 	}
 	
 	public void jsonFormatResult(Object object){
-		
+		String json = "";
 		if(object instanceof ArrayList) {
-			String json = new Gson().toJson(object);
-			inputStream = new StringBufferInputStream(json);
+			json = new Gson().toJson(object);
+		} else if (object instanceof Integer) {
+			json = "[{ resultado : " + object + "}]";
 		}
+		
+		inputStream = new StringBufferInputStream(json);
 		
 	}
 	

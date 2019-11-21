@@ -294,11 +294,9 @@
 		
 		
 		<!-- Subasta -->
-		<action name="showSubastaDetail" class="com.auctionnow.controller.solicitud.SubastaDetalleAction"
-			method="showSubastaDetail">
-			<result name= "SUCCESS" type="stream" >
-		        <param name="inputStream">inputStream</param>
-		    </result>
+		<action name="showSubastaDetailbyNotification" class="com.auctionnow.controller.solicitud.SubastaDetalleAction"
+			method="showSubastaDetailbyNotification">
+			<result name="SUCCESS">/pages/formularios/informacion/subasta/verDetalleSubasta.jsp</result>
 		</action>
 		
 		<action name="aceptarSubasta" class="com.auctionnow.controller.solicitud.OfertaRegistrarAction"

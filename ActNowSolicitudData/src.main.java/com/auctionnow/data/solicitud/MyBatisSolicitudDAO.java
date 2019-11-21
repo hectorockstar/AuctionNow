@@ -79,8 +79,14 @@ public class MyBatisSolicitudDAO extends SqlSessionDaoSupport implements ISolici
 	}
 
 	@Override
-	public List<Solicitud> getSolicitud(FiltroSolicitud filtroSolicitud) {
-		return (List<Solicitud>)getSqlSession().selectList("getSolicitud", filtroSolicitud);
+	public Solicitud getSolicitud(FiltroSolicitud filtroSolicitud) {
+		return (Solicitud)getSqlSession().selectOne("getSolicitud", filtroSolicitud);
+	}
+	
+	@Override
+	public List<Solicitud> getSolicitudes(FiltroSolicitud filtroSolicitud) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

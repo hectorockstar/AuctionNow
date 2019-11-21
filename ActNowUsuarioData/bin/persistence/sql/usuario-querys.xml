@@ -28,6 +28,7 @@
 		<result property="fechaNacimiento"          column="U_FECHANACIMIENTO" />
 		<result property="fechaRegistro"            column="U_FECHAREGISTRO" />
 		<result property="genero.id"                column="U_GENERO" />
+		<result property="genero.descripcion"       column="U_GENERODESC" />
 		<result property="nombre"                   column="U_NOMBRES" />
 		<result property="apellidoPaterno"          column="U_APEPAT" />
 		<result property="apellidoMaterno"          column="U_APEMAT" />
@@ -283,6 +284,10 @@
 			USU.T_APEMAT         AS U_APEMAT,
 			USU.D_FECNAC         AS U_FECHANACIMIENTO,
 			USU.T_GENERO         AS U_GENERO,
+			(SELECT T_DESCRIPCION 
+				FROM AN_CATALOGO 
+			 WHERE C_CATALOGO = 'C_GENERO'
+			 AND C_TIPCATAL = USU.T_GENERO) AS U_GENERODESC,
 			USU.T_OCUPACION      AS U_OCUPACION,
 			USU.D_FECREG         AS U_FECHAREGISTRO,
 			USU.C_CODPAIS		 AS U_CODIGOPAIS,
@@ -310,6 +315,10 @@
 			USU.T_APEMAT         AS U_APEMAT,
 			USU.D_FECNAC         AS U_FECHANACIMIENTO,
 			USU.T_GENERO         AS U_GENERO,
+			(SELECT T_DESCRIPCION 
+				FROM AN_CATALOGO 
+			 WHERE C_CATALOGO = 'C_GENERO'
+			 AND C_TIPCATAL = USU.T_GENERO) AS U_GENERODESC,
 			USU.T_OCUPACION      AS U_OCUPACION,
 			USU.D_FECREG         AS U_FECHAREGISTRO,
 			USU.C_CODPAIS		 AS U_CODIGOPAIS,
@@ -348,6 +357,10 @@
 			USU.T_APEMAT         AS U_APEMAT,
 			USU.D_FECNAC         AS U_FECHANACIMIENTO,
 			USU.T_GENERO         AS U_GENERO,
+			(SELECT T_DESCRIPCION 
+				FROM AN_CATALOGO 
+			 WHERE C_CATALOGO = 'C_GENERO'
+			 AND C_TIPCATAL = USU.T_GENERO) AS U_GENERODESC,
 			USU.T_OCUPACION      AS U_OCUPACION,
 			USU.D_FECREG         AS U_FECHAREGISTRO,
 			USU.C_CODPAIS		 AS U_CODIGOPAIS,

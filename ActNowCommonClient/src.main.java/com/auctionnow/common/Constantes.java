@@ -103,6 +103,9 @@ public class Constantes {
 	//TIPO NOTIFICACION
 	public static final String TIPONOTIFICACION_NUEVA_SUBASTA = "NEWSUB";
 	
+	//ESTADO SUBASTA
+	public static final String ESTADO_SUBASTA_EN_CURSO = "EC";
+	
 	//NOMBRES DE PROIVILEGIOS
 	public static final String PRIVILEGIO_NOMBRE_SUBASTADOR = "SUBASTADOR";
 	

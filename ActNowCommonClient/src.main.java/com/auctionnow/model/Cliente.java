@@ -15,7 +15,6 @@ public class Cliente extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String codigoCliente;
 	private FichaServicioCliente fichaCliente;
-	private String ocupacion;
 	private Tupla tipoCliente;
 
 	private List<Solicitud> solicitudes;
@@ -42,14 +41,6 @@ public class Cliente extends Usuario implements Serializable {
 
 	public void setFichaCliente(FichaServicioCliente fichaCliente) {
 		this.fichaCliente = fichaCliente;
-	}
-
-	public String getOcupacion() {
-		return ocupacion;
-	}
-
-	public void setOcupacion(String ocupacion) {
-		this.ocupacion = ocupacion;
 	}
 
 	public Tupla getTipoCliente() {

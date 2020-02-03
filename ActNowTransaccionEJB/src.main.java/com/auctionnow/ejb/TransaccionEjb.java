@@ -139,5 +139,10 @@ public class TransaccionEjb implements ITransaccionEjbLocal, ITransaccionEjbRemo
 	public List<Rubro> getRubrosByTitular(FiltroRubro filtroRubro) {
 		return transaccionBusiness.getRubrosByTitular(filtroRubro);
 	}
+	
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO TRANSACCION EJB IS DONE");
+	}
 
 }

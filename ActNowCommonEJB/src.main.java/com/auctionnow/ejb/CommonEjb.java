@@ -1,5 +1,6 @@
 package com.auctionnow.ejb;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -79,6 +80,16 @@ public class CommonEjb implements ICommonEjbLocal, ICommonEjbRemote{
 
 	public Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {
 		return commonBusiness.updateSecuenciaRegistro(filtroCatalogo);
+	}
+
+	@Override
+	public Double subtractDates(Date mayorDate, String mayorHour, Date minorDate, String minorHour) {
+		return commonBusiness.subtractDates(mayorDate, mayorHour, minorDate, minorHour);
+	}
+	
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO COMMON EJB IS DONE");
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.auctionnow.ejb.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.auctionnow.common.Ciudad;
@@ -36,4 +37,8 @@ public interface ICommonEJB {
 	HorarioSistema getCurrentDate();
 	
 	Tupla getConfiguracion(String codigoConfiguracion);
+	
+	Double subtractDates(Date mayorDate, String mayorHour, Date minorDate, String minorHour);
+
+	void connectionTest();
 }

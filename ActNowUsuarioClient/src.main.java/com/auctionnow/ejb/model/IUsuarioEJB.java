@@ -119,4 +119,6 @@ public interface IUsuarioEJB {
 
 	void sendMailNotification(String codigoMail, List<String> mailsTO, List<String> mailsCC, List<String> mailsCCO)
 			throws AddressException, MessagingException;
+
+	void connectionTest();
 }

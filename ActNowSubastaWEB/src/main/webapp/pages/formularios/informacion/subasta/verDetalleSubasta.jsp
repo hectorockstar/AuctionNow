@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/WEB-INF/struts-tags.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../../../../estructura/header-content.jsp" />
 
 <div class="panel panel-default">
@@ -16,8 +17,21 @@
 						<jsp:include page="../../../../pages/formularioPlantilla/informacion/solicitud/baseInformacionSolicitud.jsp" />
 						<jsp:include page="../../../../pages/formularioPlantilla/informacion/solicitud/baseInformacionSubasta.jsp" />
 						
-						<div class="countdown"></div>
+						<div class="countdown">
+							<c:choose>
+							   <c:when test = "${subasta.estadoSubasta == 'EC'}">
+							      	<a data-toggle="modal" class="btn btn-success btn-subastar" data-target="#modalSubastar" href="#">Subastar</a>
+							   </c:when>
+								<c:otherwise>
+	    							<p>El Tiempo para subastar se agotó</p>
+								</c:otherwise>
+							</c:choose>
+						</div>
 						<s:hidden id="h_dateAuctionCountdown" value="%{#request.countdownDate}" />
+						
+						
+						<!-- MODAL -->
+						<jsp:include page="../../../../pages/formularios/registro/solicitud/modals/modalSubastar.jsp" />
 						
 					</div>
 

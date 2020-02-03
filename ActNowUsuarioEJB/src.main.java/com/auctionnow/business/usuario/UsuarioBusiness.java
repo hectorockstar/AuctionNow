@@ -699,6 +699,8 @@ public class UsuarioBusiness implements IUsuarioBusiness {
 		this.transaccionEjbRemote = transaccionEjbRemote;
 	}
 
-	
+	public void connectionTest() {
+		System.out.print("CONNECTION TO USUARIO EJB IS DONE");
+	}
 
 }

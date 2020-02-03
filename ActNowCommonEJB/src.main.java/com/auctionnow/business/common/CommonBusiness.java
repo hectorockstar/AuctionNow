@@ -1,5 +1,9 @@
 package com.auctionnow.business.common;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Isolation;
@@ -86,6 +90,45 @@ public class CommonBusiness implements ICommonBusiness {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer updateSecuenciaRegistro(FiltroCatalogo filtroCatalogo) {
 		return commonDAO.updateSecuenciaRegistro(filtroCatalogo);
+	}
+	
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+	public Double subtractDates(Date mayorDate, String mayorHour, Date minorDate, String minorHour) {
+		Double hourDifferences = null;
+		
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		String strMayorDateformat = format1.format(mayorDate);
+		String strMinorDateformat = format1.format(minorDate);
+		
+		Date mayorDateFinalFormat = null;
+		Date minorDateFinalFormat = null;
+		try {
+			mayorDateFinalFormat = format2.parse(strMayorDateformat + " " + mayorHour + ":00");
+			minorDateFinalFormat = format2.parse(strMinorDateformat + " " + minorHour + ":00");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Calendar now = Calendar.getInstance();
+        now.setTime(mayorDateFinalFormat);
+        System.out.println(format2.format(now.getTime()));		
+        
+        Calendar now2 = Calendar.getInstance();
+        now2.setTime(minorDateFinalFormat);
+        System.out.println(format2.format(now2.getTime()));	
+        
+        String resulDatetDifferences = String.valueOf(((((now2.getTime().getTime()-now.getTime().getTime())/1000)/60)/60));
+        hourDifferences = Double.parseDouble(resulDatetDifferences);
+		
+		return hourDifferences;
+	}
+
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO COMMON EJB IS DONE");
 	}
 
 }

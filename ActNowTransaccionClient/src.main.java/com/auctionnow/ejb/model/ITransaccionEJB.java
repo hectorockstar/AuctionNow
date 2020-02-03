@@ -71,4 +71,6 @@ public interface ITransaccionEJB {
 	//FUNCIONALIDADES
 	Rubro asignaRubroServiciosEmpresa(String codigoTitular, Rubro rubro, String[] estadosServicios);
 
+	void connectionTest();
+
 }

@@ -82,6 +82,14 @@ public class SolicitudEjb implements ISolicitudEjbLocal, ISolicitudEjbRemote{
 		return solicitudBusiness.addSubastaProveedor(codigoSubasta, codigoProveedor);
 	}
 
-	
+	public List<Subasta> getSubastasByStatus(FiltroSubasta filtroSubasta) {
+		return solicitudBusiness.getSubastasByStatus(filtroSubasta);
+	}
+
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO SOLICITUD EJB IS DONE");
+		
+	}
 
 }

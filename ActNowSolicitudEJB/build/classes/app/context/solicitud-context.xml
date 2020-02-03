@@ -10,18 +10,58 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-		
+
 	<!-- DAO -->
-	<bean id="solicitudDAO" class="com.auctionnow.data.solicitud.MyBatisSolicitudDAO" >
+	<bean id="solicitudDAO" class="com.auctionnow.data.solicitud.MyBatisSolicitudDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
-		
+
 	<!-- BUSINESS -->
-	<bean id="solicitudBusiness" class="com.auctionnow.business.solicitud.SolicitudBusiness" >
+	<bean id="solicitudBusiness" class="com.auctionnow.business.solicitud.SolicitudBusiness">
 		<constructor-arg ref="solicitudDAO" />
 		<constructor-arg ref="usuarioEjbRemote" />
 		<constructor-arg ref="commonEjbRemote" />
 		<constructor-arg ref="transaccionEjbRemote" />
-	</bean>	
-		
+	</bean>
+	
+	
+	<!-- SCHEDULING -->
+	<bean id="verificaSubastasExpiradas" class="com.auctionnow.scheduling.VerificaSubastasExpiradasTransaction">
+		<constructor-arg ref="solicitudBusiness" />
+		<constructor-arg ref="commonEjbRemote" />
+	</bean>
+	
+    <!-- For times when you need more complex processing, passing data to the scheduled job-->
+    <bean name="complexJobDetail"    class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.auctionnow.scheduling.QueuePoolerJob" />
+        <property name="jobDataMap">
+            <map>
+                <entry key="verificaSubastasExpiradas" value-ref="verificaSubastasExpiradas" />
+            </map>
+        </property>
+        <property name="durability" value="true" />
+    </bean>
+  
+    <!-- Run the job every 2 seconds with initial delay of 1 second  -->
+    <bean id="simpleTrigger"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="complexJobDetail" />
+        <property name="startDelay" value="50" />
+        <property name="repeatInterval" value="10000" />
+    </bean>
+ 
+    <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                
+            </list>
+        </property>
+ 
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger" />
+            </list>
+        </property>
+    </bean>
+    
 </beans>

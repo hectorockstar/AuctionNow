@@ -28,3 +28,7 @@
 .input-group[class*=col-] {
     padding-left: 15px;
 }
+
+.btn-subastar{
+	width: 100%;
+}

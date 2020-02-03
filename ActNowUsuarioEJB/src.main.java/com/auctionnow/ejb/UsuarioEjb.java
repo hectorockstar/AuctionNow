@@ -223,6 +223,9 @@ public class UsuarioEjb implements IUsuarioEjbRemote, IUsuarioEjbLocal {
 		return usuarioBusiness.getUsuarioWebByPrivilegio(filtroUsuarioWeb);
 	}
 
-	
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO SOLICITUD EJB IS DONE");
+	}
 
 }

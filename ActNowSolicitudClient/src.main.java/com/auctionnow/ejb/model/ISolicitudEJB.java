@@ -34,10 +34,14 @@ public interface ISolicitudEJB {
 	Subasta getSubasta(FiltroSubasta filtroSubasta);
 
 	List<Oferta> getOferta(FiltroOferta filtroOferta);
+	
+	List<Subasta> getSubastasByStatus(FiltroSubasta filtroSubasta);
 
 	// SERVICIOS
 	Subasta iniciarSubasta(Solicitud solicitud);
 	
 	Subasta getDetalleSubastaForProveedor(FiltroSubasta filtroSubasta);
+	
+	void connectionTest();
 
 }

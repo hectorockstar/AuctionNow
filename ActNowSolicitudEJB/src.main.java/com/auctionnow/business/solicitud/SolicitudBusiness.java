@@ -109,6 +109,25 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		
 		return solicitudes;
 	}
+	
+	@Override 
+	public List<Subasta> getSubastasByStatus(FiltroSubasta filtroSubasta){
+		List<Subasta> lstSubastasByStatus = solicitudDAO.getSubastasByStatus(filtroSubasta); 
+		
+		List<Subasta> lstSubastasCompleteInfo = new ArrayList<Subasta>();
+		for (Subasta subasta : lstSubastasByStatus) {
+			
+			FiltroSolicitud filtroSolicitud = new FiltroSolicitud();
+			filtroSolicitud.setCodigoSolicitud(subasta.getSolicitud().getCodigoSolicitud());
+			Solicitud solicitud = solicitudDAO.getSolicitud(filtroSolicitud);
+			
+			subasta.setSolicitud(solicitud);
+			
+			lstSubastasCompleteInfo.add(subasta);
+		}
+		
+		return lstSubastasCompleteInfo;
+	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Integer addSubasta(Subasta subasta) {
@@ -297,7 +316,7 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		subasta.setFechaSubastaHasta(subasta.getSolicitud().getFechaVencimientoSubasta());
 		subasta.setHoraTerminoSubasta(subasta.getSolicitud().getHoraVencimientoSubasta() + ":00");
 		
-		Double duracion = this.subtractDates(subasta.getFechaSubastaDesde(), subasta.getHoraInicioSubasta(), subasta.getFechaSubastaHasta(), subasta.getHoraTerminoSubasta());
+		Double duracion = getCommonEjbRemote().subtractDates(subasta.getFechaSubastaDesde(), subasta.getHoraInicioSubasta(), subasta.getFechaSubastaHasta(), subasta.getHoraTerminoSubasta());
 		
 		subasta.setDuracion(String.valueOf(duracion));
 		subasta.setCantidadExtensiones(new Integer("0"));
@@ -307,40 +326,10 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 		return subasta;
 	}
 	
-	private Double subtractDates(Date mayorDate, String mayorHour, Date minorDate, String minorHour) {
-		Double hourDifferences = null;
-		
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		String strMayorDateformat = format1.format(mayorDate);
-		String strMinorDateformat = format1.format(minorDate);
-		
-		Date mayorDateFinalFormat = null;
-		Date minorDateFinalFormat = null;
-		try {
-			mayorDateFinalFormat = format2.parse(strMayorDateformat + " " + mayorHour);
-			minorDateFinalFormat = format2.parse(strMinorDateformat + " " + minorHour + ":00");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Calendar now = Calendar.getInstance();
-        now.setTime(mayorDateFinalFormat);
-        System.out.println(format2.format(now.getTime()));		
-        
-        Calendar now2 = Calendar.getInstance();
-        now2.setTime(minorDateFinalFormat);
-        System.out.println(format2.format(now2.getTime()));	
-        
-        String resulDatetDifferences = String.valueOf(((((now2.getTime().getTime()-now.getTime().getTime())/1000)/60)/60));
-        hourDifferences = Double.parseDouble(resulDatetDifferences);
-		
-		return hourDifferences;
+	public void connectionTest() {
+		System.out.print("CONNECTION TO SOLICITUD EJB IS DONE");
 	}
 	
-
 	public ISolicitudDAO getSolicitudDAO() {
 		return solicitudDAO;
 	}
@@ -372,4 +361,5 @@ public class SolicitudBusiness implements ISolicitudBusiness {
 	public void setTransaccionEjbRemote(ITransaccionEjbRemote transaccionEjbRemote) {
 		this.transaccionEjbRemote = transaccionEjbRemote;
 	}
+
 }

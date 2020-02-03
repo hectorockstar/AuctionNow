@@ -1,5 +1,6 @@
 package com.auctionnow.mock;
 
+import java.util.Date;
 import java.util.List;
 
 import com.auctionnow.common.Ciudad;
@@ -85,6 +86,12 @@ public class CommonEJBMockito implements ICommonEjbLocal, ICommonEjbRemote{
 
 	@Override
 	public Tupla getConfiguracion(String codigoConfiguracion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Double subtractDates(Date mayorDate, String mayorHour, Date minorDate, String minorHour) {
 		// TODO Auto-generated method stub
 		return null;
 	}

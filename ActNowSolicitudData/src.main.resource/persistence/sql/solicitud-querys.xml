@@ -146,6 +146,40 @@
 			</if>
 		</if>
 	</select>
+	
+	<select id="getSubastasByStatus" resultMap="subasta-mapping" parameterType="com.auctionnow.filters.FiltroSubasta" >
+		SELECT 
+		    SUB.C_CODSUB       AS S_CODIGOSUBASTA,
+			SUB.C_ESTADO       AS S_ESTADO,
+			SUB.T_DESCRIPCION  AS S_DESCRIPCION,
+			SUB.D_FECSUBDESDE  AS S_FECHAINICIO,
+			SUB.T_HRSUBINICIO  AS S_HRINICIOSUBASTA,
+			SUB.D_FECSUBHASTA  AS S_FECHATERMINO,
+			SUB.T_HRSUBTERMINO AS S_HRTERMINOSUBASTA,
+			SUB.T_DURACION     AS S_DURACION,
+			SUB.N_CANTEXT      AS S_CANTIDADEXTENSIONES,
+			SUB.N_MTOMINIMO    AS S_MONTOMINIMO,
+			SUB.N_MTOINICIAL   AS S_MONINICIAL,
+			SUB.N_MTOFINAL     AS S_MONTOFINAL,
+			SUB.C_CODSER       AS S_CODIGOSERVICIO,
+			SUB.C_CODSOL       AS S_CODIGOSOLICITUD,
+			SUB.C_EXTEND       AS S_EXTENDIDA,
+			SUB.C_CODOFERGANA  AS S_CODIGOOFERTAGANADORA
+		
+		FROM AN_SUBASTA SUB
+		INNER JOIN AN_SOLICITUD SOL
+		    ON SUB.C_CODSOL = SOL.C_CODSOL
+		
+		<if test="estadosSubasta != null">
+			WHERE SUB.C_ESTADO IN 
+			<foreach item="estado" index="index" collection="estadosSubasta"
+	      		open="(" separator="," close=")">
+		        #{estado}
+			</foreach>
+		</if>
+		
+	</select>
+	
 
 	<!-- INSERTs -->
 	<insert id="addSolicitud" parameterType="map">

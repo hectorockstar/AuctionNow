@@ -298,4 +298,9 @@ public class TransaccionBusiness implements ITransaccionBusiness {
 		return rubroServicios;
 	}
 
+	@Override
+	public void connectionTest() {
+		System.out.print("CONNECTION TO TRANSACCION EJB IS DONE");
+	}
+
 }

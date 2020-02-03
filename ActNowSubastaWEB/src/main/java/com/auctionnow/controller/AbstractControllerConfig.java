@@ -65,16 +65,21 @@ public class AbstractControllerConfig extends ActionSupport
 	public void prepare() throws Exception {
 		this.setUsuarioEjbRemote((IUsuarioEjbRemote) ejbInstance
 				.getEJB("ActNowUsuarioService/ActNowUsuarioEJB/UsuarioEjb!" + IUsuarioEjbRemote.class.getName()));
+		this.getUsuarioEjbRemote().connectionTest();
+	
 		
 		this.setCommonEjbRemote((ICommonEjbRemote) ejbInstance
 				.getEJB("ActNowCommonService/ActNowCommonEJB/CommonEjb!"    + ICommonEjbRemote.class.getName()));
-
+		this.getCommonEjbRemote().connectionTest();
+		
 		this.setTransaccionEjbRemote((ITransaccionEjbRemote) ejbInstance
 				.getEJB("ActNowTransaccionService/ActNowTransaccionEJB/TransaccionEjb!" + ITransaccionEjbRemote.class.getName()));
+		this.getTransaccionEjbRemote().connectionTest();
+		
 		
 		this.setSolicitudEjbRemote((ISolicitudEjbRemote) ejbInstance
 				.getEJB("ActNowSolicitudService/ActNowSolicitudEJB/SolicitudEjb!"   + ISolicitudEjbRemote.class.getName()));
-		
+		this.getSolicitudEjbRemote().connectionTest();
 	}
 
 	@Override

@@ -32,4 +32,6 @@ public interface ISolicitudDAO {
 	
 	Integer addSubastaProveedor(String codigoSubasta, String codigoProveedor);
 
+	List<Subasta> getSubastasByStatus(FiltroSubasta filtroSubasta);
+
 }
